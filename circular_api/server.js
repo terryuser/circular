@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const router = express.Router();
 
-
 //Set up express
 const app = express();
 const path = require('path');
@@ -16,12 +15,12 @@ mongoose.Promise = global.Promise;
 
 
 //Define value
-const PORT = process.env.PORT = 3000;
+const PORT = process.env.PORT = 4000;
 
 
 //Get html files
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/html/index.html'));
+    res.sendFile(path.join(__dirname + '/html/circular.html'));
     //__dirname : resolve to project folder.
 });
 
@@ -33,13 +32,14 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-//Allow routers
-app.use('/api', require('./routers/api'));
+// //Allow routers
+// app.use('/api', require('./routers/api'));
 
 
 //Allow fily type access
 app.use('/', express.static(__dirname + '/'));
-app.use('/js', express.static(__dirname + '/js'));
+app.use('/js/tools', express.static(__dirname + '/js'));
+app.use('/js/page', express.static(__dirname + '/js'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/img', express.static(__dirname + '/img'));
 app.use('/html', express.static(__dirname + '/html'));
