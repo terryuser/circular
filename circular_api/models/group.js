@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //create member authority level schema & model
-const MemberLevelSchema = new Schema({
+const GroupSchema = new Schema({
     name: {
         type: String,
         required: [true, 'Name field is required']
@@ -11,16 +11,12 @@ const MemberLevelSchema = new Schema({
         type: Number,
         required: [true, 'Authority level is required']
     },
-    groupID: {
-        type: String,
-        default: "null"
-    },
     schoolID: {
         type: String,
         default: "null"
     }
 });
 
-const MemberLevel = mongoose.model('member', MemberLevelSchema);
+const Group = mongoose.model('group', GroupSchema);
 
-module.exports = MemberLevel;
+module.exports = Group;

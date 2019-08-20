@@ -54,7 +54,7 @@ var editor = new EditorJS({
     editor.save().then((data) => {
 
       output = {
-        "target" : target,
+        "target_GroupID" : target,
         "title" : title,
         "content" : data
       }

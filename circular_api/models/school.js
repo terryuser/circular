@@ -7,9 +7,9 @@ const SchoolSchema = new Schema({
         type: String,
         required: [true, 'Name field is required']
     },
-    SchoolID: {
+    loginID: {
         type: String,
-        required: [true, 'ID field is required']
+        required: [true, 'Name field is required']
     }
 });
 

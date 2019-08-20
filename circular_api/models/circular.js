@@ -16,7 +16,10 @@ const CircularSchema = new Schema({
         default: ""
     },
     Content: {
-        type: Array
+        type: JSON
+    },
+    Reply: {
+        type: JSON
     }
 });
 

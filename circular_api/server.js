@@ -10,7 +10,7 @@ const path = require('path');
 
 //Connet to mongodb
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb+srv://ecom_admin:admin@ecom-member-vcel9.mongodb.net/ecom', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://admin:APW0yMShJ8aBEk8b@circulardb-9rm3u.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
 
@@ -24,6 +24,15 @@ app.get('/', function(req, res) {
     //__dirname : resolve to project folder.
 });
 
+app.get('/register', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/register_school.html'));
+    //__dirname : resolve to project folder.
+});
+
+app.get('/member', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/member.html'));
+    //__dirname : resolve to project folder.
+});
 
 //Request handling
 app.use(bodyParser.urlencoded({
@@ -32,8 +41,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-// //Allow routers
-// app.use('/api', require('./routers/api'));
+//Allow routers
+app.use('/api_v1', require('./routers/api_v1'));
 
 
 //Allow fily type access
