@@ -50,8 +50,9 @@
     <div class="container">
         <div class="input-group target">
             <div>Target</div>
-            <div class="selection-group" id="selection_group"></div>
             <button type="button" class="btn btn-info" id="addOption">+</button>
+            <button type='button' class='btn btn-info' id='minusOption'>-</button>
+            <div class="selection-group" id="selection_group"></div>
         </div>
 
         <div class="input-group">
@@ -59,7 +60,6 @@
             <input type="text" id="title" class="form-control" aria-label="Sizing input" aria-describedby="inputGroup-sizing-lg">
         </div>
 
-            
         <!-- <div class="custom-input-container" id="custom-input_container">
                 <div>Custom field</div>
             <div class="input-group">
@@ -74,10 +74,24 @@
 
         <div class="">
             <div>Content</div>
-            <div class="rich-editor" style="border: 1px solid #ccc; padding: 5px; text-align: left;" id="editorjs"></div>
+            <div class="rich-editor" style="border: 1px solid #ccc; padding: 5px; text-align: left;" id="contentEditor"></div>
         </div>
-        <button id="save" class="btn btn-info">Save</button>
 
+        <div class="">
+            <div>Reply Method</div>
+            <select class="custom-select replyType-selector" id="replyType">
+                <option>Signature</option>
+                <option>Single Choice</option>
+                <option>Multiple Choice</option>
+            </select>
+        </div>
+        
+        <div class="">
+            <div>Reply</div>
+            <div class="rich-editor" style="border: 1px solid #ccc; padding: 5px; text-align: left;" id="replyEditor"></div>
+        </div>
+
+        <button id="save" class="btn btn-info">Save</button>
     </div>
 
     <!-- <div id="footer"></div> -->

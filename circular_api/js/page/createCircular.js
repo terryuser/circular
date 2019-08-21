@@ -29,45 +29,80 @@ $.ajax({
     }
 });
 console.log(GroupInfo);
-var limit = GroupInfo.length();
-
+var limit = GroupInfo.length;
 
 $(document).ready(function() {
     targetField();
+    $("#minusOption").hide();
+    selectionAction();
 
-    $("#addOption").click(function(){
-        count++;
-        console.log(count);
-
-        if(count < limit) {
-            targetField();
-        } else {
-            
-        }
-    });
 });
 
-function getData() {
-    $.ajax({
-        type: 'POST',
-        url: '/api_v' + version + '/circular',
-        dataType: "json",
-        data: sendData,
-        async: false,
-        success: function(respon) {
-            
+function selectionAction() {
+
+    $("#addOption").click(function(){
+        $("#target-group-" + count).prop('disabled', 'disabled');
+        count++;
+        if(count < limit) {
+            targetField();
+            $("#minusOption").show();
+        } else if (count = limit) {
+            targetField();
+            $("#minusOption").show();
+            $("#addOption").hide();
+        } else {
+            $("#minusOption").show();
+            $("#addOption").hide();
+        }
+    });
+
+    $("#minusOption").click(function(){
+        var targetID = count;
+        count--;
+        if (count == 1) {
+            $("#target-group-" + count).removeAttr('disabled');
+            $("#target-group-" + targetID).remove();
+            $("#addOption").show();
+            $("#minusOption").hide();
+        } else {
+            $("#target-group-" + count).removeAttr('disabled');
+            $("#target-group-" + targetID).remove();
+            $("#addOption").show();
         }
     });
 }
 
 function targetField() {
-    var openHTML = "<div class='selection'><select class='custom-select target' id='target-group-" + count + "'><option selected>All</option>"
+    var openHTML = "<select class='custom-select target-selector' id='target-group-" + count + "'>"
     $("#selection_group").append(openHTML);
 
-    GroupInfo.forEach(function(option) {
-        $("#target-group-" + count).append("<option value='" + option._id + "'>" + option.name + "</option>");
-    });
-    
-    var closeHTML = "</select></div>";
+    if (count == 1) {
+        $("#target-group-1").append("<option value='all' selected>All</option>");
+    }
+    console.log("targerField count: " + count);
+    if (count > 1) {
+        console.log("count more than 1");
+        var checkValue = new Array;
+        for (i = 1; i < count; i++ ) {
+            var checkCount = count - i;
+            checkValue.push($("#target-group-" + checkCount).val());
+            console.log(checkValue);
+        }
+        GroupInfo.forEach(function(option) {
+            if (checkValue.includes(option._id)) {
+                console.log("selected");
+            } else {
+                $("#target-group-" + count).append("<option value='" + option._id + "'>" + option.name + "</option>");
+            }
+        });
+    } else {
+        console.log("count equal 1");
+        GroupInfo.forEach(function(option) {
+            $("#target-group-" + count).append("<option value='" + option._id + "'>" + option.name + "</option>");
+        }); 
+    }
+     
+
+    var closeHTML = "</select>";
     $("#selection_group").append(closeHTML);
 }
