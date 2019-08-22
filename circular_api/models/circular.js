@@ -3,26 +3,25 @@ const Schema = mongoose.Schema;
 
 //create circular Schema & model
 const CircularSchema = new Schema({
-    CircularID: {
-        type: String,
-        required: [true, 'Name field is required']
-    },
-    Title: {
+    title: {
         type: String,
         required: [true, 'Password field is required']
     },
-    Target_GruopID: {
-        type: String,
+    target_GruopID: {
+        type: Array,
         default: ""
     },
-    Content: {
+    content: {
         type: JSON
     },
-    Reply: {
-        type: JSON
+    replyMethod: {
+        type: String
+    },
+    replyOption: {
+        type: Array
     }
 });
 
-const Circular = mongoose.model('member', CircularSchema);
+const Circular = mongoose.model('circular', CircularSchema);
 
 module.exports = Circular;

@@ -4,7 +4,10 @@ var School_loginID = "demo";
 var SchoolID;
 var GroupInfo;
 
-var count = 1;
+var targetCount = 1;
+var optionCount = 1;
+
+var reply_block_show = false;
 
 //Get school
 $.ajax({
@@ -33,58 +36,62 @@ var limit = GroupInfo.length;
 
 $(document).ready(function() {
     targetField();
-    $("#minusOption").hide();
+    $("#addTarget").hide();
+    $("#minusTarget").hide();
     selectionAction();
-
+    $("#reply_block").hide();
+    checkReply();
+    $("#minusOption").hide();
+    addOption();
 });
 
 function selectionAction() {
 
-    $("#addOption").click(function(){
-        $("#target-group-" + count).prop('disabled', 'disabled');
-        count++;
-        if(count < limit) {
+    $("#addTarget").click(function(){
+        $("#target-group-" + targetCount).prop('disabled', 'disabled');
+        targetCount++;
+        if(targetCount < limit) {
             targetField();
-            $("#minusOption").show();
-        } else if (count = limit) {
+            $("#minusTarget").show();
+        } else if (targetCount = limit) {
             targetField();
-            $("#minusOption").show();
-            $("#addOption").hide();
+            $("#minusTarget").show();
+            $("#addTarget").hide();
         } else {
-            $("#minusOption").show();
-            $("#addOption").hide();
+            $("#minusTarget").show();
+            $("#addTarget").hide();
         }
     });
 
-    $("#minusOption").click(function(){
-        var targetID = count;
-        count--;
-        if (count == 1) {
-            $("#target-group-" + count).removeAttr('disabled');
+    $("#minusTarget").click(function(){
+        var targetID = targetCount;
+        targetCount--;
+        if (targetCount == 1) {
+            $("#target-group-" + targetCount).removeAttr('disabled');
             $("#target-group-" + targetID).remove();
-            $("#addOption").show();
-            $("#minusOption").hide();
+            $("#addTarget").show();
+            $("#minusTarget").hide();
         } else {
-            $("#target-group-" + count).removeAttr('disabled');
+            $("#target-group-" + targetCount).removeAttr('disabled');
             $("#target-group-" + targetID).remove();
-            $("#addOption").show();
+            $("#addTarget").show();
         }
     });
 }
 
 function targetField() {
-    var openHTML = "<select class='custom-select target-selector' id='target-group-" + count + "'>"
+    var openHTML = "<select class='custom-select target-selector' id='target-group-" + targetCount + "'>"
     $("#selection_group").append(openHTML);
 
-    if (count == 1) {
+    if (targetCount == 1) {
         $("#target-group-1").append("<option value='all' selected>All</option>");
     }
-    console.log("targerField count: " + count);
-    if (count > 1) {
-        console.log("count more than 1");
+    console.log("targerField targetCount: " + targetCount);
+    if (targetCount > 1) {
+        console.log("targetCount more than 1");
         var checkValue = new Array;
-        for (i = 1; i < count; i++ ) {
-            var checkCount = count - i;
+        for (i = 1; i < targetCount; i++ ) {
+            var checkCount = targetCount - i;
             checkValue.push($("#target-group-" + checkCount).val());
             console.log(checkValue);
         }
@@ -92,17 +99,83 @@ function targetField() {
             if (checkValue.includes(option._id)) {
                 console.log("selected");
             } else {
-                $("#target-group-" + count).append("<option value='" + option._id + "'>" + option.name + "</option>");
+                $("#target-group-" + targetCount).append("<option value='" + option._id + "'>" + option.name + "</option>");
             }
         });
     } else {
-        console.log("count equal 1");
+        console.log("targetCount equal 1");
         GroupInfo.forEach(function(option) {
-            $("#target-group-" + count).append("<option value='" + option._id + "'>" + option.name + "</option>");
+            $("#target-group-" + targetCount).append("<option value='" + option._id + "'>" + option.name + "</option>");
         }); 
     }
      
 
     var closeHTML = "</select>";
     $("#selection_group").append(closeHTML);
+
+    $("#target-group-1").on('change', function() {
+        if ($(this).val() != "all") {
+            $("#addTarget").show();
+        } else {
+            $("#addTarget").hide();
+        }
+    });
+}
+
+function checkReply() {
+    $("#replyType").on('change', function() {
+        var replyMethod = $(this).val();
+        switch (replyMethod) {
+            default :
+                $("#reply_block").hide();
+            break;
+            
+            case "signature" :
+                reply_block_show = false;
+                $("#reply_block").hide();
+            break;
+
+            case "singleChoice" :
+                optionBlock()
+                $("#reply_block").show();
+            break;
+
+            case "multipleChoice" :
+                optionBlock()
+                $("#reply_block").show();
+            break;
+        }
+    });
+}
+
+function optionBlock() {
+    if (optionCount == 1 && reply_block_show == false) {
+        var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option" + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
+        $("#reply_option").append(optionHTML);
+    }
+    if (reply_block_show == false) {  
+        reply_block_show = true;
+    }
+}
+
+function addOption() {
+    $("#addOption").click(function(){
+        optionCount++;
+        if (optionCount > 1) {
+            var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option" + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
+            $("#reply_option").append(optionHTML);
+            $("#minusOption").show();
+        }
+        console.log(optionCount);
+    });
+    $("#minusOption").click(function(){
+        $("#option-group-" + optionCount).remove();
+        optionCount--;
+        if (optionCount == 1) {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+        console.log(optionCount);
+    });
 }

@@ -1,3 +1,5 @@
+var api_version = 1;
+
 var contentEditor = new EditorJS({
     /**
      * Create a holder for the Editor and pass its ID
@@ -8,10 +10,6 @@ var contentEditor = new EditorJS({
      * Available Tools list.
      */
     tools: {
-        header: {
-          class: Header,
-          inlineToolbar : true
-        },
         table: {
           class: Table,
           inlineToolbar : true
@@ -39,108 +37,50 @@ var contentEditor = new EditorJS({
     data: {}
 });
 
-var replyEditor = new EditorJS({
-  /**
-   * Create a holder for the Editor and pass its ID
-   */
-  holderId : 'replyEditor',
 
-  /**
-   * Available Tools list.
-   */
-  tools: {
-      header: {
-        class: Header,
-        inlineToolbar : true
-      },
-      table: {
-        class: Table,
-        inlineToolbar : true
-      },
-      link: {
-        inlineToolbar : true
-      },
-      quote: {
-        class: Quote,
-        inlineToolbar : true
-      },
-      list: {
-        class: List,
-        inlineToolbar : true
-      },
-      delimiter: {
-        class: Delimiter,
-        inlineToolbar : true
-      }
-  },
-
-  /**
-   * Previously saved data that should be rendered
-   */
-  data: {}
-});
-
-
+//Collect circular data and send to API
 var output = {};
-
-// $("#save").click(function() {
-    
-//   var target = new Array;
-//   $(".target").each(function(){
-//     target.push($(this).val());
-//   })
-
-//   var title = $("#title").val();
-
-//   editor.save().then((data) => {
-//       output = {
-//         "target_GroupID" : target,
-//         "title" : title,
-//         "content" : data
-//       }
-//       console.log(output);
-      
-//   }).catch((error) => {
-//     console.log('Saving failed: ', error)
-//   });
-    
-
-//   // var content = editor.save().then((contentData) => {
-//   //   return contentData;
-//   // }).catch((error) => {
-//   //   console.log('Saving failed: ', error)
-//   // });
-    
-
-//   // output = {
-//   //   "target" : target,
-//   //   "title" : title,
-//   //   "content" : contentData
-//   // }
-//   // console.log(output);
-// });
-
 
 $( "#save" ).click(async() => {
   try {
     var target = new Array;
-    $(".target").each(function(){
+    $(".target-selector").each(function(){
       target.push($(this).val());
     })
 
     var title = $("#title").val();
     
     const contentData = await contentEditor.save();
-    const replyData = await replyEditor.save();
+
+    var method = $("#replyType").val();
+
+    var optionArray = new Array;
+    $(".reply-option").each(function(){
+      optionArray.push($(this).val());
+    })
 
     //Collect all input
     output = {
-      "target" : target,
       "title" : title,
+      "target_GruopID" : target,
       "content" : contentData,
-      "reply" : replyData
+      "replyMethod" : method,
+      "replyOption" : optionArray
     }
     console.log(output);
+
+    $.ajax({
+      type: 'POST',
+      url: '/api_v' + api_version + '/create/circular',
+      dataType: "JSON",
+      data: output,
+      success: function(data) {
+        console.log(data.message);
+      },
+      error: function(xhr, status, error) {
+        console.log('Error: ' + error.message);
+      }
+    });
   } catch(err) {
     console.log("error to save");
   }

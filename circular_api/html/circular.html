@@ -45,18 +45,18 @@
 </head>
 
 <body>
-    <!-- <div id="header"></div> -->
+    <div id="sidebar"></div>
 
-    <div class="container">
+    <div class="container content-section" id="content_section">
         <div class="input-group target">
-            <div>Target</div>
-            <button type="button" class="btn btn-info" id="addOption">+</button>
-            <button type='button' class='btn btn-info' id='minusOption'>-</button>
+            <div class="input-title">Target</div>
             <div class="selection-group" id="selection_group"></div>
+            <button type="button" class="btn btn-info" id="addTarget">+</button>
+            <button type='button' class='btn btn-info' id='minusTarget'>-</button>
         </div>
 
         <div class="input-group">
-            <div>Title</div>
+            <div class="input-title">Title</div>
             <input type="text" id="title" class="form-control" aria-label="Sizing input" aria-describedby="inputGroup-sizing-lg">
         </div>
 
@@ -73,22 +73,28 @@
         </div> -->
 
         <div class="">
-            <div>Content</div>
+            <div class="input-title">Content</div>
             <div class="rich-editor" style="border: 1px solid #ccc; padding: 5px; text-align: left;" id="contentEditor"></div>
         </div>
+    </div>
 
+    <div class="container reply-section" id="reply_section">
         <div class="">
-            <div>Reply Method</div>
+            <div class="input-title">Reply Method</div>
             <select class="custom-select replyType-selector" id="replyType">
-                <option>Signature</option>
-                <option>Single Choice</option>
-                <option>Multiple Choice</option>
+                <option value="signature">Signature</option>
+                <option value="singleChoice">Single Choice</option>
+                <option value="multipleChoice">Multiple Choice</option>
             </select>
         </div>
         
         <div class="">
-            <div>Reply</div>
-            <div class="rich-editor" style="border: 1px solid #ccc; padding: 5px; text-align: left;" id="replyEditor"></div>
+            <div class="reply-block" id="reply_block">
+                <div class="input-title">Option</div>
+                <button type="button" class="btn btn-info" id="addOption">+</button>
+                <button type='button' class='btn btn-info' id='minusOption'>-</button>
+                <div class="reply-option" id="reply_option"></div>
+            </div>
         </div>
 
         <button id="save" class="btn btn-info">Save</button>

@@ -112,7 +112,7 @@ router.post('/create/circular', function(req, res, next) {
 
     sendJson = { message: "" }
 
-    Circular.create(req.body).then(function(member) {
+    Circular.create(req.body).then(function(circular) {
         sendJson.message = "success";
         console.log(sendJson);
         res.send(sendJson);

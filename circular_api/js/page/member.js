@@ -1,4 +1,4 @@
-var version = 1;
+var api_version = 1;
 var School_loginID = "demo";
 
 var SchoolID;
@@ -7,7 +7,7 @@ var GroupInfo;
 //Get school
 $.ajax({
     type: 'POST',
-    url: '/api_v' + version + '/school/' + School_loginID,
+    url: '/api_v' + api_version + '/school/' + School_loginID,
     dataType: "json",
     async: false,
     success: function(respon) {
@@ -19,7 +19,7 @@ console.log(SchoolID);
 //Get school group
 $.ajax({
     type: 'POST',
-    url: '/api_v' + version + '/group/' + SchoolID,
+    url: '/api_v' + api_version + '/group/' + SchoolID,
     dataType: "json",
     async: false,
     success: function(respon) {
