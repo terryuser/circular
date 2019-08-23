@@ -8,8 +8,7 @@ const CircularSchema = new Schema({
         required: [true, 'Password field is required']
     },
     target_GruopID: {
-        type: Array,
-        default: ""
+        type: Array
     },
     content: {
         type: JSON
@@ -22,6 +21,9 @@ const CircularSchema = new Schema({
     },
     authorityRequest: {
         type: Number
+    },
+    signedMember: {
+        type: Array
     }
 });
 

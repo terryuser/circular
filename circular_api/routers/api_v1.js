@@ -12,12 +12,12 @@ var sendJson;
 //Add school
 router.post('/create/school', function(req, res, next) {
 
-    sendJson = { message: "" }
+    sendJson = { message: "", loginID: "" }
     
     School.findOne({ schoolName: req.body.schoolName }, function(err, result) {
         if (result != null) {
-            console.log("Duplicate");
-            sendJson.message = "Duplicate";
+            console.log("School Name Duplicate");
+            sendJson.message = "School Name Duplicate";
             res.send(sendJson);
         } else {
             School.create(req.body).then(function(school) {
@@ -34,11 +34,12 @@ router.post('/create/school', function(req, res, next) {
 
                     //Create member for login
                     var adminID = "admin_" + school._id;
-                    var schoolAdminAccount = {"userID": adminID, "groupID":groupData, "loginName": adminID, "loginPW": "admin", "lastOnline": ""};
+                    var schoolAdminAccount = {"userID": adminID, "groupID":groupData, "loginName": adminID, "loginPW": "admin","email": req.body.email, "lastOnline": ""};
                     console.log(schoolAdminAccount);
 
                     Member.create(schoolAdminAccount).then(function(member) {
                         sendJson.message = "success";
+                        sendJson.loginID = member.loginName;
                         res.send(sendJson);
                     }).catch(next);
                 }).catch(next);
@@ -50,16 +51,31 @@ router.post('/create/school', function(req, res, next) {
 });
 
 //Get school info
-router.post('/school/:loginID', function(req, res, next) {
+router.post('/findGrouplist/:userID', function(req, res, next) {
+    
+    var sendJson;
 
-    sendJson = { message: "", id: "" }
-
-    School.findOne({ loginID: req.params.loginID }, function(err, result) {
+    Member.findOne({ userID: req.params.userID }, function(err, result) {
         if (result) {
-            res.send(result);
+            var group = result.groupID;
+
+            Group.findOne({ _id: group }, function(err, resultJson) {
+                console.log(resultJson);
+                if (resultJson) {
+                    Group.find({ schoolID: resultJson.schoolID, authorityLevel: { $gte: resultJson.authorityLevel } }, function(err, groupData) {
+                        if (groupData) {
+                            sendJson = { "message": "", "result": groupData, "authority": resultJson.authorityLevel};
+                            sendJson.message = "success";
+                            res.send(sendJson);
+                        } else {
+                            sendJson.message = "Not found";
+                            res.send(sendJson);
+                        }
+                    });
+                }
+            });
         }
     });
-    
 });
 
 //Get school group
@@ -104,18 +120,18 @@ router.post('/login', function(req, res, next) {
 
             if (req.body.loginPW == result.loginPW) {
                 sendJson.name = result.loginName;
-                sendJson.ID = result._id;
+                sendJson.ID = result.userID;
                 sendJson.message = "LoginSuccess";
                 console.log(sendJson);
                 res.send(sendJson);
             } else {
-                sendJson.message = "LoginFailed";
+                sendJson.message = "Login failed";
                 console.log(sendJson);
                 res.send(sendJson);
             }
 
         } else {
-            sendJson.message = "LoginFailed";
+            sendJson.message = "Login failed, account is not exist";
             console.log("request account is not exist");
             res.send(sendJson);
         }

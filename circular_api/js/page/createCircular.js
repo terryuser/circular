@@ -1,34 +1,25 @@
 var version = 1;
-var School_loginID = "demo";
+var userID = $.cookie('memberID');
+console.log(userID);
 
-var SchoolID;
 var GroupInfo;
+var requestLevel;
 
 var targetCount = 1;
 var optionCount = 1;
 
 var reply_block_show = false;
 
-//Get school
-$.ajax({
-    type: 'POST',
-    url: '/api_v' + version + '/school/' + School_loginID,
-    dataType: "json",
-    async: false,
-    success: function(respon) {
-        SchoolID = respon._id;
-    }
-});
-console.log(SchoolID);
-
 //Get school group
 $.ajax({
     type: 'POST',
-    url: '/api_v' + version + '/group/' + SchoolID,
+    url: '/api_v' + version + '/findGrouplist/' + userID,
     dataType: "json",
     async: false,
     success: function(respon) {
         GroupInfo = respon.result;
+        requestLevel = respon.authority;
+        localStorage.setItem("request", requestLevel);
     }
 });
 console.log(GroupInfo);

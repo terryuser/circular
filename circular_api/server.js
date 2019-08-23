@@ -20,7 +20,12 @@ const PORT = process.env.PORT = 4000;
 
 //Get html files
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/html/circular.html'));
+    res.sendFile(path.join(__dirname + '/html/login.html'));
+    //__dirname : resolve to project folder.
+});
+
+app.get('/circular', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/dashboard_circular.html'));
     //__dirname : resolve to project folder.
 });
 
@@ -30,17 +35,28 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/register', function(req, res) {
-    res.sendFile(path.join(__dirname + '/html/register_school.html'));
+    res.sendFile(path.join(__dirname + '/html/register.html'));
+    //__dirname : resolve to project folder.
+});
+
+app.get('/register/success', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/register_success.html'));
+    //__dirname : resolve to project folder.
+});
+
+app.get('/warning', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/warningPage.html'));
     //__dirname : resolve to project folder.
 });
 
 app.get('/add', function(req, res) {
-    res.sendFile(path.join(__dirname + '/html/addCircular.html'));
+    res.sendFile(path.join(__dirname + '/html/dashboard_add.html'));
     //__dirname : resolve to project folder.
 });
 
+
 app.get('/member', function(req, res) {
-    res.sendFile(path.join(__dirname + '/html/member.html'));
+    res.sendFile(path.join(__dirname + '/html/dashboard_member.html'));
     //__dirname : resolve to project folder.
 });
 

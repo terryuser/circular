@@ -7,8 +7,9 @@ $(document).ready(function() {
 function register() {
     $("#register_submit").click(function(){
         var schoolName = $("#school_name").val();
+        var schoolEmail = $("#school_email").val();
         
-        var data = {"schoolName": schoolName};
+        var data = {"schoolName": schoolName, "email": schoolEmail};
         console.log(data);
 
         $.ajax({
@@ -19,6 +20,10 @@ function register() {
             async: false,
             success: function(respon) {
                 console.log(respon);
+                if (respon.message=="success") {
+                    localStorage.setItem("loginID", respon.loginID);
+                    window.location.replace("/register/success");
+                }
             }
         });
     })

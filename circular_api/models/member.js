@@ -19,6 +19,9 @@ const MemberSchema = new Schema({
         type: String,
         default: "null"
     },
+    email: {
+        type: String
+    },
     lastOnline: {
         type: Date
     }

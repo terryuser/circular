@@ -59,13 +59,16 @@ $( "#save" ).click(async() => {
       optionArray.push($(this).val());
     })
 
+    var requestLevel = localStorage.getItem("request");
+
     //Collect all input
     output = {
       "title" : title,
       "target_GruopID" : target,
       "content" : contentData,
       "replyMethod" : method,
-      "replyOption" : optionArray
+      "replyOption" : optionArray,
+      "authorityRequest" : requestLevel
     }
     console.log(output);
 
