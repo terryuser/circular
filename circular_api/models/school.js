@@ -6,10 +6,6 @@ const SchoolSchema = new Schema({
     schoolName: {
         type: String,
         required: [true, 'Name field is required']
-    },
-    loginID: {
-        type: String,
-        required: [true, 'Name field is required']
     }
 });
 

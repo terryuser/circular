@@ -24,8 +24,18 @@ app.get('/', function(req, res) {
     //__dirname : resolve to project folder.
 });
 
+app.get('/login', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/login.html'));
+    //__dirname : resolve to project folder.
+});
+
 app.get('/register', function(req, res) {
     res.sendFile(path.join(__dirname + '/html/register_school.html'));
+    //__dirname : resolve to project folder.
+});
+
+app.get('/add', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/addCircular.html'));
     //__dirname : resolve to project folder.
 });
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const Circular = require('../models/circular');
 const School = require('../models/school');
 const Group = require('../models/group');
+const Member = require('../models/member')
 
 const path = require('path');
 
@@ -13,19 +14,33 @@ router.post('/create/school', function(req, res, next) {
 
     sendJson = { message: "" }
     
-    School.findOne({ loginID: req.body.loginID }, function(err, result) {
+    School.findOne({ schoolName: req.body.schoolName }, function(err, result) {
         if (result != null) {
-
+            console.log("Duplicate");
+            sendJson.message = "Duplicate";
+            res.send(sendJson);
         } else {
             School.create(req.body).then(function(school) {
                 console.log(school);
 
+                var groupData;
+
+                //Create admin group
                 var schoolAdmin = {"name":"admin","authorityLevel":1,"schoolID":school._id};
-                
+
                 Group.create(schoolAdmin).then(function(group) {
-                    console.log(group);
-                    sendJson.message = "success";
-                    res.send(sendJson);
+                    groupData = group._id;
+                    console.log(groupData);
+
+                    //Create member for login
+                    var adminID = "admin_" + school._id;
+                    var schoolAdminAccount = {"userID": adminID, "groupID":groupData, "loginName": adminID, "loginPW": "admin", "lastOnline": ""};
+                    console.log(schoolAdminAccount);
+
+                    Member.create(schoolAdminAccount).then(function(member) {
+                        sendJson.message = "success";
+                        res.send(sendJson);
+                    }).catch(next);
                 }).catch(next);
 
             })
@@ -77,18 +92,19 @@ router.post('/create/circular', function(req, res, next) {
 });
 
 //Login
-router.post('/create/school', function(req, res, next) {
+router.post('/login', function(req, res, next) {
 
     sendJson = { message: "", name: "", ID: "" }
 
-    Member.findOne({ name: req.body.name }, function(err, result) {
+    Member.findOne({ loginName: req.body.loginName }, function(err, result) {
 
         if (result != null) {
 
-            console.log("Password on DB: " + result.name + "      Input PW: " + req.body.password);
+            console.log("Password on DB: " + result.loginName + "      Input PW: " + req.body.loginPW);
 
-            if (req.body.password == result.name) {
-                sendJson.name = result.name;
+            if (req.body.loginPW == result.loginPW) {
+                sendJson.name = result.loginName;
+                sendJson.ID = result._id;
                 sendJson.message = "LoginSuccess";
                 console.log(sendJson);
                 res.send(sendJson);

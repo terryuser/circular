@@ -7,9 +7,8 @@ $(document).ready(function() {
 function register() {
     $("#register_submit").click(function(){
         var schoolName = $("#school_name").val();
-        var loginID = $("#school_loginID").val();
         
-        var data = {"schoolName": schoolName,"loginID": loginID};
+        var data = {"schoolName": schoolName};
         console.log(data);
 
         $.ajax({

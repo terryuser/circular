@@ -24,11 +24,21 @@
         <script src="../js/tools/jquery.cookie.js"></script>
         
         <script src="../js/page/common.js"></script>
-        <script src="../js/page/register.js"></script>
+        <script src="../js/page/login.js"></script>
     </head>
-<body>
-    <label>Name</label>
-    <input type="text" id="school_name" class="form-control" aria-label="Sizing input" aria-describedby="inputGroup-sizing-lg">
-    <button type="button" class="btn btn-info" id="register_submit">Submit</button>
-</body>
+    <body>
+        <div class="container login-container">
+            <label>Login</label>
+            <input type="text" id="login_Name" class="form-control">
+            <input type="text" id="login_PW" class="form-control">
+            <button type="button" class="btn btn-info login-btn" id="login_submit">Submit</button>
+        </div>
+        
+
+        <div class="container register-container">
+            <div>Or</div>
+            <div>Register for your school</div>
+            <button type="button" class="btn btn-info register-btn" href="/register">Register</button>
+        </div>
+    </body>
 </html>

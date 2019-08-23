@@ -19,6 +19,9 @@ const CircularSchema = new Schema({
     },
     replyOption: {
         type: Array
+    },
+    authorityRequest: {
+        type: Number
     }
 });
 
