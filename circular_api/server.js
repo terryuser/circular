@@ -24,11 +24,6 @@ app.get('/', function(req, res) {
     //__dirname : resolve to project folder.
 });
 
-app.get('/circular', function(req, res) {
-    res.sendFile(path.join(__dirname + '/html/dashboard_circular.html'));
-    //__dirname : resolve to project folder.
-});
-
 app.get('/login', function(req, res) {
     res.sendFile(path.join(__dirname + '/html/login.html'));
     //__dirname : resolve to project folder.
@@ -49,11 +44,30 @@ app.get('/warning', function(req, res) {
     //__dirname : resolve to project folder.
 });
 
+app.get('/circular', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/dashboard_circular.html'));
+    //__dirname : resolve to project folder.
+});
+
+app.get('/detail', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/dashboard_detail.html'));
+    //__dirname : resolve to project folder.
+});
+
+app.get('/editlist', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/dashboard_editList.html'));
+    //__dirname : resolve to project folder.
+});
+
 app.get('/add', function(req, res) {
     res.sendFile(path.join(__dirname + '/html/dashboard_add.html'));
     //__dirname : resolve to project folder.
 });
 
+app.get('/edit', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/dashboard_edit.html'));
+    //__dirname : resolve to project folder.
+});
 
 app.get('/member', function(req, res) {
     res.sendFile(path.join(__dirname + '/html/dashboard_member.html'));

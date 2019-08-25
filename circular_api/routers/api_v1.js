@@ -9,6 +9,7 @@ const path = require('path');
 
 var sendJson;
 
+
 //Add school
 router.post('/create/school', function(req, res, next) {
 
@@ -50,10 +51,9 @@ router.post('/create/school', function(req, res, next) {
     });
 });
 
-//Get school info
+
+//Get group list
 router.post('/findGrouplist/:userID', function(req, res, next) {
-    
-    var sendJson;
 
     Member.findOne({ userID: req.params.userID }, function(err, result) {
         if (result) {
@@ -78,6 +78,7 @@ router.post('/findGrouplist/:userID', function(req, res, next) {
     });
 });
 
+
 //Get school group
 router.post('/group/:schoolID', async function(req, res, next) {
 
@@ -94,6 +95,9 @@ router.post('/group/:schoolID', async function(req, res, next) {
 
 });
 
+
+//--------Member APi-----------
+
 //Add member
 router.post('/create/circular', function(req, res, next) {
 
@@ -105,6 +109,31 @@ router.post('/create/circular', function(req, res, next) {
         res.send(sendJson);
     }).catch(next);
     
+});
+
+// Get member info
+router.post('/member/:userID', function(req, res, next) {
+    
+    Member.findOne({ userID: req.params.userID }, function(err, result) {
+        if (result) {
+            var user_ID = result.userID;
+            var group = result.groupID;
+            var emailAddress = result.email;
+            var lastDate = result.lastOnline;
+            var school;
+            var level;
+
+            Group.findOne({ _id: group }, function(err, result) {
+                school = result.schoolID;
+                level = result.authorityLevel;
+                sendJson = { message: "success", userID: user_ID, groupID: group, schoolID: school,authorityLevel: level, email: emailAddress, lastOnline: lastDate };
+                res.send(sendJson);
+            });
+            
+        } else {
+            sendJson = { message: "noResult" };
+        }
+    });
 });
 
 //Login
@@ -139,6 +168,9 @@ router.post('/login', function(req, res, next) {
     
 });
 
+
+//--------Circular APi-----------
+
 //Add circular
 router.post('/create/circular', function(req, res, next) {
 
@@ -150,6 +182,118 @@ router.post('/create/circular', function(req, res, next) {
         res.send(sendJson);
     }).catch(next);
     
+});
+
+//Get circular list
+router.post('/circular/:page', function(req, res, next) {
+
+    var itemPerPage =  25;
+    var skipRecord = (req.params.page - 1) * itemPerPage;
+    console.log("skipRecord: " + skipRecord);
+
+    if (req.body.authorityLevel <= 2) {
+        console.log("find below level" + req.body.authorityLevel + "  school: " + req.body.schoolID);
+
+        Circular.find({schoolID: req.body.schoolID}, function(err, result) {
+            if(result) {
+                if (result.length > itemPerPage) {
+                    var q = Circular.find({schoolID: req.body.schoolID}).sort({'date': -1}).skip(skipRecord).limit(itemPerPage);
+                } else {
+                    var q = Circular.find({schoolID: req.body.schoolID}).sort({'date': -1});
+                }
+                q.exec(function(err, result) {
+                    sendJson = { "message": "", "result": result, "nextPage": true};
+                    sendJson.message = "success";
+                    res.send(sendJson);
+                });
+            } else {
+                sendJson.message = "success";
+                res.send(sendJson);
+            }
+        });
+    } else {
+        
+    }
+    
+});
+
+//Get edit circular list
+router.post('/editList/:page', function(req, res, next) {
+
+    var itemPerPage =  25;
+    var skipRecord = (req.params.page - 1) * itemPerPage;
+    console.log("find " + req.body.authorityLevel + "   " + req.body.schoolID);
+    console.log("skipRecord: " + skipRecord);
+
+    Circular.find({schoolID: req.body.schoolID,releaseDate: null, authorityRequest: { $gte: req.body.authorityLevel }}, function(err, result) {
+        if(result) {
+            console.log(result.length + " result");
+            if (result.length >= itemPerPage) {
+                var q = Circular.find({schoolID: req.body.schoolID,releaseDate: null, authorityRequest: { $gte: req.body.authorityLevel }}).sort({'date': -1}).skip(skipRecord).limit(itemPerPage);
+            } else {
+                var q = Circular.find({schoolID: req.body.schoolID,releaseDate: null, authorityRequest: { $gte: req.body.authorityLevel }}).sort({'date': -1});
+            }
+            q.exec(function(err, result) {
+                sendJson = { "message": "", "result": result, "nextPage": true};
+                sendJson.message = "success";
+                res.send(sendJson);
+            });
+        } else {
+            sendJson.message = "no result";
+            res.send(sendJson);
+        }
+    });
+});
+
+//Get circular detail for edit
+router.post('/edit/:id', function(req, res, next) {
+    Circular.findOne({ _id: req.params.id}, function(err, result) {
+        sendJson = { message: "", data: result };
+        res.send(sendJson);
+    }).catch(next);
+});
+
+//Get circular detail for edit
+router.put('/edit/:id', function(req, res, next) {
+    
+    Circular.findOne({ _id: req.body._id }).then(function(result) {
+        if (result == null) {
+            sendJson = { message: "" };
+            sendJson.message = "notfind";
+            console.log(sendJson);
+            res.send(sendJson);
+        } else {
+            var query = req.body;
+            console.log(query);
+
+            if (query.releaseDate == null) {
+                Circular.findOneAndUpdate(
+                    { _id: req.body._id },
+                    { $set: { "target_GruopID": query.target_GruopID, "title": query.title, "content": query.content,"replyMethod": query.replyMethod, "replyOption": query.replyOption} },
+                    { returnNewDocument: true }).then(function(result) {
+    
+                    sendJson = { message: "", data: result };
+                    sendJson.message = "updated";
+                    console.log(sendJson);
+                    res.send(sendJson);
+    
+                });
+            } else {
+                Circular.findOneAndUpdate(
+                    { _id: req.body._id },
+                    { $set: { "target_GruopID": query.target_GruopID, "title": query.title, "content": query.content,"replyMethod": query.replyMethod, "replyOption": query.replyOption, "releaseDate" : query.releaseDate} },
+                    { returnNewDocument: true }).then(function(result) {
+    
+                    sendJson = { message: "", data: result };
+                    sendJson.message = "updated";
+                    console.log(sendJson);
+                    res.send(sendJson);
+    
+                });
+            }
+            
+        }
+    })    
 });
 
 

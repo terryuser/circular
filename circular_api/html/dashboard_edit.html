@@ -40,13 +40,12 @@
     <script src=" ../js/tools/marker.js"></script><!-- Marker -->
     <script src=" ../js/tools/inline-code.js"></script><!-- Inline Code -->
 
-    <script src="../js/checkLogin.js"></script>
     <script src="../js/common.js"></script>
-    <script src="../js/page/createCircular.js"></script>
-
+    <script src="../js/checkLogin.js"></script>
+    <script src="../js/page/editCircular.js"></script>
 </head>
 
-<body class="add-page">
+<body class="edit-age">
     <div id="sidebar"></div>
 
     <div class="container content-section" id="content_section">
@@ -59,20 +58,8 @@
 
         <div class="input-group">
             <div class="input-title">Title</div>
-            <input type="text" id="title" class="form-control" aria-label="Sizing input" aria-describedby="inputGroup-sizing-lg">
+            <input type="text" id="title" class="form-control">
         </div>
-
-        <!-- <div class="custom-input-container" id="custom-input_container">
-                <div>Custom field</div>
-            <div class="input-group">
-                <input type="text" id="custom_1_title" class="form-control custom-input" aria-label="Sizing input"
-                    aria-describedby="inputGroup-sizing-lg">
-                <span>:</span>
-                <input type="text" id="custom_1_content" class="form-control custom-input" aria-label="Sizing input"
-                    aria-describedby="inputGroup-sizing-lg">
-                <button type="button" class="btn btn-info">+</button>
-            </div>
-        </div> -->
 
         <div class="">
             <div class="input-title">Content</div>
@@ -99,7 +86,7 @@
             </div>
         </div>
 
-        <button id="save" class="btn btn-info">Save to draft</button>
+        <button id="update_draft" class="btn btn-info">Update draft</button>
         <button id="publish" class="btn btn-info">Publish</button>
     </div>
 
@@ -107,6 +94,6 @@
 
 </body>
 
-<script src="../js/contentEditor_create.js"></script>
+<script src="../js/contentEditor_edit.js"></script>
 
 </html>

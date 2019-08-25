@@ -22,27 +22,24 @@ console.log(memberInfo);
 
 $(document).ready(function() {
     showList();
-    $(".list-item").click(function() {
-        window.document.location = $(this).data("href");
-    });
 });
 
 function showList() {
     
-    //Get circular list
-    var findData = {authorityLevel: memberInfo.authorityLevel, schoolID: memberInfo.schoolID, groupID: memberInfo.groupID};
-    var list;
+    //Get circular which can edit
+    var findData = {authorityLevel: memberInfo.authorityLevel , schoolID: memberInfo.schoolID};
+    var editList;
     $.ajax({
         type: 'POST',
-        url: '/api_v' + api_version + '/circular' + "/" + page,
+        url: '/api_v' + api_version + '/editList' + "/" + page,
         dataType: "json",
         data: findData,
         async: false,
         success: function(respon) {
-            list = respon;
+            editList = respon;
         }
     });
-    console.log(list);
+    console.log(editList);
 
     //Display circular
     var title;
@@ -50,10 +47,13 @@ function showList() {
     var reply;
     var link;
     var day;
+    var status;
     var time;
 
-    list.result.forEach(function(item) {
+    editList.result.forEach(function(item) {
         title = "<td class='title'>" + item.title + "</td>";
+
+        console.log(item.createDate);
         day = item.createDate.substring(0, 10);
         time = item.createDate.substring(11, 16);
         date = "<td class='date'>" + day + "  " + time + "</td>";
@@ -78,9 +78,15 @@ function showList() {
         }
 
         reply = "<td class='replyMethod'>" + replyMethod + "</td>";
-        link =  "/detail/?id=" + item._id;
 
-        $("#circular_list").append("<tr class='list-item' data-href='" + link + "'>" + title + date + reply + "</tr>");
+        if (item.releaseDate == null) {
+            status = "<td class='status draft'>draft</td>";
+        } else {
+            status = "<td class='status published'>published</td>";
+        }
+        link = "<td class='action'><a href='/edit/?id=" + item._id + "' target='_blank'><div class='btn btn-info edit'>Edit</div></a></td>";
+
+        $("#edit_list").append("<tr class='list-item'>"+ title + date + reply + status + link + "</tr>");
     });
 }
 

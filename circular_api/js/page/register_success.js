@@ -5,6 +5,6 @@ $(document).ready(function() {
 });
 
 function getLoginName() {
-    var Name = localStorage.getItem("loginID");
-    $("#getLoginName").html(Name);
+    var userID = $.cookie('memberID');
+    $("#getLoginName").html(userID);
 }

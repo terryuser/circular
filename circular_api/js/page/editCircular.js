@@ -32,6 +32,7 @@ $(document).ready(function() {
     checkReply();
     $("#minusOption").hide();
     addOption();
+    assignInput();
 });
 
 function selectionAction() {
@@ -73,7 +74,7 @@ function targetField() {
     $("#selection_group").append(openHTML);
 
     if (targetCount == 1) {
-        $("#target-group-1").append("<option value='all' selected>All</option>");
+        $("#target-group-1").append("<option value='all'>All</option>");
     }
     console.log("targerField Count: " + targetCount);
     if (targetCount > 1) {
@@ -167,4 +168,68 @@ function addOption() {
         }
         console.log(optionCount);
     });
+}
+
+function assignInput() {
+    
+    //Get cicular info
+    $.ajax({
+        type: 'POST',
+        url: '/api_v' + api_version + '/edit/' + circularID,
+        dataType: "json",
+        async: false,
+        success: function(respon) {
+        circularData = respon.data;
+        }
+    });
+
+    //Target field
+    targetCount = circularData.target_GruopID.length;
+    if(circularData.target_GruopID == "all") {
+        $("#target-group-1").val("all");
+    } else {
+        var selectedGroup = circularData.target_GruopID[0];
+        console.log("Not target all");
+        console.log("Target: " + selectedGroup);
+        $("#target-group-1").val(selectedGroup);
+    }
+
+    if (targetCount > 1) {
+        $("#addTarget").show();
+        
+        if (targetCount < limit) {
+            $("#minusTarget").show();
+        }
+
+        console.log("limit: " + limit);
+        console.log("count: " + targetCount);
+
+        for (i = 2; i <= targetCount; i++) {
+            var disabled = i - 1;
+            targetField();
+            $("#target-group-" + disabled).prop('disabled', 'disabled');
+        }
+    }
+
+
+    //Title
+    $("#title").val(circularData.title);
+
+    //Reply
+    $("#replyType").val(circularData.replyMethod);
+    if (circularData.replyMethod != "signature") {
+        optionCount = circularData.replyOption.length;
+        console.log("Not signature");
+        $("#reply_block").show();
+        $("#addOption").show();
+        $("#minusOption").show();
+        
+        var optionHTML;
+        for (i = 1; i < optionCount; i++) {
+            optionHTML = "<div class='input-group' id='option-group-" + i + "'><div class='input-subtitle'>Option" + i + "</div><input class='form-control reply-option' id='option-input-" + i + "'></div>";
+            $("#reply_option").append(optionHTML);
+            $("#option-input-" + i).val(circularData.replyOption[i]);
+        }
+    }
+
 }

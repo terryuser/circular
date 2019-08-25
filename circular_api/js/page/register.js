@@ -21,7 +21,7 @@ function register() {
             success: function(respon) {
                 console.log(respon);
                 if (respon.message=="success") {
-                    localStorage.setItem("loginID", respon.loginID);
+                    $.cookie('memberID', respon.loginID, { expires: days, path: '/' });
                     window.location.replace("/register/success");
                 }
             }

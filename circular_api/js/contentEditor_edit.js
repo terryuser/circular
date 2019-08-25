@@ -2,8 +2,11 @@ var api_version = 1;
 var userID = $.cookie('memberID');
 console.log(userID);
 
-var memberInfo;
+var circularData;
 var requestLevel;
+
+var circularID = getUrlParameter("id");
+console.log("circular ID: " + circularID);
 
 //Get member info
 $.ajax({
@@ -17,6 +20,19 @@ $.ajax({
 });
 console.log(memberInfo);
 
+//Get cicular info
+$.ajax({
+  type: 'POST',
+  url: '/api_v' + api_version + '/edit/' + circularID,
+  dataType: "json",
+  async: false,
+  success: function(respon) {
+    circularData = respon.data;
+  }
+});
+
+
+//Apply data into input
 var contentEditor = new EditorJS({
     /**
      * Create a holder for the Editor and pass its ID
@@ -43,14 +59,14 @@ var contentEditor = new EditorJS({
     /**
      * Previously saved data that should be rendered
      */
-    data: {}
+    data: circularData.content
 });
 
 
 //Collect circular data and send to API
 var output = {};
 
-$( "#save" ).click(async() => {
+$( "#update_draft" ).click(async() => {
   try {
     var target = new Array;
     $(".target-selector").each(function(){
@@ -72,26 +88,23 @@ $( "#save" ).click(async() => {
 
     //Collect all input
     output = {
-      "schoolID" : memberInfo.schoolID,
+      "_id" : circularData._id,
       "target_GruopID" : target,
       "title" : title,
       "content" : contentData,
       "replyMethod" : method,
       "replyOption" : optionArray,
-      "authorityRequest" : memberInfo.authorityLevel,
-      "createDate" : today,
-      "releaseDate" : null,
-      "signedMember" : null,
+      "releaseDate" : null
     }
     console.log(output);
 
     $.ajax({
-      type: 'POST',
-      url: '/api_v' + api_version + '/create/circular',
+      type: 'PUT',
+      url: '/api_v' + api_version + '/edit/' + circularID,
       dataType: "JSON",
       data: output,
       success: function(data) {
-        console.log(data.message);
+        console.log(data);
       },
       error: function(xhr, status, error) {
         console.log('Error: ' + error.message);
@@ -102,7 +115,7 @@ $( "#save" ).click(async() => {
   }
 });
 
-$( "#publish" ).click(async() => {
+$( "#update_draft" ).click(async() => {
   try {
     var target = new Array;
     $(".target-selector").each(function(){
@@ -124,26 +137,23 @@ $( "#publish" ).click(async() => {
 
     //Collect all input
     output = {
-      "schoolID" : memberInfo.schoolID,
+      "_id" : circularData._id,
       "target_GruopID" : target,
       "title" : title,
       "content" : contentData,
       "replyMethod" : method,
       "replyOption" : optionArray,
-      "authorityRequest" : memberInfo.requestLevel,
-      "createDate" : today,
-      "releaseDate" : today,
-      "signedMember" : null,
+      "releaseDate" : today
     }
     console.log(output);
 
     $.ajax({
-      type: 'POST',
-      url: '/api_v' + api_version + '/create/circular',
+      type: 'PUT',
+      url: '/api_v' + api_version + '/edit/' + circularID,
       dataType: "JSON",
       data: output,
       success: function(data) {
-        console.log(data.message);
+        console.log(data);
       },
       error: function(xhr, status, error) {
         console.log('Error: ' + error.message);

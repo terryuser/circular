@@ -3,12 +3,15 @@ const Schema = mongoose.Schema;
 
 //create circular Schema & model
 const CircularSchema = new Schema({
-    title: {
+    schoolID: {
         type: String,
-        required: [true, 'Password field is required']
     },
     target_GruopID: {
         type: Array
+    },
+    title: {
+        type: String,
+        required: [true, 'Password field is required']
     },
     content: {
         type: JSON
@@ -21,6 +24,12 @@ const CircularSchema = new Schema({
     },
     authorityRequest: {
         type: Number
+    },
+    createDate: {
+        type: Date
+    },
+    releaseDate: {
+        type: Date
     },
     signedMember: {
         type: Array
