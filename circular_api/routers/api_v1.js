@@ -52,6 +52,25 @@ router.post('/create/school', function(req, res, next) {
 });
 
 
+//Add group
+router.post('/create/group', function(req, res, next) {
+    Group.findOne({ name: req.body.name, schoolID: req.body.schoolID }, function(err, result) {
+        if (result != null) {
+            console.log("GroupName Duplicate");
+            sendJson.message = "Group Name Duplicate";
+            res.send(sendJson);
+        } else {
+            Group.create(req.body).then(function(group) {
+                sendJson = {"message": "", "result": group};
+                sendJson.message = "Group create success";
+                res.send(sendJson);
+            }).catch(next); 
+        }
+    });
+});
+
+
+
 //Get group list
 router.post('/findGrouplist/:userID', function(req, res, next) {
 
@@ -133,6 +152,13 @@ router.post('/member/:userID', function(req, res, next) {
         } else {
             sendJson = { message: "noResult" };
         }
+    });
+});
+
+//Get member conunt
+router.post('/member/count/:groupID', function(req, res, next) {
+    Member.find({ groupID: req.params.groupID }, function(err, result) {
+        res.send(result.length);
     });
 });
 
@@ -292,7 +318,7 @@ router.put('/edit/:id', function(req, res, next) {
                     sendJson.message = "updated";
                     console.log(sendJson);
                     res.send(sendJson);
-    
+
                 });
             } else {
                 Circular.findOneAndUpdate(

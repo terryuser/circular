@@ -27,26 +27,33 @@
         
         <script src="../js/checkLogin.js"></script>
         <script src="../js/common.js"></script>
-        <script src="../js/page/member.js"></script>
+        <script src="../js/page/addMember.js"></script>
     </head>
 <body>
     <div class="group-section">
+        <div class="input-title">Group</div>
         <div id="group_selection"></div>
+
         <div class="input-block">
             <div class="input-title">New group name</div>
             <input type="text" id="newName" class="form-control">
         </div>
+
+        <div class="input-block">
+            <div class="input-title">Authority is under</div>
+            <div id="authority_selection"></div>
+        </div>
     </div>
 
     <div class="member-section">
-        <div class="input-title">Number of member</div>
-        <input type="number" name="memberCounter" id="memberCounter" min="1" max="50">
+        <div class="input-title">Number of member create</div>
+        <input type="number" name="memberCounter" id="memberCounter" value="1" min="1" max="50">
     </div>
-
+    
     <div class="result-section">
         <div id="result"></div>
     </div>
 
-    <button type="button" class="btn btn-info" id="register_submit">Submit</button>
+    <button type="button" class="btn btn-info" id="create_member">Submit</button>
 </body>
 </html>
