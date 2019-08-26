@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Member Management</title>
+        <title>Add Member</title>
         <meta name="description" content="">
     
         <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
@@ -30,7 +30,23 @@
         <script src="../js/page/member.js"></script>
     </head>
 <body>
-    <div id="group_selection"></div>
+    <div class="group-section">
+        <div id="group_selection"></div>
+        <div class="input-block">
+            <div class="input-title">New group name</div>
+            <input type="text" id="newName" class="form-control">
+        </div>
+    </div>
+
+    <div class="member-section">
+        <div class="input-title">Number of member</div>
+        <input type="number" name="memberCounter" id="memberCounter" min="1" max="50">
+    </div>
+
+    <div class="result-section">
+        <div id="result"></div>
+    </div>
+
     <button type="button" class="btn btn-info" id="register_submit">Submit</button>
 </body>
 </html>

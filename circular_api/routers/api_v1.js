@@ -99,11 +99,11 @@ router.post('/group/:schoolID', async function(req, res, next) {
 //--------Member APi-----------
 
 //Add member
-router.post('/create/circular', function(req, res, next) {
+router.post('/create/member', function(req, res, next) {
 
     sendJson = { message: "" }
 
-    Circular.create(req.body).then(function(member) {
+    Member.create(req.body).then(function(circular) {
         sendJson.message = "success";
         console.log(sendJson);
         res.send(sendJson);
@@ -212,7 +212,23 @@ router.post('/circular/:page', function(req, res, next) {
             }
         });
     } else {
-        
+        Circular.find({target_GruopID: req.body.groupID}, function(err, result) {
+            if(result) {
+                if (result.length > itemPerPage) {
+                    var q = Circular.find({target_GruopID: req.body.groupID}).sort({'date': -1}).skip(skipRecord).limit(itemPerPage);
+                } else {
+                    var q = Circular.find({target_GruopID: req.body.groupID}).sort({'date': -1});
+                }
+                q.exec(function(err, result) {
+                    sendJson = { "message": "", "result": result, "nextPage": true};
+                    sendJson.message = "success";
+                    res.send(sendJson);
+                });
+            } else {
+                sendJson.message = "success";
+                res.send(sendJson);
+            }
+        });
     }
     
 });

@@ -74,6 +74,11 @@ app.get('/member', function(req, res) {
     //__dirname : resolve to project folder.
 });
 
+app.get('/member/add', function(req, res) {
+    res.sendFile(path.join(__dirname + '/html/dashboard_addMember.html'));
+    //__dirname : resolve to project folder.
+});
+
 //Request handling
 app.use(bodyParser.urlencoded({
     extended: true
