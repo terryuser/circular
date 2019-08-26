@@ -103,7 +103,7 @@ router.post('/create/member', function(req, res, next) {
 
     sendJson = { message: "" }
 
-    Member.create(req.body).then(function(circular) {
+    Member.create(req.body).then(function(member) {
         sendJson.message = "success";
         console.log(sendJson);
         res.send(sendJson);
