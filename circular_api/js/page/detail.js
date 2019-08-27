@@ -19,7 +19,7 @@ $.ajax({
     circularData = respon.data;
     }
 });
-console.log(circularData.content.blocks);
+console.log(circularData);
 var content = circularData.content.blocks;
 
 $(document).ready(function() {
@@ -86,5 +86,28 @@ function assginDetail() {
         }
     });
 
+    var method = circularData.replyMethod;
+    var replyHTML;
+    
+    switch (element) {
+        default :
+            replyHTML = "<button id='confirm' class='btn btn-info'>Confirm</button>";
+            $("#circular_reply").append(replyHTML);
+        break;
+
+        case "signature":
+            replyHTML = "<button id='confirm' class='btn btn-info'>Confirm</button>";
+            $("#circular_reply").append(replyHTML);
+        break;
+
+        
+    }
+
     $("#circular_reply").append();
+}
+
+function replyAction() {
+    $("#confirm").click(function(){
+
+    });
 }
