@@ -114,6 +114,14 @@ router.post('/group/:schoolID', async function(req, res, next) {
 
 });
 
+//Get group info
+router.post('/group/info/:groupID', function(req, res, next) {
+    Group.findOne({ _id: req.params.groupID }, function(err, result) {
+        sendJson = { "message": "success", "result": result };
+        res.send(sendJson);
+    });
+});
+
 
 //--------Member APi-----------
 
@@ -158,7 +166,8 @@ router.post('/member/:userID', function(req, res, next) {
 //Get member conunt
 router.post('/member/count/:groupID', function(req, res, next) {
     Member.find({ groupID: req.params.groupID }, function(err, result) {
-        res.send(result.length);
+        sendJson = { count: result.length };
+        res.send(sendJson);
     });
 });
 

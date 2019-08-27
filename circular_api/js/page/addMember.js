@@ -18,6 +18,7 @@ console.log(GroupInfo);
 
 
 $(document).ready(function() {
+    $(".result-section").hide();
     input();
     checkOption();
     createMember();
@@ -61,6 +62,10 @@ function checkOption() {
 
 function createMember() {
     $("#create_member").click(function(){
+        $(this).hide(200);
+        var group;
+        var counter;
+
         if ($("#group_list").val() == "newGroup") {
             var groupName = $("#newName").val();
             var groupAthority = +$("#authoity_list").val() + 1;
@@ -69,8 +74,6 @@ function createMember() {
             var groupData = {"name": groupName, "schoolID": school, "authorityLevel": groupAthority};
             console.log(groupData);
 
-            var groupID;
-            var counter;
             //Create school group
             $.ajax({
                 type: 'POST',
@@ -81,12 +84,12 @@ function createMember() {
                 success: function(respon) {
                     if(respon.message == "Group create success") {
                         console.log(respon);
-                        groupID = respon.result._id;
+                        group = respon.result;
                         counter = $("#memberCounter").val();
 
                         for (i = 1; i <= counter; i++) {
                             var userID = respon.result.name + "_" + i;
-                            var memberData = {"userID": userID, "groupID": groupID, "loginName": userID, "loginPW": "0000", "email": "", "lastOnline": ""};
+                            var memberData = {"userID": userID, "groupID": group._id, "loginName": userID, "loginPW": "0000", "email": "", "lastOnline": ""};
                             console.log(memberData);
 
                             $.ajax({
@@ -96,7 +99,7 @@ function createMember() {
                                 data: memberData,
                                 async: true,
                                 success: function(respon) {
-                                    GroupInfo = respon.result;
+                                    console.log(respon);
                                 }
                             });
                         }
@@ -106,6 +109,75 @@ function createMember() {
                     }
                 }
             });
+        } else {
+            var selectGroup = $("#group_list").val();
+            console.log("Finding group: " + selectGroup);
+
+            $.ajax({
+                type: 'POST',
+                url: '/api_v' + api_version + '/group/info/' + selectGroup,
+                dataType: "json",
+                async: false,
+                success: function(respon) {
+                    group = respon.result;
+                    console.log(group);
+                }
+            });
+
+            var memberExist;
+            //Get member count
+            $.ajax({
+                type: 'POST',
+                url: '/api_v' + api_version + '/member/count/' + selectGroup,
+                dataType: "json",
+                async: true,
+                success: function(respon) {
+                    memberExist = respon;
+                    console.log(memberExist);
+
+                    counter = $("#memberCounter").val();
+
+                        for (i = 1; i <= counter; i++) {
+                            var countID = memberExist.count + i;
+                            var userID =  group.name + "_" + countID;
+                            var memberData = {"userID": userID, "groupID": group._id, "loginName": userID, "loginPW": "0000", "email": "", "lastOnline": ""};
+                            console.log("Creating: ");
+                            console.log(memberData);
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/api_v' + api_version + '/create/member',
+                                dataType: "json",
+                                data: memberData,
+                                async: false,
+                                success: function(respon) {
+                                    console.log(respon);
+                                    
+                                    $("#resultBody").append("<tr>");
+
+                                    $("#resultBody").append("<td>" + memberData.userID + "</td>");
+                                    $("#resultBody").append("<td>" + group.name + "</td>");
+                                    $("#resultBody").append("<td>" + memberData.loginName + "</td>");
+                                    $("#resultBody").append("<td>" + memberData.loginPW + "</td>");
+
+                                    if (memberData.email == "") {
+                                        $("#resultBody").append("<td>" + "N/A" + "</td>");
+                                    } else {
+                                        $("#resultBody").append("<td>" + memberData.email + "</td>");
+                                    }
+                                    
+                                    $("#resultBody").append("</tr>");
+
+                                    if (i == counter) {
+                                        console.log("Creation done");
+                                        $(".result-section").show(350);
+                                    }
+                                }
+                            });
+                        }
+                }
+            });
+            
         }
     });
 }

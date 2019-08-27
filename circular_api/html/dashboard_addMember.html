@@ -43,17 +43,32 @@
             <div class="input-title">Authority is under</div>
             <div id="authority_selection"></div>
         </div>
-    </div>
 
-    <div class="member-section">
-        <div class="input-title">Number of member create</div>
-        <input type="number" name="memberCounter" id="memberCounter" value="1" min="1" max="50">
+        <div class="member-section">
+            <div class="input-title">Number of member create</div>
+            <input type="number" name="memberCounter" id="memberCounter" value="1" min="1" max="50">
+        </div>
+        
+        <button type="button" class="btn btn-info" id="create_member">Submit</button>
     </div>
     
     <div class="result-section">
-        <div id="result"></div>
+        <div class="result-table">
+            <table id="result">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Group</th>
+                        <th>Login Name</th>
+                        <th>Login Password</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody id="resultBody">
+                    
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <button type="button" class="btn btn-info" id="create_member">Submit</button>
 </body>
 </html>
