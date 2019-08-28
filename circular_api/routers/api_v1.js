@@ -171,6 +171,14 @@ router.post('/member/count/:groupID', function(req, res, next) {
     });
 });
 
+//Get member from group
+router.post('/member/list/:groupID', function(req, res, next) {
+    Member.find({ groupID: req.params.groupID }, function(err, result) {
+        sendJson = { memberList: result };
+        res.send(sendJson);
+    });
+});
+
 //Login
 router.post('/login', function(req, res, next) {
 

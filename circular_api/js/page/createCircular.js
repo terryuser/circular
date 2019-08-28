@@ -6,6 +6,7 @@ var GroupInfo;
 
 var targetCount = 1;
 var optionCount = 1;
+var inputCount = 1;
 
 var reply_block_show = false;
 
@@ -28,10 +29,12 @@ $(document).ready(function() {
     $("#addTarget").hide();
     $("#minusTarget").hide();
     selectionAction();
-    $("#reply_block").hide();
+    $(".reply-block").hide();
     checkReply();
     $("#minusOption").hide();
+    $("#minusInput").hide();
     addOption();
+    addInput();
 });
 
 function selectionAction() {
@@ -116,22 +119,22 @@ function checkReply() {
         var replyMethod = $(this).val();
         switch (replyMethod) {
             default :
-                $("#reply_block").hide();
+                $(".reply-block").hide();
             break;
             
             case "signature" :
                 reply_block_show = false;
-                $("#reply_block").hide();
+                $(".reply-block").hide();
             break;
 
             case "singleChoice" :
                 optionBlock()
-                $("#reply_block").show();
+                $(".reply-block").show();
             break;
 
             case "multipleChoice" :
                 optionBlock()
-                $("#reply_block").show();
+                $(".reply-block").show();
             break;
         }
     });
@@ -142,6 +145,10 @@ function optionBlock() {
         var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option" + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
         $("#reply_option").append(optionHTML);
     }
+    if (inputCount == 1 && reply_block_show == false) {
+        var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-option' id='field-input-" + inputCount + "'></div>";
+        $("#reply_Input").append(inputHTML);
+    }
     if (reply_block_show == false) {  
         reply_block_show = true;
     }
@@ -151,7 +158,7 @@ function addOption() {
     $("#addOption").click(function(){
         optionCount++;
         if (optionCount > 1) {
-            var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option" + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
+            var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option " + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
             $("#reply_option").append(optionHTML);
             $("#minusOption").show();
         }
@@ -166,5 +173,27 @@ function addOption() {
             $(this).show();
         }
         console.log(optionCount);
+    });
+}
+
+function addInput() {
+    $("#addInput").click(function(){
+        inputCount++;
+        if (inputCount > 1) {
+            var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-option' id='field-input-" + inputCount + "'></div>";
+            $("#reply_Input").append(inputHTML);
+            $("#minusInput").show();
+        }
+        console.log(inputCount);
+    });
+    $("#minusInput").click(function(){
+        $("#input-group-" + inputCount).remove();
+        inputCount--;
+        if (inputCount == 1) {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+        console.log(inputCount);
     });
 }

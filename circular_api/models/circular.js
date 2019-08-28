@@ -22,6 +22,9 @@ const CircularSchema = new Schema({
     replyOption: {
         type: Array
     },
+    replyInput: {
+        type: Array
+    },
     authorityRequest: {
         type: Number
     },
