@@ -1,6 +1,6 @@
 var api_version = 1;
-var userID = $.cookie('memberID');
-console.log(userID);
+var memberID = $.cookie('memberID');
+console.log(memberID);
 
 var circularData;
 var requestLevel;
@@ -11,7 +11,7 @@ console.log("circular ID: " + circularID);
 //Get member info
 $.ajax({
   type: 'POST',
-  url: '/api_v' + api_version + '/member/' + userID,
+  url: '/api_v' + api_version + '/member/' + memberID,
   dataType: "json",
   async: false,
   success: function(respon) {
@@ -84,6 +84,13 @@ $( "#update_draft" ).click(async() => {
       optionArray.push($(this).val());
     })
 
+    if ($('#reply_input_checkbox').prop('checked')) {
+      var InputArray = new Array;
+      $(".reply-input").each(function(){
+        InputArray.push($(this).val());
+      });
+    }
+
     var today = new Date();
 
     //Collect all input
@@ -94,6 +101,7 @@ $( "#update_draft" ).click(async() => {
       "content" : contentData,
       "replyMethod" : method,
       "replyOption" : optionArray,
+      "replyInput" : InputArray,
       "releaseDate" : null
     }
     console.log(output);
@@ -133,6 +141,13 @@ $( "#update_draft" ).click(async() => {
       optionArray.push($(this).val());
     })
 
+    if ($('#reply_input_checkbox').prop('checked')) {
+      var InputArray = new Array;
+      $(".reply-input").each(function(){
+        InputArray.push($(this).val());
+      });
+    }
+
     var today = new Date();
 
     //Collect all input
@@ -143,6 +158,7 @@ $( "#update_draft" ).click(async() => {
       "content" : contentData,
       "replyMethod" : method,
       "replyOption" : optionArray,
+      "replyInput" : InputArray,
       "releaseDate" : today
     }
     console.log(output);

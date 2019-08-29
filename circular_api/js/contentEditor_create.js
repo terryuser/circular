@@ -1,6 +1,6 @@
 var api_version = 1;
-var userID = $.cookie('memberID');
-console.log(userID);
+var memberID = $.cookie('memberID');
+console.log(memberID);
 
 var memberInfo;
 var requestLevel;
@@ -8,7 +8,7 @@ var requestLevel;
 //Get member info
 $.ajax({
   type: 'POST',
-  url: '/api_v' + api_version + '/member/' + userID,
+  url: '/api_v' + api_version + '/member/' + memberID,
   dataType: "json",
   async: false,
   success: function(respon) {
@@ -66,7 +66,14 @@ $( "#save" ).click(async() => {
     var optionArray = new Array;
     $(".reply-option").each(function(){
       optionArray.push($(this).val());
-    })
+    });
+
+    if ($('#reply_input_checkbox').prop('checked')) {
+      var InputArray = new Array;
+      $(".reply-input").each(function(){
+        InputArray.push($(this).val());
+      });
+    }
 
     var today = new Date();
 
@@ -78,6 +85,7 @@ $( "#save" ).click(async() => {
       "content" : contentData,
       "replyMethod" : method,
       "replyOption" : optionArray,
+      "replyInput" : InputArray,
       "authorityRequest" : memberInfo.authorityLevel,
       "createDate" : today,
       "releaseDate" : null,
@@ -120,6 +128,13 @@ $( "#publish" ).click(async() => {
       optionArray.push($(this).val());
     })
 
+    if ($('#reply_input_checkbox').prop('checked')) {
+      var InputArray = new Array;
+      $(".reply-input").each(function(){
+        InputArray.push($(this).val());
+      });
+    }
+
     var today = new Date();
 
     //Collect all input
@@ -130,6 +145,7 @@ $( "#publish" ).click(async() => {
       "content" : contentData,
       "replyMethod" : method,
       "replyOption" : optionArray,
+      "replyInput" : InputArray,
       "authorityRequest" : memberInfo.requestLevel,
       "createDate" : today,
       "releaseDate" : today,

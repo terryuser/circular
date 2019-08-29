@@ -1,6 +1,6 @@
 var api_version = 1;
-var userID = $.cookie('memberID');
-console.log("user: " + userID);
+var memberID = $.cookie('memberID');
+console.log("user: " + memberID);
 
 var GroupInfo;
 
@@ -9,11 +9,12 @@ var optionCount = 1;
 var inputCount = 1;
 
 var reply_block_show = false;
+var input_block_show = false;
 
 //Get school group
 $.ajax({
     type: 'POST',
-    url: '/api_v' + api_version + '/findGrouplist/' + userID,
+    url: '/api_v' + api_version + '/findGrouplist/' + memberID,
     dataType: "json",
     async: false,
     success: function(respon) {
@@ -25,28 +26,23 @@ console.log(GroupInfo);
 var limit = GroupInfo.length;
 
 $(document).ready(function() {
-    targetField();
-    $("#addTarget").hide();
-    $("#minusTarget").hide();
+    addTargetField();
     selectionAction();
-    $(".reply-block").hide();
     checkReply();
-    $("#minusOption").hide();
-    $("#minusInput").hide();
     addOption();
     addInput();
 });
 
 function selectionAction() {
-
+    $(".reply-block").hide();
     $("#addTarget").click(function(){
         $("#target-group-" + targetCount).prop('disabled', 'disabled');
         targetCount++;
         if(targetCount < limit) {
-            targetField();
+            addTargetField();
             $("#minusTarget").show();
         } else if (targetCount = limit) {
-            targetField();
+            addTargetField();
             $("#minusTarget").show();
             $("#addTarget").hide();
         } else {
@@ -71,11 +67,12 @@ function selectionAction() {
     });
 }
 
-function targetField() {
+function addTargetField() {
     var openHTML = "<select class='custom-select target-selector' id='target-group-" + targetCount + "'>"
     $("#selection_group").append(openHTML);
 
     if (targetCount == 1) {
+        $("#minusTarget").hide();
         $("#target-group-1").append("<option value='all' selected>All</option>");
     }
     console.log("targerField Count: " + targetCount);
@@ -101,7 +98,6 @@ function targetField() {
         }); 
     }
      
-
     var closeHTML = "</select>";
     $("#selection_group").append(closeHTML);
 
@@ -115,46 +111,47 @@ function targetField() {
 }
 
 function checkReply() {
+    $(".checkbox-block").hide();
+
     $("#replyType").on('change', function() {
         var replyMethod = $(this).val();
         switch (replyMethod) {
             default :
+                reply_block_show = false;
+                $(".checkbox-block").hide();
                 $(".reply-block").hide();
             break;
             
             case "signature" :
                 reply_block_show = false;
+                $(".checkbox-block").hide();
                 $(".reply-block").hide();
             break;
 
             case "singleChoice" :
-                optionBlock()
+                reply_block_show = true;
+                $(".checkbox-block").show();
                 $(".reply-block").show();
+                checkInput();
             break;
 
             case "multipleChoice" :
-                optionBlock()
+                reply_block_show = true;
+                $(".checkbox-block").show();
                 $(".reply-block").show();
+                checkInput();
             break;
         }
     });
 }
 
-function optionBlock() {
-    if (optionCount == 1 && reply_block_show == false) {
-        var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option" + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
-        $("#reply_option").append(optionHTML);
-    }
-    if (inputCount == 1 && reply_block_show == false) {
-        var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-option' id='field-input-" + inputCount + "'></div>";
-        $("#reply_Input").append(inputHTML);
-    }
-    if (reply_block_show == false) {  
-        reply_block_show = true;
-    }
-}
-
 function addOption() {
+    $("#minusOption").hide();
+
+    //Add 1 input by default
+    var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option" + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
+    $("#reply_option").append(optionHTML);
+
     $("#addOption").click(function(){
         optionCount++;
         if (optionCount > 1) {
@@ -177,10 +174,16 @@ function addOption() {
 }
 
 function addInput() {
+    $("#minusInput").hide();
+
+    //Add 1 input by default
+    var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-input' id='field-input-" + inputCount + "'></div>";
+    $("#reply_Input").append(inputHTML);
+
     $("#addInput").click(function(){
         inputCount++;
         if (inputCount > 1) {
-            var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-option' id='field-input-" + inputCount + "'></div>";
+            var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-input' id='field-input-" + inputCount + "'></div>";
             $("#reply_Input").append(inputHTML);
             $("#minusInput").show();
         }
@@ -195,5 +198,27 @@ function addInput() {
             $(this).show();
         }
         console.log(inputCount);
+    });
+}
+
+function checkInput() {
+    if (input_block_show == false) {
+        $("#Input_block").hide();
+        console.log("unchecked");
+    } else {
+        $("#Input_block").show();
+        console.log("checked");
+    }
+
+    $('#reply_input_checkbox').change(function() {
+        if ($(this).prop('checked')) {
+            console.log("checked");
+            $("#Input_block").show();
+            input_block_show = true;
+        } else {
+            $("#Input_block").hide();
+            console.log("unchecked");
+            input_block_show = false;
+        }
     });
 }

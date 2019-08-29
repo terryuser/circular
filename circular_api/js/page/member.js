@@ -1,13 +1,13 @@
 var api_version = 1;
-var userID = $.cookie('memberID');
-console.log("user: " + userID);
+var memberID = $.cookie('memberID');
+console.log("user: " + memberID);
 
 var GroupInfo;
 
 //Get school group
 $.ajax({
     type: 'POST',
-    url: '/api_v' + api_version + '/findGrouplist/' + userID,
+    url: '/api_v' + api_version + '/findGrouplist/' + memberID,
     dataType: "json",
     async: false,
     success: function(respon) {
@@ -20,7 +20,7 @@ var limit = GroupInfo.length;
 //Get member info
 $.ajax({
     type: 'POST',
-    url: '/api_v' + api_version + '/member/' + userID,
+    url: '/api_v' + api_version + '/member/' + memberID,
     dataType: "json",
     async: false,
     success: function(respon) {
@@ -49,7 +49,7 @@ function listGroupMember() {
                     $("#member_list").append("<div class='member-block'><div class='group-title'>" + group.name + "</div>");
                     
                     if(respon.memberList.length != 0) {
-                        $("#member_list").append("<table id='" + group._id + "'><thead><tr><th>User ID</th><th>Login Name</th><th>Login Password</th><th>E-mail</th><th>Last online</th>");
+                        $("#member_list").append("<table id='" + group._id + "'><thead><tr><th>User Name</th><th>Login Name</th><th>Login Password</th><th>E-mail</th><th>Last online</th>");
                     
                         respon.memberList.forEach(function(memberData){
                             $("#" + group._id).append("<tr>");

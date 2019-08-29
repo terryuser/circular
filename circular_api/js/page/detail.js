@@ -1,6 +1,6 @@
 var api_version = 1;
-var userID = $.cookie('memberID');
-console.log("user: " + userID);
+var memberID = $.cookie('memberID');
+console.log("user: " + memberID);
 
 var GroupInfo;
 

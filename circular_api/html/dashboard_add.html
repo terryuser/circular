@@ -62,18 +62,6 @@
             <input type="text" id="title" class="form-control">
         </div>
 
-        <!-- <div class="custom-input-container" id="custom-input_container">
-                <div>Custom field</div>
-            <div class="input-group">
-                <input type="text" id="custom_1_title" class="form-control custom-input" aria-label="Sizing input"
-                    aria-describedby="inputGroup-sizing-lg">
-                <span>:</span>
-                <input type="text" id="custom_1_content" class="form-control custom-input" aria-label="Sizing input"
-                    aria-describedby="inputGroup-sizing-lg">
-                <button type="button" class="btn btn-info">+</button>
-            </div>
-        </div> -->
-
         <div class="">
             <div class="input-title">Content</div>
             <div class="rich-editor" style="border: 1px solid #ccc; padding: 5px; text-align: left;" id="contentEditor"></div>
@@ -81,30 +69,34 @@
     </div>
 
     <div class="container reply-section" id="reply_section">
-        <div class="">
+        <div class="reply-method">
             <div class="input-title">Reply Method</div>
             <select class="custom-select replyType-selector" id="replyType">
                 <option value="signature">Only Signature</option>
                 <option value="singleChoice">Single Choice</option>
                 <option value="multipleChoice">Multiple Choice</option>
             </select>
+            <label class="checkbox-block">Allow Replier Input
+                <input type="checkbox" id="reply_input_checkbox">
+                <span class="checkmark"></span>
+            </label>
         </div>
         
-        <div class="">
-            <div class="reply-block" id="reply_block">
+        <div class="reply-block" id="option_block">
+            <div>
                 <div class="input-title">Option</div>
                 <button type="button" class="btn btn-info" id="addOption">+</button>
                 <button type='button' class='btn btn-info' id='minusOption'>-</button>
-                <div class="reply-option" id="reply_option"></div>
+                <div class="reply-option-wrapper" id="reply_option"></div>
             </div>
         </div>
 
-        <div class="">
-            <div class="reply-block" id="reply_block">
+        <div class="reply-block" id="Input_block">
+            <div>
                 <div class="input-title">Input Field</div>
                 <button type="button" class="btn btn-info" id="addInput">+</button>
                 <button type='button' class='btn btn-info' id='minusInput'>-</button>
-                <div class="reply-Input" id="reply_Input"></div>
+                <div class="reply-Input-wrapper" id="reply_Input"></div>
             </div>
         </div>
 

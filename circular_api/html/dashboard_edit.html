@@ -68,24 +68,37 @@
     </div>
 
     <div class="container reply-section" id="reply_section">
-        <div class="">
+        <div class="reply-method">
             <div class="input-title">Reply Method</div>
             <select class="custom-select replyType-selector" id="replyType">
                 <option value="signature">Only Signature</option>
                 <option value="singleChoice">Single Choice</option>
                 <option value="multipleChoice">Multiple Choice</option>
             </select>
+            <label class="checkbox-block">Allow Replier Input
+                <input type="checkbox" id="reply_input_checkbox">
+                <span class="checkmark"></span>
+            </label>
         </div>
-        
-        <div class="">
-            <div class="reply-block" id="reply_block">
+    
+        <div class="reply-block" id="option_block">
+            <div>
                 <div class="input-title">Option</div>
                 <button type="button" class="btn btn-info" id="addOption">+</button>
                 <button type='button' class='btn btn-info' id='minusOption'>-</button>
-                <div class="reply-option" id="reply_option"></div>
+                <div class="reply-option-wrapper" id="reply_option"></div>
             </div>
         </div>
-
+    
+        <div class="reply-block" id="Input_block">
+            <div>
+                <div class="input-title">Input Field</div>
+                <button type="button" class="btn btn-info" id="addInput">+</button>
+                <button type='button' class='btn btn-info' id='minusInput'>-</button>
+                <div class="reply-Input-wrapper" id="reply_Input"></div>
+            </div>
+        </div>
+    
         <button id="update_draft" class="btn btn-info">Update draft</button>
         <button id="publish" class="btn btn-info">Publish</button>
     </div>

@@ -1,13 +1,13 @@
 var api_version = 1;
-var userID = $.cookie('memberID');
-console.log("user: " + userID);
+var memberID = $.cookie('memberID');
+console.log("user: " + memberID);
 
 var GroupInfo;
 
 //Get school group
 $.ajax({
     type: 'POST',
-    url: '/api_v' + api_version + '/findGrouplist/' + userID,
+    url: '/api_v' + api_version + '/findGrouplist/' + memberID,
     dataType: "json",
     async: false,
     success: function(respon) {

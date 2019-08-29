@@ -1,6 +1,6 @@
 var api_version = 1;
-var userID = $.cookie('memberID');
-console.log(userID);
+var memberID = $.cookie('memberID');
+console.log(memberID);
 
 var memberInfo;
 var requestLevel;
@@ -11,7 +11,7 @@ console.log("page: " + page);
 //Get member info
 $.ajax({
     type: 'POST',
-    url: '/api_v' + api_version + '/member/' + userID,
+    url: '/api_v' + api_version + '/member/' + memberID,
     dataType: "json",
     async: false,
     success: function(respon) {

@@ -5,6 +5,6 @@ $(document).ready(function() {
 });
 
 function getLoginName() {
-    var userID = $.cookie('memberID');
-    $("#getLoginName").html(userID);
+    var memberID = $.cookie('memberID');
+    $("#getLoginName").html(memberID);
 }

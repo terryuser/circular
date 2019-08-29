@@ -3,7 +3,8 @@ const router = express.Router();
 const Circular = require('../models/circular');
 const School = require('../models/school');
 const Group = require('../models/group');
-const Member = require('../models/member')
+const Member = require('../models/member');
+const Reply = require('../models/reply');
 
 const path = require('path');
 
@@ -72,9 +73,9 @@ router.post('/create/group', function(req, res, next) {
 
 
 //Get group list
-router.post('/findGrouplist/:userID', function(req, res, next) {
+router.post('/findGrouplist/:memberID', function(req, res, next) {
 
-    Member.findOne({ userID: req.params.userID }, function(err, result) {
+    Member.findOne({ _id: req.params.memberID }, function(err, result) {
         if (result) {
             var group = result.groupID;
 
@@ -139,11 +140,12 @@ router.post('/create/member', function(req, res, next) {
 });
 
 // Get member info
-router.post('/member/:userID', function(req, res, next) {
+router.post('/member/:memberID', function(req, res, next) {
     
-    Member.findOne({ userID: req.params.userID }, function(err, result) {
+    Member.findOne({ _id: req.params.memberID }, function(err, result) {
         if (result) {
-            var user_ID = result.userID;
+            var memberID = result._id;
+            var user = result.userID;
             var group = result.groupID;
             var emailAddress = result.email;
             var lastDate = result.lastOnline;
@@ -153,14 +155,14 @@ router.post('/member/:userID', function(req, res, next) {
             Group.findOne({ _id: group }, function(err, result) {
                 school = result.schoolID;
                 level = result.authorityLevel;
-                sendJson = { message: "success", userID: user_ID, groupID: group, schoolID: school,authorityLevel: level, email: emailAddress, lastOnline: lastDate };
+                sendJson = { "message": "success", "memberID": memberID,"userID": user, "groupID": group, "schoolID": school,"authorityLevel": level, "email": emailAddress, "lastOnline": lastDate };
                 res.send(sendJson);
             });
-            
         } else {
             sendJson = { message: "noResult" };
         }
     });
+
 });
 
 //Get member conunt
@@ -181,7 +183,6 @@ router.post('/member/list/:groupID', function(req, res, next) {
 
 //Login
 router.post('/login', function(req, res, next) {
-
     sendJson = { message: "", name: "", ID: "" }
 
     Member.findOne({ loginName: req.body.loginName }, function(err, result) {
@@ -192,7 +193,7 @@ router.post('/login', function(req, res, next) {
 
             if (req.body.loginPW == result.loginPW) {
                 sendJson.name = result.loginName;
-                sendJson.ID = result.userID;
+                sendJson.ID = result._id;
                 sendJson.message = "LoginSuccess";
                 console.log(sendJson);
                 res.send(sendJson);
@@ -208,7 +209,6 @@ router.post('/login', function(req, res, next) {
             res.send(sendJson);
         }
     });
-    
 });
 
 
