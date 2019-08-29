@@ -99,8 +99,36 @@
             </div>
         </div>
     
-        <button id="update_draft" class="btn btn-info">Update draft</button>
-        <button id="publish" class="btn btn-info">Publish</button>
+        <button id="update_draft" class="btn btn-info" data-toggle="modal" data-target="#Modal-draft">Update draft</button>
+        <button id="publish" class="btn btn-info" data-toggle="modal" data-target="#Modal-publish">Publish</button>
+    </div>
+
+    <div class="modal fade" id="Modal-draft" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">Updated</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Circular draft updated, returning to edit list page......</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="Modal-publish" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">Published</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Circular have published, returning to edit list page......</div>
+            </div>
+        </div>
     </div>
 
     <!-- <div id="footer"></div> -->

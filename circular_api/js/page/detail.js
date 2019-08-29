@@ -89,7 +89,7 @@ function assginDetail() {
     var method = circularData.replyMethod;
     var replyHTML;
     
-    switch (element) {
+    switch (method) {
         default :
             replyHTML = "<button id='confirm' class='btn btn-info'>Confirm</button>";
             $("#circular_reply").append(replyHTML);
@@ -100,14 +100,19 @@ function assginDetail() {
             $("#circular_reply").append(replyHTML);
         break;
 
-        
+        case "singleChoice":
+            //do something
+        break;
+
+        case "multipleChoice":
+            //do something
+        break;
     }
 
     $("#circular_reply").append();
 }
 
-function replyAction() {
-    $("#confirm").click(function(){
-
-    });
+function option_Input() {
+    var optionCount = circularData.replyOption.length;
+    var inputCount = circularData.replyInput.length;
 }

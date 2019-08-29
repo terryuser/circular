@@ -113,6 +113,7 @@ $( "#update_draft" ).click(async() => {
       data: output,
       success: function(data) {
         console.log(data);
+        $('#Modal-draft').trigger('focus');
       },
       error: function(xhr, status, error) {
         console.log('Error: ' + error.message);
@@ -123,7 +124,8 @@ $( "#update_draft" ).click(async() => {
   }
 });
 
-$( "#update_draft" ).click(async() => {
+
+$( "#publish" ).click(async() => {
   try {
     var target = new Array;
     $(".target-selector").each(function(){

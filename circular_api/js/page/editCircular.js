@@ -30,8 +30,8 @@ $(document).ready(function() {
     checkReply();
     addOption();
     addInput();
-    assignInput();
     addTargetField();
+    assignInput();
 });
 
 function selectionAction() {
@@ -72,7 +72,6 @@ function selectionAction() {
 
 function addTargetField() {
     
-
     $("#target-group-1").on('change', function() {
         if ($(this).val() != "all") {
             $("#addTarget").show();
@@ -146,10 +145,6 @@ function addOption() {
 
 function addInput() {
     $("#minusInput").hide();
-
-    //Add 1 input by default
-    var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-input' id='field-input-" + inputCount + "'></div>";
-    $("#reply_Input").append(inputHTML);
 
     $("#addInput").click(function(){
         inputCount++;
@@ -230,10 +225,10 @@ function assignInput() {
         console.log("limit: " + limit);
         console.log("count: " + targetCount);
 
-        var checkValue = circularData.target_GruopID;
-        console.log(checkValue);
-        // selectedValue = ;
-        // checkValue.push(selectedValue);
+        console.log(circularData.target_GruopID);
+        console.log(GroupInfo);
+
+        var checkValue = new Array;
 
         for (i = 1; i <= targetCount; i++) {
             var disabled = i - 1;
@@ -241,16 +236,18 @@ function assignInput() {
             $("#selection_group").append(openHTML);
 
             GroupInfo.forEach(function(option) {
-                if (option._id != checkValue[i]._id) {
+                if (!checkValue.includes(option._id)) {
                     $("#target-group-" + i).append("<option value='" + option._id + "'>" + option.name + "</option>");
                 }
             });
+
+            $("#target-group-" + i).val(circularData.target_GruopID[i-1]);
+            checkValue.push(circularData.target_GruopID[i-1]);
 
             $("#selection_group").append("</select>");
             $("#target-group-" + disabled).prop('disabled', 'disabled');
         }
     }
-
 
     //Title
     $("#title").val(circularData.title);
@@ -259,9 +256,7 @@ function assignInput() {
     $("#replyType").val(circularData.replyMethod);
     if (circularData.replyMethod != "signature") {
         optionCount = circularData.replyOption.length;
-        console.log("Not signature");
-        console.log("Default option: " + optionCount);
-        $("#reply_block").show();
+        $("#option_block").show();
         $("#addOption").show();
         $("#minusOption").show();
         
@@ -275,13 +270,18 @@ function assignInput() {
         }
 
         if (circularData.replyInput != null) {
+            $("#reply_input_checkbox").prop('checked', true);
+            $("#Input_block").show();
             inputCount = circularData.replyInput.length;
+            console.log(inputCount);
+            if (inputCount > 1) {
+                $("#minusInput").show();
+            }
             for (i = 1; i <= inputCount; i++) {
-                if (i > 1) {
-                    optionHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-input' id='field-input-" + inputCount + "'></div>";
-                    $("#reply_input").append(optionHTML);
-                }
+                var inputHTML = "<div class='input-group' id='input-group-" + i + "'><div class='input-subtitle'>Field " + i + "</div><input class='form-control reply-input' id='field-input-" + i + "'></div>";
+                $("#reply_Input").append(inputHTML);
                 $("#field-input-" + i).val(circularData.replyInput[i-1]);
+                console.log("Add input field");
             }
         }
     }
