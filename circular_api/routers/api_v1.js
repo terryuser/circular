@@ -323,14 +323,14 @@ router.put('/edit/:id', function(req, res, next) {
             res.send(sendJson);
         } else {
             var query = req.body;
-            console.log(query);
-
+        
             if (query.releaseDate == null) {
                 Circular.findOneAndUpdate(
                     { _id: req.body._id },
                     { $set: { "target_GruopID": query.target_GruopID, "title": query.title, "content": query.content,"replyMethod": query.replyMethod, "replyOption": query.replyOption, "replyInput":query.replyInput} },
                     { returnNewDocument: true }).then(function(result) {
     
+                    console.log(result);
                     sendJson = { message: "", data: result };
                     sendJson.message = "updated";
                     res.send(sendJson);
@@ -340,7 +340,8 @@ router.put('/edit/:id', function(req, res, next) {
                     { _id: req.body._id },
                     { $set: { "target_GruopID": query.target_GruopID, "title": query.title, "content": query.content,"replyMethod": query.replyMethod, "replyOption": query.replyOption,"replyInput":query.replyInput, "releaseDate" : query.releaseDate} },
                     { returnNewDocument: true }).then(function(result) {
-    
+                    
+                    console.log(result);
                     sendJson = { message: "", data: result };
                     sendJson.message = "updated";
                     res.send(sendJson);

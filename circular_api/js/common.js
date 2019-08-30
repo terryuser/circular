@@ -16,3 +16,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
+//Remove element from array
+function remove(array, element) {
+    return array.filter(el => el !== element);
+}

@@ -84,12 +84,16 @@ $( "#update_draft" ).click(async() => {
       optionArray.push($(this).val());
     })
 
-    if ($('#reply_input_checkbox').prop('checked')) {
-      var InputArray = new Array;
+    var InputArray = new Array;
+    if ($('#reply_input_checkbox').is(":checked")) {
       $(".reply-input").each(function(){
         InputArray.push($(this).val());
+        console.log("checkbox is selected");
       });
+    } else {
+      InputArray = null;
     }
+    console.log(InputArray);
 
     var today = new Date();
 
@@ -143,12 +147,16 @@ $( "#publish" ).click(async() => {
       optionArray.push($(this).val());
     })
 
-    if ($('#reply_input_checkbox').prop('checked')) {
-      var InputArray = new Array;
+    var InputArray = new Array;
+    if ($('#reply_input_checkbox').is(":checked")) {
       $(".reply-input").each(function(){
         InputArray.push($(this).val());
+        console.log("checkbox is selected");
       });
+    } else {
+      InputArray = null;
     }
+    console.log(InputArray);
 
     var today = new Date();
 

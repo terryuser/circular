@@ -4,13 +4,6 @@ console.log("user: " + memberID);
 
 var GroupInfo;
 
-var targetCount = 1;
-var optionCount = 1;
-var inputCount = 1;
-
-var reply_block_show = false;
-var input_block_show = false;
-
 //Get school group
 $.ajax({
     type: 'POST',
@@ -23,187 +16,49 @@ $.ajax({
     }
 });
 console.log(GroupInfo);
-var limit = GroupInfo.length;
 
-$(document).ready(function() {
-    selectionAction();
-    checkReply();
-    addOption();
-    addInput();
-    addTargetField();
-    assignInput();
+var circularID = getUrlParameter("id");
+console.log("circular ID: " + circularID);
+
+//Default value
+var limit = GroupInfo.length;
+var targetCount = 1;
+var optionCount = 1;
+var inputCount = 0;
+var option_block_show = false;
+var input_block_show = false;
+
+var checkValue = new Array;
+
+//Get circular data
+$.ajax({
+    type: 'POST',
+    url: '/api_v' + api_version + '/edit/' + circularID,
+    dataType: "json",
+    async: false,
+    success: function(respon) {
+    circularData = respon.data;
+    console.log(circularData);
+    }
 });
 
-function selectionAction() {
-    $(".reply-block").hide();
-    $("#addTarget").click(function(){
-        $("#target-group-" + targetCount).prop('disabled', 'disabled');
-        targetCount++;
-        if(targetCount < limit) {
-            addTargetField();
-            $("#minusTarget").show();
-        } else if (targetCount = limit) {
-            addTargetField();
-            $("#minusTarget").show();
-            $("#addTarget").hide();
-        } else {
-            $("#minusTarget").show();
-            $("#addTarget").hide();
-        }
-    });
-
-    $("#minusTarget").click(function(){
-        var targetID = targetCount;
-        targetCount--;
-        console.log("targetId: " + targetID);
-        console.log("targetCount: " + targetCount);
-        if (targetCount == 1) {
-            $("#target-group-" + targetCount).removeAttr('disabled');
-            $("#target-group-" + targetID).remove();
-            $("#addTarget").show();
-            $("#minusTarget").hide();
-        } else {
-            $("#target-group-" + targetCount).removeAttr('disabled');
-            $("#target-group-" + targetID).remove();
-            $("#addTarget").show();
-        }
-    });
+//Assign into new value
+targetCount = circularData.target_GruopID.length;
+var method = circularData.replyMethod;
+if (method != "signature") {
+    option_block_show = true;
+    optionCount = circularData.replyOption.length;
+    var optionData = circularData.replyOption;
 }
 
-function addTargetField() {
-    
-    $("#target-group-1").on('change', function() {
-        if ($(this).val() != "all") {
-            $("#addTarget").show();
-        } else {
-            $("#addTarget").hide();
-        }
-    });
+if (circularData.replyInput != null && circularData.replyInput[0] != "") {
+    input_block_show = true;
+    inputCount = circularData.replyInput.length;
+    var inputData = circularData.replyInput;
 }
 
-function checkReply() {
-
-    $("#replyType").on('change', function() {
-        var replyMethod = $(this).val();
-        switch (replyMethod) {
-            default :
-                reply_block_show = false;
-                $(".checkbox-block").hide();
-                $(".reply-block").hide();
-            break;
-            
-            case "signature" :
-                reply_block_show = false;
-                $(".checkbox-block").hide();
-                $(".reply-block").hide();
-            break;
-
-            case "singleChoice" :
-                reply_block_show = true;
-                $(".checkbox-block").show();
-                $(".reply-block").show();
-                checkInput();
-            break;
-
-            case "multipleChoice" :
-                reply_block_show = true;
-                $(".checkbox-block").show();
-                $(".reply-block").show();
-                checkInput();
-            break;
-        }
-    });
-}
-
-function addOption() {
-    $("#minusOption").hide();
-
-    //Add 1 input by default
-    var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option" + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
-    $("#reply_option").append(optionHTML);
-
-    $("#addOption").click(function(){
-        optionCount++;
-        if (optionCount > 1) {
-            var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option " + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
-            $("#reply_option").append(optionHTML);
-            $("#minusOption").show();
-        }
-        console.log(optionCount);
-    });
-    $("#minusOption").click(function(){
-        $("#option-group-" + optionCount).remove();
-        optionCount--;
-        if (optionCount == 1) {
-            $(this).hide();
-        } else {
-            $(this).show();
-        }
-        console.log(optionCount);
-    });
-}
-
-function addInput() {
-    $("#minusInput").hide();
-
-    $("#addInput").click(function(){
-        inputCount++;
-        if (inputCount > 1) {
-            var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-input' id='field-input-" + inputCount + "'></div>";
-            $("#reply_Input").append(inputHTML);
-            $("#minusInput").show();
-        }
-        console.log(inputCount);
-    });
-    $("#minusInput").click(function(){
-        $("#input-group-" + inputCount).remove();
-        inputCount--;
-        if (inputCount == 1) {
-            $(this).hide();
-        } else {
-            $(this).show();
-        }
-        console.log(inputCount);
-    });
-}
-
-function checkInput() {
-    if (input_block_show == false) {
-        $("#Input_block").hide();
-        console.log("unchecked");
-    } else {
-        $("#Input_block").show();
-        console.log("checked");
-    }
-
-    $('#reply_input_checkbox').change(function() {
-        if ($(this).prop('checked')) {
-            console.log("checked");
-            $("#Input_block").show();
-            input_block_show = true;
-        } else {
-            $("#Input_block").hide();
-            console.log("unchecked");
-            input_block_show = false;
-        }
-    });
-}
-
-function assignInput() {
-    
-    //Get cicular info
-    $.ajax({
-        type: 'POST',
-        url: '/api_v' + api_version + '/edit/' + circularID,
-        dataType: "json",
-        async: false,
-        success: function(respon) {
-        circularData = respon.data;
-        }
-    });
-
-    //Target field
-    targetCount = circularData.target_GruopID.length;
+//Assign target
+function assignTarget() {
     if(circularData.target_GruopID == "all") {
         var openHTML = "<select class='custom-select target-selector' id='target-group-" + targetCount + "'>"
         $("#selection_group").append(openHTML);
@@ -226,9 +81,6 @@ function assignInput() {
         console.log("count: " + targetCount);
 
         console.log(circularData.target_GruopID);
-        console.log(GroupInfo);
-
-        var checkValue = new Array;
 
         for (i = 1; i <= targetCount; i++) {
             var disabled = i - 1;
@@ -248,42 +100,271 @@ function assignInput() {
             $("#target-group-" + disabled).prop('disabled', 'disabled');
         }
     }
-
-    //Title
-    $("#title").val(circularData.title);
-
-    //Reply
-    $("#replyType").val(circularData.replyMethod);
-    if (circularData.replyMethod != "signature") {
-        optionCount = circularData.replyOption.length;
-        $("#option_block").show();
-        $("#addOption").show();
-        $("#minusOption").show();
-        
-        var optionHTML;
-        for (i = 1; i <= optionCount; i++) {
-            if (i > 1) {
-                optionHTML = "<div class='input-group' id='option-group-" + i + "'><div class='input-subtitle'>Option" + i + "</div><input class='form-control reply-option' id='option-input-" + i + "'></div>";
-                $("#reply_option").append(optionHTML);
-            }
-            $("#option-input-" + i).val(circularData.replyOption[i-1]);
-        }
-
-        if (circularData.replyInput != null) {
-            $("#reply_input_checkbox").prop('checked', true);
-            $("#Input_block").show();
-            inputCount = circularData.replyInput.length;
-            console.log(inputCount);
-            if (inputCount > 1) {
-                $("#minusInput").show();
-            }
-            for (i = 1; i <= inputCount; i++) {
-                var inputHTML = "<div class='input-group' id='input-group-" + i + "'><div class='input-subtitle'>Field " + i + "</div><input class='form-control reply-input' id='field-input-" + i + "'></div>";
-                $("#reply_Input").append(inputHTML);
-                $("#field-input-" + i).val(circularData.replyInput[i-1]);
-                console.log("Add input field");
-            }
-        }
-    }
-
 }
+
+//Assign title
+function assignTitle() {
+    $("#title").val(circularData.title);
+}
+
+//Assign reply method
+function assignReplyMethod() {
+    $("#replyType").val(circularData.replyMethod);
+
+    switch (method) {
+        default :
+            option_block_show = false;
+            $(".checkbox-block").hide();
+            $(".reply-block").hide();
+        break;
+        
+        case "signature" :
+            option_block_show = false;
+            $(".checkbox-block").hide();
+            $(".reply-block").hide();
+        break;
+
+        case "singleChoice" :
+            option_block_show = true;
+            $(".checkbox-block").show();
+            $(".reply-block").show();
+        break;
+
+        case "multipleChoice" :
+            option_block_show = true;
+            $(".checkbox-block").show();
+            $(".reply-block").show();
+        break;
+    }
+}
+
+
+//Assign option value
+function assignOption() {
+    if (option_block_show == true && method != "signature") {
+        optionData.forEach(function(option, counter){
+            var number = counter + 1;
+            var optionHTML = "<div class='input-group' id='option-group-" + number + "'><div class='input-subtitle'>Option " + number + "</div><input class='form-control reply-option' id='option-input-" + number + "'></div>";
+            $("#reply_option").append(optionHTML);
+            $("#option-input-" + number).val(option);
+        })
+    }
+}
+
+
+
+//Check input block exist
+function checkInputExist() {
+    if (circularData.replyInput != null && circularData.replyInput != null && circularData.replyInput[0] != "" && method != "signature") {
+        input_block_show = true;
+        $("#reply_input_checkbox").prop('checked', true);
+
+        inputData.forEach(function(input, counter){
+            var number = counter + 1;
+            var inputHTML = "<div class='input-group' id='input-group-" + number + "'><div class='input-subtitle'>Field " + number + "</div><input class='form-control reply-input' id='field-input-" + number + "'></div>";
+            $("#reply_Input").append(inputHTML);
+            $("#field-input-" + number).val(input);
+        })
+    } else {
+        input_block_show = false;
+        $("#Input_block").hide();
+    }
+}
+
+
+function assignData() {
+    assignTarget();
+    assignTitle();
+    assignReplyMethod();
+    checkInputExist();
+    assignOption();
+}
+
+
+
+//Content field reaction
+function targetControl() {
+    $("#addTarget").click(function(){
+        console.log("Current array: " + checkValue.toString());
+
+        $("#target-group-" + targetCount).prop('disabled', 'disabled');
+        targetCount++;
+
+        if (targetCount > 1) {
+            $("#addTarget").show();
+            
+            if(targetCount < limit) {
+                $("#minusTarget").show();
+            } else if (targetCount = limit) {
+                $("#minusTarget").show();
+                $("#addTarget").hide();
+            } else {
+                $("#minusTarget").show();
+                $("#addTarget").hide();
+            }
+    
+            console.log("count: " + targetCount);
+
+            if (targetCount > 2) {
+                var lastValue = targetCount -1;
+                checkValue.push($("#target-group-" + lastValue).val());
+            }
+    
+            var disabled = targetCount - 1;
+            var openHTML = "<select class='custom-select target-selector' id='target-group-" + targetCount + "'>";
+            $("#selection_group").append(openHTML);
+    
+            var remainOption;
+            GroupInfo.forEach(function(option) {
+                if (!checkValue.includes(option._id)) {
+                    $("#target-group-" + targetCount).append("<option value='" + option._id + "'>" + option.name + "</option>");
+                    remainOption = option._id;
+                }
+            });
+    
+            $("#target-group-" + targetCount).val(remainOption);
+            
+            $("#selection_group").append("</select>");
+            $("#target-group-" + disabled).prop('disabled', 'disabled');
+
+            console.log(checkValue);
+        }
+    });
+
+    $("#minusTarget").click(function(){
+        console.log("Current array: " + checkValue.toString());
+        var targetID = targetCount;
+        targetCount--;
+        console.log("targetId: " + targetID);
+        console.log("targetCount: " + targetCount);
+
+        var removeValue = $("#target-group-" + targetID).val();
+        console.log("remove value: " + removeValue);
+        checkValue = remove(checkValue, removeValue);
+
+        if (targetCount == 1) {
+            $("#target-group-" + targetCount).removeAttr('disabled');
+            $("#target-group-" + targetID).remove();
+            $("#addTarget").show();
+            $("#minusTarget").hide();
+        } else {
+            $("#target-group-" + targetCount).removeAttr('disabled');
+            $("#target-group-" + targetID).remove();
+            $("#addTarget").show();
+        }
+        console.log(checkValue);
+    });
+}
+
+
+
+function checkFirstTarget() {
+    $("#target-group-1").on('change', function() {
+        if ($(this).val() != "all") {
+            $("#addTarget").show();
+        } else {
+            $("#addTarget").hide();
+        }
+    });
+}
+
+
+function checkReply() {
+    $("#replyType").on('change', function() {
+        method = $(this).val();
+        switch (method) {
+            default :
+                option_block_show = false;
+                $(".checkbox-block").hide();
+                $(".reply-block").hide();
+            break;
+            
+            case "signature" :
+                option_block_show = false;
+                $(".checkbox-block").hide();
+                $(".reply-block").hide();
+            break;
+    
+            case "singleChoice" :
+                option_block_show = true;
+                $(".checkbox-block").show();
+                $(".reply-block").show();
+            break;
+    
+            case "multipleChoice" :
+                option_block_show = true;
+                $(".checkbox-block").show();
+                $(".reply-block").show();
+            break;
+        }
+    });
+
+    $('#reply_input_checkbox').change(function() {
+        if ($(this).is(":checked")) {
+            if (inputCount == 0) {
+                inputCount = 1;
+                var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-input' id='field-input-" + inputCount + "'></div>";
+                $("#reply_Input").append(inputHTML);
+                $("#minusInput").hide();
+            }
+            input_block_show = false;
+            $("#Input_block").show();
+        } else {
+            input_block_show = true;
+            $("#Input_block").hide();
+        }
+    });
+}
+
+function optionControl() {
+    $("#addOption").click(function(){
+        optionCount++;
+        var optionHTML = "<div class='input-group' id='option-group-" + optionCount + "'><div class='input-subtitle'>Option " + optionCount + "</div><input class='form-control reply-option' id='option-input-" + optionCount + "'></div>";
+        $("#reply_option").append(optionHTML);
+        $("#minusOption").show();
+        console.log(optionCount);
+    });
+    
+    $("#minusOption").click(function(){
+        $("#option-group-" + optionCount).remove();
+        optionCount--;
+        if (optionCount == 1) {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+        console.log(optionCount);
+    });
+}
+
+function inputControl() {
+    $("#addInput").click(function(){
+        inputCount++;
+        if (inputCount > 1) {
+            var inputHTML = "<div class='input-group' id='input-group-" + inputCount + "'><div class='input-subtitle'>Field " + inputCount + "</div><input class='form-control reply-input' id='field-input-" + inputCount + "'></div>";
+            $("#reply_Input").append(inputHTML);
+            $("#minusInput").show();
+        }
+        console.log(inputCount);
+    });
+    $("#minusInput").click(function(){
+        $("#input-group-" + inputCount).remove();
+        inputCount--;
+        if (inputCount == 1) {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+        console.log(inputCount);
+    });
+}
+
+
+$(document).ready(function() {
+    assignData();
+    checkFirstTarget()
+    targetControl();
+    checkReply();
+    optionControl();
+    inputControl();
+});

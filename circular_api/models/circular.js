@@ -20,10 +20,12 @@ const CircularSchema = new Schema({
         type: String
     },
     replyOption: {
-        type: Array
+        type: Array,
+        default: null
     },
     replyInput: {
-        type: Array
+        type: Array,
+        default: null
     },
     authorityRequest: {
         type: Number
