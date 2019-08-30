@@ -21,6 +21,8 @@ $.ajax({
 });
 console.log(circularData);
 var content = circularData.content.blocks;
+var method = circularData.replyMethod;
+var replyHTML;
 
 $(document).ready(function() {
     assginDetail();
@@ -86,26 +88,26 @@ function assginDetail() {
         }
     });
 
-    var method = circularData.replyMethod;
-    var replyHTML;
     
     switch (method) {
         default :
+            $(".reply-container").hide();
             replyHTML = "<button id='confirm' class='btn btn-info'>Confirm</button>";
-            $("#circular_reply").append(replyHTML);
+            $("#content_action").append(replyHTML);
         break;
 
         case "signature":
+            $(".reply-container").hide();
             replyHTML = "<button id='confirm' class='btn btn-info'>Confirm</button>";
-            $("#circular_reply").append(replyHTML);
+            $("#content_action").append(replyHTML);
         break;
 
         case "singleChoice":
-            //do something
+            option_Input();
         break;
 
         case "multipleChoice":
-            //do something
+            option_Input();
         break;
     }
 
@@ -113,6 +115,60 @@ function assginDetail() {
 }
 
 function option_Input() {
-    var optionCount = circularData.replyOption.length;
-    var inputCount = circularData.replyInput.length;
+    //Insert button in content
+    replyHTML = "<button id='reply' class='btn btn-info'>Reply</button>";
+    $("#content_action").append(replyHTML);
+    scrolltoReply();
+
+    //Insert checkbox and input
+    var optionField = circularData.replyOption;
+    var inputField = circularData.replyInput;
+
+    var labelHTML;
+    var inputHTML;
+
+    if (method == "singleChoice") {
+        optionField.forEach(function(option, i){
+            console.log(option,i);
+            inputHTML = "<input type='radio' id='option_" + i + "' name='radio'><span class='checkmark'></span>";
+            $("#option_wrapper").append("<label class='checkbox-block'>" + option + inputHTML + "</label>");
+        });
+    }
+
+    if (method == "multipleChoice") {
+        optionField.forEach(function(option, i){
+            console.log(option,i);
+            inputHTML = "<input type='checkbox' id='option_" + i + "'><span class='checkmark'></span>";
+            $("#option_wrapper").append("<label class='checkbox-block'>" + option + inputHTML + "</label>");
+        });
+    }
+
+    if (inputField.length > 0) {
+        inputField.forEach(function(input, i){
+            console.log(input,i);
+            labelHTML = "<div class='input-group-prepend'>" + input + "</div>";
+            inputHTML = "<input type='text' class='form-control'>";
+            $("#input_wrapper").append("<div class='input-block'>" + labelHTML + inputHTML + "</div>");
+        });
+    }
+
+    var submitHTML = "<button id='submit' class='btn btn-info'>Submit</button>";
+    $("#reply_action").append(submitHTML);
+}
+
+function scrolltoReply(){
+    $("#reply").click(function(){
+        console.log("scrolling");
+        $('html, body').animate({
+            scrollTop: $(".reply-container").offset().center
+        }, 2400);
+    });
+}
+
+function submitAction() {
+    $("#submit").click(function(){
+        if (method == "singleChoice") {
+
+        }
+    });
 }
