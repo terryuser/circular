@@ -24,9 +24,6 @@ var content = circularData.content.blocks;
 var method = circularData.replyMethod;
 var replyHTML;
 
-$(document).ready(function() {
-    assginDetail();
-});
 
 function assginDetail() {
     $("#circular_title").html(circularData.title);
@@ -138,16 +135,18 @@ function option_Input() {
     if (method == "multipleChoice") {
         optionField.forEach(function(option, i){
             console.log(option,i);
-            inputHTML = "<input type='checkbox' id='option_" + i + "'><span class='checkmark'></span>";
+            var number = i + 1;
+            inputHTML = "<input type='checkbox' id='option_" + i + "' value='" + option + "'><span class='checkmark'></span>";
             $("#option_wrapper").append("<label class='checkbox-block'>" + option + inputHTML + "</label>");
         });
     }
 
-    if (inputField.length > 0) {
+    if (inputField.length > 0 && inputField[0] != "") {
         inputField.forEach(function(input, i){
             console.log(input,i);
+            var number = i + 1;
             labelHTML = "<div class='input-group-prepend'>" + input + "</div>";
-            inputHTML = "<input type='text' class='form-control'>";
+            inputHTML = "<input type='text' class='form-control reply-input'>";
             $("#input_wrapper").append("<div class='input-block'>" + labelHTML + inputHTML + "</div>");
         });
     }
@@ -165,10 +164,83 @@ function scrolltoReply(){
     });
 }
 
-function submitAction() {
-    $("#submit").click(function(){
-        if (method == "singleChoice") {
+//Data send to api
+var replyData;
 
+function getReplyData() {
+    //memberID
+    var circular_id = circularData._id;
+    var memberOption = new Array;
+    var memberInput = new Array;;
+
+    if (method == "signature") {
+        replyData = {"memberID": memberID, "circularID": circular_id}
+    } else if (method == "singleChoice") {
+        
+    } else if (method == "multipleChoice") {
+
+        $("input:checkbox").each(function(){
+            if ($(this).prop("checked")) {
+                console.log("store checkbox");
+                console.log($(this).val());
+                memberOption.push($(this).val());
+            }
+        });
+        console.log(memberOption);
+
+        if (circularData.replyInput.length > 0 && circularData.replyInput[0] != "") {
+            $(".reply-input").each(function(){
+                console.log($(this).val());
+                memberInput.push($(this).val());
+            })
+        }
+
+        replyData = {"memberID": memberID, "circularID": circular_id, "replyOption": memberOption, "replyInput":memberInput};
+    }
+
+    console.log(replyData);
+}
+
+function submitAction() {
+    $("#confirm").click(function(){
+        getReplyData();
+        updateCircularDB(replyData);
+    });
+
+    $("#submit").click(function(){
+        getReplyData();
+        updateCircularDB(replyData);
+    });
+}
+
+function updateCircularDB(reply) {
+    console.log(reply);
+    $.ajax({
+        type: 'PUT',
+        url: '/api_v' + api_version + '/circular/reply/' + circularID,
+        dataType: "json",
+        data: reply,
+        async: false,
+        success: function(respon) {
+            console.log(respon);
         }
     });
 }
+
+function updateReplyDB(reply) {
+    $.ajax({
+        type: 'PUT',
+        url: '/api_v' + api_version + '/replyDB/update',
+        dataType: "json",
+        data: reply,
+        async: false,
+        success: function(respon) {
+            console.log(respon);
+        }
+    });
+}
+
+$(document).ready(function() {
+    assginDetail();
+    submitAction();
+});

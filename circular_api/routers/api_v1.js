@@ -173,6 +173,11 @@ router.post('/member/count/:groupID', function(req, res, next) {
     });
 });
 
+//Member reply
+router.post('/member/reply/:circularID', function(req, res, next) {
+    
+});
+
 //Get member from group
 router.post('/member/list/:groupID', function(req, res, next) {
     Member.find({ groupID: req.params.groupID }, function(err, result) {
@@ -350,6 +355,49 @@ router.put('/edit/:id', function(req, res, next) {
             
         }
     })    
+});
+
+//Member reply update to circular DB
+router.put('/circular/reply/:circularID', function(req, res, next) {
+    
+    Circular.findOne({ _id: req.params.circularID }, function(err, result) {
+        if (result) {
+            var signedList = result.signedMember;
+
+            if (!signedList.includes(req.body.memberID)) {
+                signedList.push(req.body.memberID);
+                console.log(signedList);
+
+                Circular.findOneAndUpdate(
+                    { _id: req.params.circularID },
+                    { $set: { "signedMember": signedList} },
+                    { returnNewDocument: true }).then(function(result) {
+                    
+                    console.log(result);
+                    sendJson = { message: "", data: result };
+                    sendJson.message = "Member signed the circular";
+                    res.send(sendJson);
+                });
+            } else {
+                console.log("Already signed");
+                sendJson.message = "Already signed";
+                res.send(sendJson);
+            }
+        } else {
+            console.log("Circular Not find");
+            sendJson.message = "Circular Not find";
+            res.send(sendJson);
+        }
+    });
+
+});
+
+
+//Reply DB
+router.put('/replyDB/update', function(req, res, next) {
+    Reply.find({memberID: req.body.memberID,circularID: circularID}, function(err, result) {
+        console.log(result);
+    });
 });
 
 
