@@ -148,6 +148,32 @@ function showReply() {
     console.log(replyList);
     // $(".replyList-container").append("<table>");
 
+    //1. First get group list
+    circularData.target_GruopID.forEach(function(){
+        var group;
+        $.ajax({
+            type: 'POST',
+            url: '/api_v' + api_version + '/replyList/' + circularID,
+            dataType: "json",
+            async: false,
+            success: function(respon) {
+                replyList = respon;
+            }
+        });
+    })
+
+    //Get member from group
+    $.ajax({
+        type: 'POST',
+        url: '/api_v' + api_version + '/replyList/' + circularID,
+        dataType: "json",
+        async: false,
+        success: function(respon) {
+            replyList = respon;
+        }
+    });
+
+
     //Table header
     var tableHead = "<thead><tr id='table_header'><th>Name</th><th>Login Name</th><th>Checked</th>";
     $(".replyList-container").append(tableHead);
@@ -166,6 +192,7 @@ function showReply() {
         replyList.forEach(function(optionArray){
             console.log(optionArray.replyOption);
             $("#reply_list").append("<tr>");
+            $("#reply_list").append("<td>" + item + "</td><td>" + item + "</td><td>" + item + "</td>");
             console.log(optionArray.replyOption.length);
             if ( optionArray.replyOption.length > 0) {
                 optionArray.replyOption.forEach(function(item){
