@@ -3,6 +3,7 @@ var memberID = $.cookie('memberID');
 console.log("user: " + memberID);
 
 var GroupInfo;
+var memberInfo;
 
 var circularID = getUrlParameter("id");
 console.log("circular ID: " + circularID);
@@ -20,6 +21,19 @@ $.ajax({
     }
 });
 console.log(circularData);
+
+//Get member info
+$.ajax({
+    type: 'POST',
+    url: '/api_v' + api_version + '/member/' + memberID,
+    dataType: "json",
+    async: false,
+    success: function(respon) {
+        memberInfo = respon;
+    }
+});
+console.log(memberInfo);
+
 var content = circularData.content.blocks;
 var method = circularData.replyMethod;
 var replyHTML;
@@ -85,30 +99,85 @@ function assginDetail() {
         }
     });
 
+    if (circularData.target_GruopID.includes(memberInfo.groupID)) {
+        console.log("Member are on target");
+        switch (method) {
+            default :
+                $(".reply-container").hide();
+                replyHTML = "<button id='confirm' class='btn btn-info'>Confirm</button>";
+                $("#content_action").append(replyHTML);
+            break;
     
-    switch (method) {
-        default :
-            $(".reply-container").hide();
-            replyHTML = "<button id='confirm' class='btn btn-info'>Confirm</button>";
-            $("#content_action").append(replyHTML);
-        break;
-
-        case "signature":
-            $(".reply-container").hide();
-            replyHTML = "<button id='confirm' class='btn btn-info'>Confirm</button>";
-            $("#content_action").append(replyHTML);
-        break;
-
-        case "singleChoice":
-            option_Input();
-        break;
-
-        case "multipleChoice":
-            option_Input();
-        break;
+            case "signature":
+                $(".reply-container").hide();
+                replyHTML = "<button id='confirm' class='btn btn-info'>Confirm</button>";
+                $("#content_action").append(replyHTML);
+            break;
+    
+            case "singleChoice":
+                option_Input();
+            break;
+    
+            case "multipleChoice":
+                option_Input();
+            break;
+        }
+    } else {
+        $(".reply-container").remove();
     }
 
-    $("#circular_reply").append();
+    if (memberInfo.authorityLevel >= circularData.authorityRequest) {
+        console.log("Allow watch reply");
+        showReply();
+    }
+}
+
+function showReply() {
+    var replyList;
+    //Get member info
+    $.ajax({
+        type: 'POST',
+        url: '/api_v' + api_version + '/replyList/' + circularID,
+        dataType: "json",
+        async: false,
+        success: function(respon) {
+            replyList = respon;
+        }
+    });
+    console.log("replyList");
+    console.log(replyList);
+    // $(".replyList-container").append("<table>");
+
+    //Table header
+    var tableHead = "<thead><tr id='table_header'><th>Name</th><th>Login Name</th><th>Checked</th>";
+    $(".replyList-container").append(tableHead);
+    if (circularData.replyMethod != "signature") {
+        circularData.replyOption.forEach(function(option){
+            $("#table_header").append("<th>" + option + "</th>");
+        });
+    }
+    $(".replyList-container").append("</tr></thead><tbody id='reply_list'>");
+    
+
+    // Table Body
+    if (replyList.length < 0) {
+        $("#reply_list").append("<tr><td col='" + (replyList.length + 2) + "'>No member reply</td></tr>");
+    } else {
+        replyList.forEach(function(optionArray){
+            console.log(optionArray.replyOption);
+            $("#reply_list").append("<tr>");
+            console.log(optionArray.replyOption.length);
+            if ( optionArray.replyOption.length > 0) {
+                optionArray.replyOption.forEach(function(item){
+                    $("#reply_list").append("<td>" + item + "</td>");
+                });
+                $("#reply_list").append("</tr>");
+            }
+        });
+    }
+    
+    $(".replyList-container").append("</tbody>");
+    $(".replyList-container").append("</table>");
 }
 
 function option_Input() {
@@ -176,6 +245,15 @@ function getReplyData() {
     if (method == "signature") {
         replyData = {"memberID": memberID, "circularID": circular_id}
     } else if (method == "singleChoice") {
+
+        $("input:checkbox").each(function(){
+            if ($(this).prop("checked")) {
+                console.log("store checkbox");
+                console.log($(this).val());
+                memberOption.push($(this).val());
+            }
+        });
+        console.log(memberOption);
         
     } else if (method == "multipleChoice") {
 
@@ -210,6 +288,7 @@ function submitAction() {
     $("#submit").click(function(){
         getReplyData();
         updateCircularDB(replyData);
+        updateReplyDB(replyData);
     });
 }
 

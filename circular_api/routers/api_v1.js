@@ -242,38 +242,42 @@ router.post('/circular/:page', function(req, res, next) {
     if (req.body.authorityLevel <= 2) {
         console.log("find below level" + req.body.authorityLevel + "  school: " + req.body.schoolID);
 
-        Circular.find({schoolID: req.body.schoolID}, function(err, result) {
+        Circular.find({schoolID: req.body.schoolID, releaseDate: { $ne: null }}, function(err, result) {
             if(result) {
+                var nextPageCheck;
                 if (result.length > itemPerPage) {
-                    var q = Circular.find({schoolID: req.body.schoolID}).sort({'date': -1}).skip(skipRecord).limit(itemPerPage);
+                    var q = Circular.find({schoolID: req.body.schoolID, releaseDate: { $ne: null }}).sort({'date': -1}).skip(skipRecord).limit(itemPerPage);
+                    nextPageCheck = true;
                 } else {
-                    var q = Circular.find({schoolID: req.body.schoolID}).sort({'date': -1});
+                    var q = Circular.find({schoolID: req.body.schoolID, releaseDate: { $ne: null }}).sort({'date': -1});
+                    nextPageCheck = false;
                 }
                 q.exec(function(err, result) {
-                    sendJson = { "message": "", "result": result, "nextPage": true};
-                    sendJson.message = "success";
+                    sendJson = { "message": "success", "result": result, "nextPage": nextPageCheck, "resultCount": result.length };
                     res.send(sendJson);
                 });
             } else {
-                sendJson.message = "success";
+                sendJson.message = "Not Found";
                 res.send(sendJson);
             }
         });
     } else {
         Circular.find({target_GruopID: req.body.groupID}, function(err, result) {
             if(result) {
+                var nextPageCheck;
                 if (result.length > itemPerPage) {
-                    var q = Circular.find({target_GruopID: req.body.groupID}).sort({'date': -1}).skip(skipRecord).limit(itemPerPage);
+                    var q = Circular.find({target_GruopID: req.body.groupID, releaseDate: { $ne: null }}).sort({'date': -1}).skip(skipRecord).limit(itemPerPage);
+                    nextPageCheck = true;
                 } else {
-                    var q = Circular.find({target_GruopID: req.body.groupID}).sort({'date': -1});
+                    var q = Circular.find({target_GruopID: req.body.groupID, releaseDate: { $ne: null }}).sort({'date': -1});
+                    nextPageCheck = false;
                 }
                 q.exec(function(err, result) {
-                    sendJson = { "message": "", "result": result, "nextPage": true};
-                    sendJson.message = "success";
+                    sendJson = { "message": "success", "result": result, "nextPage": nextPageCheck, "resultCount": result.length };
                     res.send(sendJson);
                 });
             } else {
-                sendJson.message = "success";
+                sendJson.message = "Not Found";
                 res.send(sendJson);
             }
         });
@@ -289,17 +293,19 @@ router.post('/editList/:page', function(req, res, next) {
     console.log("find " + req.body.authorityLevel + "   " + req.body.schoolID);
     console.log("skipRecord: " + skipRecord);
 
-    Circular.find({schoolID: req.body.schoolID,releaseDate: null, authorityRequest: { $gte: req.body.authorityLevel }}, function(err, result) {
+    Circular.find({schoolID: req.body.schoolID, authorityRequest: { $gte: req.body.authorityLevel }}, function(err, result) {
         if(result) {
             console.log(result.length + " result");
+            var nextPageCheck;
             if (result.length >= itemPerPage) {
-                var q = Circular.find({schoolID: req.body.schoolID,releaseDate: null, authorityRequest: { $gte: req.body.authorityLevel }}).sort({'date': -1}).skip(skipRecord).limit(itemPerPage);
+                var q = Circular.find({schoolID: req.body.schoolID, authorityRequest: { $gte: req.body.authorityLevel }}).sort({'date': -1}).skip(skipRecord).limit(itemPerPage);
+                nextPageCheck = true;
             } else {
-                var q = Circular.find({schoolID: req.body.schoolID,releaseDate: null, authorityRequest: { $gte: req.body.authorityLevel }}).sort({'date': -1});
+                var q = Circular.find({schoolID: req.body.schoolID, authorityRequest: { $gte: req.body.authorityLevel }}).sort({'date': -1});
+                nextPageCheck = false;
             }
             q.exec(function(err, result) {
-                sendJson = { "message": "", "result": result, "nextPage": true};
-                sendJson.message = "success";
+                sendJson = { "message": "success", "result": result, "nextPage": nextPageCheck, "resultCount": result.length };
                 res.send(sendJson);
             });
         } else {
@@ -380,12 +386,12 @@ router.put('/circular/reply/:circularID', function(req, res, next) {
                 });
             } else {
                 console.log("Already signed");
-                sendJson.message = "Already signed";
+                sendJson = { message: "Already signed" };
                 res.send(sendJson);
             }
         } else {
             console.log("Circular Not find");
-            sendJson.message = "Circular Not find";
+            sendJson = { message: "Circular Not find" };
             res.send(sendJson);
         }
     });
@@ -395,11 +401,32 @@ router.put('/circular/reply/:circularID', function(req, res, next) {
 
 //Reply DB
 router.put('/replyDB/update', function(req, res, next) {
-    Reply.find({memberID: req.body.memberID,circularID: circularID}, function(err, result) {
-        console.log(result);
+    Reply.findOne({ "circularID": req.body.circularID, "memberID": req.body.memberID }, function(err, result) {
+        if (result) {
+            Reply.findOneAndUpdate(
+                { "circularID": req.body.circularID, "memberID": req.body.memberID },
+                { $set: { "replyOption": req.body.replyOption, "replyInput": req.body.replyInput } },
+                { returnNewDocument: true }).then(function(result) {
+                console.log(result);
+                sendJson = { message: "Reply DB updated", data: result };
+                res.send(sendJson);
+            });
+        } else {
+            Reply.create(req.body).then(function(result) {
+                sendJson.message = "Member first reply";
+                console.log(sendJson.message);
+                res.send(sendJson);
+            }).catch(next)
+        }
     });
 });
 
-
+//Get reply list
+router.post('/replyList/:cicular', function(req, res, next) {
+    Reply.find({"circularID": req.params.cicular}, function(err, result){
+        console.log(result);
+        res.send(result);
+    }); 
+});
 
 module.exports = router;

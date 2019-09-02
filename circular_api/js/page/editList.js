@@ -81,11 +81,12 @@ function showList() {
 
         if (item.releaseDate == null) {
             status = "<td class='status draft'>draft</td>";
+            link = "<td class='action'><a href='/edit/?id=" + item._id + "' target='_blank'><div class='btn btn-info edit'>Edit</div></a></td>";
         } else {
             status = "<td class='status published'>published</td>";
+            link = "<td class='action'><a href='/detail/?id=" + item._id + "' target='_blank'><div class='btn btn-info edit'>View Reply</div></a></td>";
         }
-        link = "<td class='action'><a href='/edit/?id=" + item._id + "' target='_blank'><div class='btn btn-info edit'>Edit</div></a></td>";
-
+        
         $("#edit_list").append("<tr class='list-item'>"+ title + date + reply + status + link + "</tr>");
     });
 }
