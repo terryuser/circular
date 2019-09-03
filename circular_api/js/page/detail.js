@@ -162,6 +162,7 @@ function showReply() {
         });
     })
 
+
     //Get member from group
     $.ajax({
         type: 'POST',
@@ -205,6 +206,27 @@ function showReply() {
     
     $(".replyList-container").append("</tbody>");
     $(".replyList-container").append("</table>");
+}
+
+function genarateMember(groupId) {
+    var memberList;
+
+    //Get member from group
+    $.ajax({
+        type: 'POST',
+        url: '/api_v' + api_version + '/member/list/' + groupId,
+        dataType: "json",
+        async: false,
+        success: function(result) {
+            memberList = result;
+        }
+    });
+}
+
+function checkRely(member) {
+    if (reply.includes(member)) {
+        $("").append("<td></td>");
+    }
 }
 
 function option_Input() {
