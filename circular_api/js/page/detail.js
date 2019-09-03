@@ -148,70 +148,29 @@ function showReply() {
     console.log(replyList);
     // $(".replyList-container").append("<table>");
 
-    //1. First get group list
-    circularData.target_GruopID.forEach(function(){
-        var group;
-        $.ajax({
-            type: 'POST',
-            url: '/api_v' + api_version + '/replyList/' + circularID,
-            dataType: "json",
-            async: false,
-            success: function(respon) {
-                replyList = respon;
-            }
-        });
-    })
-
-
-    //Get member from group
-    $.ajax({
-        type: 'POST',
-        url: '/api_v' + api_version + '/replyList/' + circularID,
-        dataType: "json",
-        async: false,
-        success: function(respon) {
-            replyList = respon;
-        }
+    //First get group list
+    circularData.target_GruopID.forEach(function(target){
+        $(".replyList-container").append("<div class='group-title'>" + target + "</div>");
+        genarateMember(target);
     });
+}
 
-
+function genarateMember(groupId) {
+    
     //Table header
     var tableHead = "<thead><tr id='table_header'><th>Name</th><th>Login Name</th><th>Checked</th>";
     $(".replyList-container").append(tableHead);
+
+    //Check if any custom field
     if (circularData.replyMethod != "signature") {
         circularData.replyOption.forEach(function(option){
             $("#table_header").append("<th>" + option + "</th>");
         });
     }
     $(".replyList-container").append("</tr></thead><tbody id='reply_list'>");
-    
-
-    // Table Body
-    if (replyList.length < 0) {
-        $("#reply_list").append("<tr><td col='" + (replyList.length + 2) + "'>No member reply</td></tr>");
-    } else {
-        replyList.forEach(function(optionArray){
-            console.log(optionArray.replyOption);
-            $("#reply_list").append("<tr>");
-            $("#reply_list").append("<td>" + item + "</td><td>" + item + "</td><td>" + item + "</td>");
-            console.log(optionArray.replyOption.length);
-            if ( optionArray.replyOption.length > 0) {
-                optionArray.replyOption.forEach(function(item){
-                    $("#reply_list").append("<td>" + item + "</td>");
-                });
-                $("#reply_list").append("</tr>");
-            }
-        });
-    }
-    
-    $(".replyList-container").append("</tbody>");
-    $(".replyList-container").append("</table>");
-}
-
-function genarateMember(groupId) {
-    var memberList;
 
     //Get member from group
+    var memberList;
     $.ajax({
         type: 'POST',
         url: '/api_v' + api_version + '/member/list/' + groupId,
@@ -221,6 +180,41 @@ function genarateMember(groupId) {
             memberList = result;
         }
     });
+
+    // Table Body
+    if (replyList.length < 0) {
+        $("#reply_list").append("<tr><td col='" + (replyList.length + 2) + "'>No member reply</td></tr>");
+    } else {
+        memberList.forEach(function(member){
+            console.log(member);
+            $("#reply_list").append("<tr>");
+            $("#reply_list").append("<td>" + member.userID + "</td><td>" + member.loginName + "</td>");
+            
+            if (replyList.includes(member._id)) {
+                $("#reply_list").append("<td>signed</td>");
+                $("#reply_list").append("<td>" + "</td>");
+            } else {
+                $("#reply_list").append("<td>Not sign</td>");
+            }
+        });
+        // replyList.forEach(function(optionArray){
+        //     console.log(optionArray.replyOption);
+        //     $("#reply_list").append("<tr>");
+        //     $("#reply_list").append("<td>" + item + "</td><td>" + item + "</td><td>" + item + "</td>");
+        //     console.log(optionArray.replyOption.length);
+        //     if ( optionArray.replyOption.length > 0) {
+        //         optionArray.replyOption.forEach(function(item){
+        //             $("#reply_list").append("<td>" + item + "</td>");
+        //         });
+        //         $("#reply_list").append("</tr>");
+        //     }
+        // });
+    }
+
+
+    $(".replyList-container").append("</tbody>");
+    $(".replyList-container").append("</table>");
+
 }
 
 function checkRely(member) {
