@@ -131,9 +131,9 @@ function assginDetail() {
         showReply();
     }
 }
+var replyList;
 
 function showReply() {
-    var replyList;
     //Get member info
     $.ajax({
         type: 'POST',
@@ -144,30 +144,41 @@ function showReply() {
             replyList = respon;
         }
     });
-    console.log("replyList");
     console.log(replyList);
-    // $(".replyList-container").append("<table>");
 
     //First get group list
     circularData.target_GruopID.forEach(function(target){
-        $(".replyList-container").append("<div class='group-title'>" + target + "</div>");
-        genarateMember(target);
+        
+        //Get member info
+        $.ajax({
+            type: 'POST',
+            url: '/api_v' + api_version + '/group/info/' + target,
+            dataType: "json",
+            async: true,
+            success: function(respon) {
+                $(".replyList-container").append("<div class='group-title'>" + respon.result.name + "</div>");
+                genarateMember(target);
+            }
+        });
+        
     });
 }
 
 function genarateMember(groupId) {
-    
+    $(".replyList-container").append("<table id='table_" + groupId + "'>");
+
     //Table header
-    var tableHead = "<thead><tr id='table_header'><th>Name</th><th>Login Name</th><th>Checked</th>";
-    $(".replyList-container").append(tableHead);
+    var tableHead = "<thead><tr id='table_header" +  groupId + "'><th>Name</th><th>Login Name</th><th>Checked</th>";
+    $("#table_" + groupId).append(tableHead);
 
     //Check if any custom field
     if (circularData.replyMethod != "signature") {
-        circularData.replyOption.forEach(function(option){
-            $("#table_header").append("<th>" + option + "</th>");
+        $("#table_header" +  groupId).append("<th>Choice</th>");
+        circularData.replyInput.forEach(function(inputField){
+            $("#table_header" +  groupId).append("<th>" + inputField + "</th>");
         });
     }
-    $(".replyList-container").append("</tr></thead><tbody id='reply_list'>");
+    $("#table_" + groupId).append("</tr></thead><tbody id='reply_list" + groupId + "'>");
 
     //Get member from group
     var memberList;
@@ -177,51 +188,62 @@ function genarateMember(groupId) {
         dataType: "json",
         async: false,
         success: function(result) {
-            memberList = result;
+            memberList = result.memberList;
+            console.log(memberList);
+
+            // Table Body
+            if (replyList.length < 0) {
+                $("#reply_list" + groupId).append("<tr><td col='" + (replyList.length + 2) + "'>No member reply</td></tr>");
+            } else {
+                memberList.forEach(function(member){
+                    
+                    $("#reply_list" + groupId).append("<tr id='" + member._id + "'></tr>");
+
+                    var td_p1 = "<td>" + member.userID + "</td><td>" + member.loginName + "</td>";
+                    $("#" + member._id).append(td_p1);
+        
+                    var td_p2;
+                    var td_p3;
+                    var replyed = circularData.signedMember.includes(member._id);
+
+                    if (replyed === true) {
+                        console.log("Checked");
+                        td_p2 = "<td><i class='fas fa-check'></i></td>";
+                        $("#" + member._id).append(td_p2);
+
+                        var replyRecord = getReply(replyList, member._id);
+                        console.log(replyRecord);
+
+                        replyRecord.replyInput.forEach(function(input){
+                            $("#" + member._id).append("<td>" + input + "</td>");
+                        });
+
+                    } else {
+                        console.log("Not yet Checked");
+                        td_p2 = "<td><i class='fas fa-times'></i></td>";
+                        $("#" + member._id).append(td_p2);
+                        
+                        var col = circularData.replyInput.length + 1;
+                        $("#" + member._id).append("<td colspan='" + col + "'>test</td>");
+                    }
+                });
+            }
         }
     });
 
-    // Table Body
-    if (replyList.length < 0) {
-        $("#reply_list").append("<tr><td col='" + (replyList.length + 2) + "'>No member reply</td></tr>");
-    } else {
-        memberList.forEach(function(member){
-            console.log(member);
-            $("#reply_list").append("<tr>");
-            $("#reply_list").append("<td>" + member.userID + "</td><td>" + member.loginName + "</td>");
-            
-            if (replyList.includes(member._id)) {
-                $("#reply_list").append("<td>signed</td>");
-                $("#reply_list").append("<td>" + "</td>");
-            } else {
-                $("#reply_list").append("<td>Not sign</td>");
-            }
-        });
-        // replyList.forEach(function(optionArray){
-        //     console.log(optionArray.replyOption);
-        //     $("#reply_list").append("<tr>");
-        //     $("#reply_list").append("<td>" + item + "</td><td>" + item + "</td><td>" + item + "</td>");
-        //     console.log(optionArray.replyOption.length);
-        //     if ( optionArray.replyOption.length > 0) {
-        //         optionArray.replyOption.forEach(function(item){
-        //             $("#reply_list").append("<td>" + item + "</td>");
-        //         });
-        //         $("#reply_list").append("</tr>");
-        //     }
-        // });
-    }
-
-
     $(".replyList-container").append("</tbody>");
     $(".replyList-container").append("</table>");
-
 }
 
-function checkRely(member) {
-    if (reply.includes(member)) {
-        $("").append("<td></td>");
+function getReply(data, findValue) {
+    for (var i in data) {
+        if (data[i].memberID == findValue) {
+            return data[i];
+        }
     }
+    return "No record";
 }
+
 
 function option_Input() {
     //Insert button in content
