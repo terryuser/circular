@@ -100,6 +100,9 @@ $( "#save" ).click(async() => {
       data: output,
       success: function(data) {
         console.log(data.message);
+        window.setTimeout(function() {
+          window.location.replace("/editlist");
+        }, 1500);
       },
       error: function(xhr, status, error) {
         console.log('Error: ' + error.message);
@@ -160,6 +163,9 @@ $( "#publish" ).click(async() => {
       data: output,
       success: function(data) {
         console.log(data.message);
+        window.setTimeout(function() {
+          window.location.replace("/circular");
+        }, 1500);
       },
       error: function(xhr, status, error) {
         console.log('Error: ' + error.message);

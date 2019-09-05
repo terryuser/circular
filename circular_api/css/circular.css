@@ -124,6 +124,7 @@ a {
   height: 25px;
   width: 25px;
   margin-top: -12.5px;
+  background-color: #fff;
   border: 2px solid #424242;
   border-radius: 5px; }
 
@@ -158,6 +159,17 @@ a {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg); }
+
+.modal .modal-header .close {
+  padding: 5px;
+  margin: -5px -5px -5px auto; }
+.modal .modal-title {
+  font-size: 2rem;
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  line-height: 2.2rem;
+  color: #1CB57D; }
+.modal .close {
+  font-size: 2.5rem; }
 
 #sidebar {
   position: fixed;
@@ -448,37 +460,39 @@ a {
     font-family: "Roboto", "Noto Sans TC", sans-serif;
     line-height: 1.7rem; }
 
-.add-page .content-section {
+.add-page .content-section, .edit-page .content-section {
   padding: 50px 15px 0; }
-.add-page .input-title {
+.add-page .input-title, .edit-page .input-title {
   flex-basis: 100%;
   -moz-flex-basis: 100%;
   -webkit-flex-basis: 100%;
   max-width: 100%;
   font-size: 2rem;
   font-family: "Roboto", "Noto Sans TC", sans-serif;
-  line-height: 2.2rem; }
-.add-page .input-group {
-  margin: 10px 0 15px; }
-  .add-page .input-group .btn {
-    margin: 5px 0 10px;
+  line-height: 2.2rem;
+  padding: 5px 0; }
+.add-page .input-group, .edit-page .input-group {
+  margin: 10px 0 15px;
+  align-items: center; }
+  .add-page .input-group .btn, .edit-page .input-group .btn {
+    margin: 0 5px;
     border: 0; }
-  .add-page .input-group #addTarget {
-    background-color: #18B8AF; }
-    .add-page .input-group #addTarget:hover {
-      background-color: #169992; }
-  .add-page .input-group #minusTarget {
-    background-color: #F43F44; }
-    .add-page .input-group #minusTarget:hover {
-      background-color: #c93d42; }
-.add-page .selection-group {
+.add-page #addTarget, .add-page #addOption, .add-page #addInput, .edit-page #addTarget, .edit-page #addOption, .edit-page #addInput {
+  background-color: #18B8AF; }
+  .add-page #addTarget:hover, .add-page #addOption:hover, .add-page #addInput:hover, .edit-page #addTarget:hover, .edit-page #addOption:hover, .edit-page #addInput:hover {
+    background-color: #169992; }
+.add-page #minusTarget, .add-page #minusOption, .add-page #minusInput, .edit-page #minusTarget, .edit-page #minusOption, .edit-page #minusInput {
+  background-color: #F43F44; }
+  .add-page #minusTarget:hover, .add-page #minusOption:hover, .add-page #minusInput:hover, .edit-page #minusTarget:hover, .edit-page #minusOption:hover, .edit-page #minusInput:hover {
+    background-color: #c93d42; }
+.add-page .selection-group, .edit-page .selection-group {
   padding: 0 10px 0 0;
   margin: 0;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
   flex-wrap: wrap; }
-  .add-page .selection-group select {
+  .add-page .selection-group select, .edit-page .selection-group select {
     display: inline-block;
     width: auto;
     border: 1px solid #ccc;
@@ -487,13 +501,13 @@ a {
     font-family: "Roboto", "Noto Sans TC", sans-serif;
     line-height: 1.8rem;
     margin-right: 10px; }
-.add-page input {
+.add-page input, .edit-page input {
   font-size: 1.6rem;
   font-family: "Roboto", "Noto Sans TC", sans-serif;
   line-height: 1.8rem;
   border: 1px solid #ccc !important;
   border-radius: 5px !important; }
-.add-page .content-group .rich-editor {
+.add-page .content-group .rich-editor, .edit-page .content-group .rich-editor {
   font-size: 1.6rem;
   font-family: "Roboto", "Noto Sans TC", sans-serif;
   line-height: 1.8rem;
@@ -501,9 +515,53 @@ a {
   border-radius: 5px !important;
   background-color: #fff;
   padding: 10px !important; }
-.add-page .reply-method {
+.add-page .reply-method, .edit-page .reply-method {
   padding-top: 35px;
+  padding-bottom: 15px;
   margin-top: 35px;
   border-top: 1px solid #ccc; }
+.add-page .replyType-selector, .edit-page .replyType-selector {
+  width: auto;
+  font-size: 1.6rem;
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  line-height: 1.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 25px; }
+.add-page .action-block, .edit-page .action-block {
+  margin: 25px 0;
+  text-align: right; }
+  .add-page .action-block button, .edit-page .action-block button {
+    margin-left: 10px; }
+  .add-page .action-block #save, .edit-page .action-block #save {
+    background-color: #FA7E58; }
+    .add-page .action-block #save:hover, .edit-page .action-block #save:hover {
+      background-color: #c86546; }
+  .add-page .action-block #publish, .edit-page .action-block #publish {
+    background-color: #31C640; }
+    .add-page .action-block #publish:hover, .edit-page .action-block #publish:hover {
+      background-color: #279e33; }
+.add-page .reply-block, .edit-page .reply-block {
+  margin: 15px 0; }
+  .add-page .reply-block > div, .edit-page .reply-block > div {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap; }
+    .add-page .reply-block > div > .input-title, .edit-page .reply-block > div > .input-title {
+      flex-basis: auto;
+      -moz-flex-basis: auto;
+      -webkit-flex-basis: auto;
+      max-width: none;
+      margin-right: 10px; }
+    .add-page .reply-block > div > button, .edit-page .reply-block > div > button {
+      margin: 0 5px; }
+  .add-page .reply-block .reply-option-wrapper, .add-page .reply-block .reply-Input-wrapper, .edit-page .reply-block .reply-option-wrapper, .edit-page .reply-block .reply-Input-wrapper {
+    flex-basis: 100%;
+    -moz-flex-basis: 100%;
+    -webkit-flex-basis: 100%;
+    max-width: 100%; }
+.add-page .input-subtitle, .edit-page .input-subtitle {
+  padding-right: 10px; }
 
 /*# sourceMappingURL=circular.css.map */

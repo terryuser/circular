@@ -46,10 +46,11 @@
     <script src="../js/page/editCircular.js"></script>
 </head>
 
-<body class="edit-age">
+<body class="edit-page">
     <div id="sidebar"></div>
 
     <div class="container first content-section" id="content_section">
+        <div class="page-title">Edit Circular</div>
         <div class="input-group target">
             <div class="input-title">Target</div>
             <div class="selection-group" id="selection_group"></div>
@@ -62,7 +63,7 @@
             <input type="text" id="title" class="form-control">
         </div>
 
-        <div class="">
+        <div class="content-group">
             <div class="input-title">Content</div>
             <div class="rich-editor" style="border: 1px solid #ccc; padding: 5px; text-align: left;" id="contentEditor"></div>
         </div>
@@ -99,9 +100,11 @@
                 <div class="reply-Input-wrapper" id="reply_Input"></div>
             </div>
         </div>
-    
-        <button id="update_draft" class="btn btn-info" data-toggle="modal" data-target="#Modal-draft">Update draft</button>
-        <button id="publish" class="btn btn-info" data-toggle="modal" data-target="#Modal-publish">Publish</button>
+        
+        <div class="action-block">
+            <button id="update_draft" class="btn btn-info" data-toggle="modal" data-target="#Modal-draft">Update draft</button>
+            <button id="publish" class="btn btn-info" data-toggle="modal" data-target="#Modal-publish">Publish</button>
+        </div>
     </div>
 
     <div class="modal fade" id="Modal-draft" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">

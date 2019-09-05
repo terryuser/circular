@@ -4,7 +4,7 @@
 @import '_animation';
 
 
-.add-page {
+.add-page,.edit-page {
 
     .content-section {
         padding: 50px 15px 0;
@@ -13,30 +13,32 @@
     .input-title {
         @include flexBasis(100%);
         @include fontSize($h20);
+        padding: 5px 0;
     }
 
     .input-group {
         margin: 10px 0 15px;
+        align-items: center;
 
         .btn {
-            margin: 5px 0 10px;
+            margin: 0 5px;
             border: 0;
         }
+    }
 
-        #addTarget {
-            background-color: $Blue;
+    #addTarget, #addOption, #addInput {
+        background-color: $Blue;
 
-            &:hover {
-                background-color: #169992;
-            }
+        &:hover {
+            background-color: #169992;
         }
+    }
 
-        #minusTarget {
-            background-color: $Red;
+    #minusTarget, #minusOption, #minusInput {
+        background-color: $Red;
 
-            &:hover {
-                background-color: #c93d42;
-            }
+        &:hover {
+            background-color: #c93d42;
         }
     }
 
@@ -74,7 +76,67 @@
 
     .reply-method {
         padding-top: 35px;
+        padding-bottom: 15px;
         margin-top: 35px;
         border-top: 1px solid #ccc;
+    }
+
+    .replyType-selector {
+        width: auto;
+        @include fontSize($h16);
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 25px;
+    }
+
+    .action-block {
+        margin: 25px 0;
+        text-align: right;
+
+        button {
+            margin-left: 10px;
+        }
+
+        #save {
+            background-color: $Orange;
+
+            &:hover {
+                background-color: $Orange * 0.8;
+            }
+        }
+
+        #publish {
+            background-color: $Green;
+
+            &:hover {
+                background-color: $Green * 0.8;
+            }
+        }
+    }
+
+    .reply-block {
+        margin: 15px 0;
+
+        >div {
+            @include displayflex();
+            flex-wrap: wrap;
+
+            >.input-title {
+                @include flexBasis(auto);
+                margin-right: 10px;
+            }
+
+            >button {
+                margin: 0 5px;
+            }
+        }
+
+        .reply-option-wrapper, .reply-Input-wrapper {
+            @include flexBasis(100%);
+        }
+    }
+
+    .input-subtitle {
+        padding-right: 10px;
     }
 }

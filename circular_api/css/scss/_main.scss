@@ -93,66 +93,83 @@ a {
 
 
 .checkbox-block {
-    position: relative;
-    padding-left: 35px;
-    margin-right: 10px;
-    @include fontSize($h16);
+  position: relative;
+  padding-left: 35px;
+  margin-right: 10px;
+  @include fontSize($h16);
 }
 
 /* Hide the browser's default checkbox */
 .checkbox-block input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
   
-  /* Create a custom checkbox */
-  .checkmark {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    margin-top: -12.5px;
-    border: 2px solid #424242;
-    border-radius: 5px;
-  }
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  margin-top: -12.5px;
+  background-color: #fff;
+  border: 2px solid #424242;
+  border-radius: 5px;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-block:hover input ~ .checkmark {
+  background-color: #ccc;
+}
   
-  /* On mouse-over, add a grey background color */
-  .checkbox-block:hover input ~ .checkmark {
-    background-color: #ccc;
-  }
+/* When the checkbox is checked, add a blue background */
+.checkbox-block input:checked ~ .checkmark {
+  border: 1.5px solid $Blue;
+  background-color: $Blue;
+}
   
-  /* When the checkbox is checked, add a blue background */
-  .checkbox-block input:checked ~ .checkmark {
-    border: 1.5px solid $Blue;
-    background-color: $Blue;
-  }
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
   
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
+/* Show the checkmark when checked */
+.checkbox-block input:checked ~ .checkmark:after {
+  display: block;
+}
   
-  /* Show the checkmark when checked */
-  .checkbox-block input:checked ~ .checkmark:after {
-    display: block;
+/* Style the checkmark/indicator */
+.checkbox-block .checkmark:after {
+  left: 8px;
+  top: 50%;
+  width: 7px;
+  height: 19px;
+  margin-top: -10.5px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.modal {
+  .modal-header .close {
+    padding: 5px;
+    margin: -5px -5px -5px auto;
   }
-  
-  /* Style the checkmark/indicator */
-  .checkbox-block .checkmark:after {
-    left: 8px;
-    top: 50%;
-    width: 7px;
-    height: 19px;
-    margin-top: -10.5px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+
+  .modal-title {
+    @include fontSize($h20);
+    color: $MainColor;
   }
+
+  .close {
+    font-size: 2.5rem;
+  }
+}

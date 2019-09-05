@@ -59,10 +59,17 @@ if (circularData.replyInput != null && circularData.replyInput[0] != "") {
 
 //Assign target
 function assignTarget() {
-    if(circularData.target_GruopID == "all") {
+    if(circularData.target_GruopID[0] == "all") {
         var openHTML = "<select class='custom-select target-selector' id='target-group-" + targetCount + "'>"
         $("#selection_group").append(openHTML);
+        $("#target-group-1").append("<option value='all'>All</option>");
+        GroupInfo.forEach(function(option) {
+            $("#target-group-1").append("<option value='" + option._id + "'>" + option.name + "</option>");
+        });
         $("#target-group-1").val("all");
+        $("#addTarget").hide();
+        $("#minusTarget").hide();
+        console.log("first is all");
     } else {
         var selectedGroup = circularData.target_GruopID[0];
         console.log("Not target all");
