@@ -1,0 +1,80 @@
+@import '_font';
+@import '_value';
+@import '_mixin';
+@import '_animation';
+
+
+.add-page {
+
+    .content-section {
+        padding: 50px 15px 0;
+    }
+
+    .input-title {
+        @include flexBasis(100%);
+        @include fontSize($h20);
+    }
+
+    .input-group {
+        margin: 10px 0 15px;
+
+        .btn {
+            margin: 5px 0 10px;
+            border: 0;
+        }
+
+        #addTarget {
+            background-color: $Blue;
+
+            &:hover {
+                background-color: #169992;
+            }
+        }
+
+        #minusTarget {
+            background-color: $Red;
+
+            &:hover {
+                background-color: #c93d42;
+            }
+        }
+    }
+
+    .selection-group {
+        padding: 0 10px 0 0;
+        margin: 0;
+        @include displayflex();
+        flex-wrap: wrap;
+
+        select {
+            display: inline-block;
+            width: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            @include fontSize($h16);
+            margin-right: 10px;
+        }
+    }
+
+    input {
+        @include fontSize(1.6rem);
+        border: 1px solid #ccc !important;
+        border-radius: 5px !important;
+    }
+
+    .content-group {
+        .rich-editor {
+            @include fontSize(1.6rem);
+            border: 1px solid #ccc !important;
+            border-radius: 5px !important;
+            background-color: #fff;
+            padding: 10px !important;
+        }
+    }
+
+    .reply-method {
+        padding-top: 35px;
+        margin-top: 35px;
+        border-top: 1px solid #ccc;
+    }
+}

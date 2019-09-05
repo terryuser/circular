@@ -60,7 +60,7 @@ function assginDetail() {
             case "table" :
 
                 var tableHTML;
-                tableHTML = "<tr>";
+                tableHTML = "<table>";
 
                 block.data.content.forEach(function (row) {
                     tableHTML = tableHTML + "<tr>";
@@ -70,6 +70,7 @@ function assginDetail() {
                     tableHTML = tableHTML + "</tr>";
                 })
 
+                tableHTML = tableHTML + "</table>";
                 $("#circular_content").append(tableHTML);
             break;
 
@@ -126,9 +127,14 @@ function assginDetail() {
         $(".reply-container").remove();
     }
 
+    console.log(memberInfo.authorityLevel);
+    console.log(circularData.authorityRequest);
+
     if (memberInfo.authorityLevel >= circularData.authorityRequest) {
         console.log("Allow watch reply");
         showReply();
+    } else {
+        console.log("Not allow watch reply");
     }
 }
 var replyList;
@@ -208,7 +214,7 @@ function genarateMember(groupId) {
 
                     if (replyed === true) {
                         console.log("Checked");
-                        td_p2 = "<td><i class='fas fa-check'></i></td>";
+                        td_p2 = "<td><img src='../img/svg/tick.svg' alt=''></td>";
                         $("#" + member._id).append(td_p2);
 
                         var replyRecord = getReply(replyList, member._id);
@@ -220,7 +226,7 @@ function genarateMember(groupId) {
 
                     } else {
                         console.log("Not yet Checked");
-                        td_p2 = "<td><i class='fas fa-times'></i></td>";
+                        td_p2 = "<td><img src='../img/svg/cross.svg' alt=''></td>";
                         $("#" + member._id).append(td_p2);
                         
                         var col = circularData.replyInput.length + 1;
@@ -293,8 +299,8 @@ function scrolltoReply(){
     $("#reply").click(function(){
         console.log("scrolling");
         $('html, body').animate({
-            scrollTop: $(".reply-container").offset().center
-        }, 2400);
+            scrollTop: $(".container.reply-container").offset().top
+        }, 1400);
     });
 }
 
@@ -385,6 +391,7 @@ function updateReplyDB(reply) {
 }
 
 $(document).ready(function() {
+    localStorage.setItem("location", "Circular");
     assginDetail();
     submitAction();
 });

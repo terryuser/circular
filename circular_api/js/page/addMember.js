@@ -18,6 +18,7 @@ console.log(GroupInfo);
 
 
 $(document).ready(function() {
+    localStorage.setItem("location", "Member");
     $(".result-section").hide();
     input();
     checkOption();

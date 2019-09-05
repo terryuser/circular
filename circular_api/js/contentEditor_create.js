@@ -146,7 +146,7 @@ $( "#publish" ).click(async() => {
       "replyMethod" : method,
       "replyOption" : optionArray,
       "replyInput" : InputArray,
-      "authorityRequest" : memberInfo.requestLevel,
+      "authorityRequest" : memberInfo.authorityLevel,
       "createDate" : today,
       "releaseDate" : today,
       "signedMember" : null,

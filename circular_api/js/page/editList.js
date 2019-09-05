@@ -21,6 +21,7 @@ $.ajax({
 console.log(memberInfo);
 
 $(document).ready(function() {
+    localStorage.setItem("location", "Edit");
     showList();
 });
 

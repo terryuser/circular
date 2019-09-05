@@ -21,6 +21,7 @@ $.ajax({
 console.log(memberInfo);
 
 $(document).ready(function() {
+    localStorage.setItem("location", "Circular");
     showList();
     $(".list-item").click(function() {
         window.document.location = $(this).data("href");
@@ -47,40 +48,22 @@ function showList() {
     //Display circular
     var title;
     var date;
-    var reply;
+    var author;
     var link;
     var day;
     var time;
 
     list.result.forEach(function(item) {
-        title = "<td class='title'>" + item.title + "</td>";
+        title = "<div class='title'>" + item.title + "</div>";
         day = item.createDate.substring(0, 10);
         time = item.createDate.substring(11, 16);
-        date = "<td class='date'>" + day + "  " + time + "</td>";
+        date = "<span class='date'>" + day + "  " + time + "</span>";
 
-        var replyMethod = item.replyMethod;
-        switch (replyMethod) {
-            default :
-                replyMethod = "Only Signature";
-            break;
-            
-            case "signature" :
-                replyMethod = "Only Signature";
-            break;
+        
 
-            case "singleChoice" :
-                replyMethod = "Single Choice";
-            break;
-
-            case "multipleChoice" :
-                replyMethod = "Multiple Choice";
-            break;
-        }
-
-        reply = "<td class='replyMethod'>" + replyMethod + "</td>";
         link =  "/detail/?id=" + item._id;
 
-        $("#circular_list").append("<tr class='list-item' data-href='" + link + "'>" + title + date + reply + "</tr>");
+        $("#circular_list").append("<tr class='list-item' data-href='" + link + "'><td>" + title + date + "</td></tr>");
     });
 }
 

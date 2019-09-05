@@ -361,6 +361,7 @@ function inputControl() {
 
 
 $(document).ready(function() {
+    localStorage.setItem("location", "Edit");
     assignData();
     checkFirstTarget()
     targetControl();

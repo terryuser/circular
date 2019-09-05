@@ -26,6 +26,8 @@ console.log(GroupInfo);
 var limit = GroupInfo.length;
 
 $(document).ready(function() {
+    localStorage.setItem("location", "Add");
+    $("#addTarget").hide();
     addTargetField();
     selectionAction();
     checkReply();

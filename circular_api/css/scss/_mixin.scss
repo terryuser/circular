@@ -26,6 +26,18 @@
     }
 }
 
+@mixin flexBasis($size) {
+    flex-basis: $size;
+    -moz-flex-basis: $size;
+    -webkit-flex-basis: $size;
+    @if type-of($size) !=number {
+        max-width: none;
+    }
+    @else {
+        max-width: $size;
+    }
+}
+
 @mixin fn-ul() {
     font-size: 0;
     letter-spacing: 0;
@@ -78,18 +90,6 @@
     box-shadow: $type;
     -moz-box-shadow: $type;
     -webkit-box-shadow: $type;
-}
-
-@mixin flexBasis($size) {
-    flex-basis: $size;
-    -moz-flex-basis: $size;
-    -webkit-flex-basis: $size;
-    @if type-of($size) !=number {
-        max-width: none;
-    }
-    @else {
-        max-width: $size;
-    }
 }
 
 @mixin mediaWidth($type) {

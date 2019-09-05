@@ -30,6 +30,7 @@ $.ajax({
 console.log(memberInfo);
 
 $(document).ready(function() {
+    localStorage.setItem("location", "Member");
     listGroupMember();
 });
 
