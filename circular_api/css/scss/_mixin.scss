@@ -1,0 +1,367 @@
+@import '_value';
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin transition($sec, $type: ease) {
+    -webkit-transition: $sec $type;
+    -moz-transition: $sec $type;
+    -o-transition: $sec $type;
+    transition: $sec $type;
+}
+
+@mixin displayflex($important:false) {
+    @if $important==true {
+        display: -ms-flexbox!important;
+        display: -webkit-flex!important;
+        display: flex!important;
+    }
+    @else {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+    }
+}
+
+@mixin fn-ul() {
+    font-size: 0;
+    letter-spacing: 0;
+    >li,
+    >div {
+        font-size: $h14;
+        display: inline-block;
+    }
+}
+
+@mixin fontSize($size, $important:false) {
+    @if $important==true {
+        font-size: $size!important;
+        font-family: $family !important;
+        line-height: $size+0.2 !important;
+    }
+    @else {
+        font-size: $size;
+        font-family: $family;
+        line-height: $size+0.2;
+    }
+}
+
+@mixin displayInLineBlock($pos) {
+    display: inline-block;
+    vertical-align: $pos;
+}
+
+@mixin displayIcon($width, $height, $img, $url:$svgPath, $turn:before) {
+    position: relative;
+    &:#{$turn} {
+        content: "";
+        background:url('#{$url}#{$img}') no-repeat left top /100% auto;
+        position: absolute;
+        display: block;
+        width: $width;
+        height: $height;
+        top: 50%;
+        @if $turn==before {
+            left: 0;
+        }
+        @else {
+            right: 0;
+        }
+        margin-top:-$height/2;
+    }
+}
+
+@mixin boxShadow($type) {
+    box-shadow: $type;
+    -moz-box-shadow: $type;
+    -webkit-box-shadow: $type;
+}
+
+@mixin flexBasis($size) {
+    flex-basis: $size;
+    -moz-flex-basis: $size;
+    -webkit-flex-basis: $size;
+    @if type-of($size) !=number {
+        max-width: none;
+    }
+    @else {
+        max-width: $size;
+    }
+}
+
+@mixin mediaWidth($type) {
+    @media (max-width: $type) {
+        @content;
+    }
+}
+
+@mixin displayNone($important:'false') {
+    @if $important=='true' {
+        display: none!important;
+        visibility: hidden!important;
+    }
+    @else {
+        display: none;
+        visibility: hidden;
+    }
+}
+
+@mixin btnBorder($bwidth,
+$style:solid,
+$color: $Main_color,
+$padding:5px) {
+    background-color: none;
+    border: $bwidth $style $color;
+    padding: $padding;
+    color: $color;
+    cursor: pointer;
+    @include transition(0.25);
+    * {
+        color: $color;
+    }
+    &:hover {
+        background-color: $color;
+        color: $white;
+        transform: scale(1.05);
+        * {
+            color: $white;
+        }
+    }
+}
+
+@mixin btnSolid($color: $Main_color,
+$textcolor:$white,
+$padding:5px) {
+    background-color: $color;
+    padding: $padding;
+    color: $textcolor;
+    cursor: pointer;
+    @include transition(0.25);
+    * {
+        color: $textcolor;
+    }
+    &:hover {
+        background-color: $color;
+        color: $textcolor;
+        transform: scale(1.05);
+        * {
+            color: $textcolor;
+        }
+    }
+}
+
+@mixin underlinebtn($color,
+$size:$h14,
+$weight:normal) {
+    padding: 0;
+    border: none;
+    font-weight: $weight;
+    border-bottom: 1px solid $color;
+    @include fontSize($size);
+    color: $color;
+    &:hover {
+        background-color: transparent!important;
+        color: lighten($color, 10%)!important;
+        border: none!important;
+    }
+}
+
+@mixin seticonfont($icon,
+$ifont:$fa-family,
+$front:'before') {
+    @if $front=='before' {
+        &:before {
+            content: $icon;
+            font-family: $ifont;
+            text-indent: 1px;
+        }
+    }
+    @else {
+        &:after {
+            content: $icon;
+            font-family: $fa-family;
+            text-indent: 1px;
+        }
+    }
+}
+
+@mixin placeholder($color) {
+    &::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: $color;
+    }
+    &::-moz-placeholder {
+        /* Firefox 19+ */
+        color: $color;
+    }
+    &:-ms-input-placeholder {
+        /* IE 10+ */
+        color: $color;
+    }
+    &:-moz-placeholder {
+        /* Firefox 18- */
+        color: $color;
+    }
+}
+
+@mixin text-align($x:center,
+$y:center) {
+    @include displayflex();
+    align-items: $x;
+    justify-content: $y;
+}
+
+@mixin grey-line($size,
+$color,
+$line:'top') {
+    margin-#{$line}: $size;
+    padding-#{$line}: $size;
+    border-#{$line}: 1px solid $color;
+}
+
+@mixin setInput() {
+    background-color: $white;
+}
+
+@mixin table-style($cls) {
+    @content;
+}
+
+@mixin setfilter($color) {
+    @include ws-filter(map-get($color, brightness),
+    map-get($color, sepia),
+    map-get($color, hue-rotate),
+    map-get($color, saturate));
+}
+
+@mixin multiLineEllipsis($lineHeight: 1.2em,
+$lineCount: 1,
+$bgColor: #ffffff) {
+    overflow: hidden;
+    height: $lineHeight * $lineCount;
+    line-height: $lineHeight;
+    &:before {
+        content: "";
+        float: left;
+        width: 5px;
+        height: $lineHeight * $lineCount;
+    }
+    &>*:first-child {
+        float: right;
+        width: 100%;
+        margin-left: -5px;
+    }
+    &:after {
+        content: "...";
+        box-sizing: content-box;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        float: right;
+        position: relative;
+        top: 0 - $lineHeight;
+        left: 100%;
+        width: 3rem;
+        margin-left: -3rem;
+        padding-right: 5px;
+        text-align: right;
+        background: -webkit-gradient(linear,
+        left top,
+        right top,
+        from(rgba(255, 255, 255, 0)),
+        to(#{$bgColor}),
+        color-stop(50%, #{$bgColor}));
+        background: -moz-linear-gradient(to right,
+        rgba(255, 255, 255, 0),
+        #{$bgColor} 50%,
+        #{$bgColor});
+        background: -o-linear-gradient(to right,
+        rgba(255, 255, 255, 0),
+        #{$bgColor} 50%,
+        #{$bgColor});
+        background: -ms-linear-gradient(to right,
+        rgba(255, 255, 255, 0),
+        #{$bgColor} 50%,
+        #{$bgColor});
+        background: linear-gradient(to right,
+        rgba(255, 255, 255, 0),
+        #{$bgColor} 50%,
+        #{$bgColor});
+    }
+}
+
+@mixin dotBG($bg-color,
+$dot-color,
+$dot-size,
+$dot-space) {
+    background: radial-gradient($dot-color $dot-size, transparent $dot-size), radial-gradient($dot-color $dot-size, transparent $dot-size), linear-gradient($bg-color $dot-size, transparent 0), $bg-color;
+    background-size: $dot-space $dot-space, $dot-space $dot-space, 100% 6px;
+    background-position: ($dot-space / 2) ($dot-space / 2), 0px 0px, 0px 0px;
+}
+
+@mixin arrowAnimation($arrow-color,
+$arrow-size,
+$arrow-border,
+$direction:top) {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: $arrow-color;
+    @if $direction==top {
+        padding: 0 5px;
+    }
+    @else if $direction==right {
+        padding: 5px 0;
+    }
+    @else if $direction==bottom {
+        padding: 0 5px;
+    }
+    @else {
+        padding: 5px 0;
+    }
+    &:before {
+        content: "";
+        display: block;
+        position: relative;
+        transition: all 0.5s ease-in-out;
+        width: $arrow-size;
+        height: $arrow-size;
+        transform-origin: 50% 50%;
+        @if $direction==top {
+            margin-top: $arrow-size/2;
+            transform: rotate(-45deg);
+        }
+        @else if $direction==right {
+            margin-right: $arrow-size/2;
+            transform: rotate(45deg);
+        }
+        @else if $direction==bottom {
+            margin-bottom: $arrow-size/2;
+            transform: rotate(135deg);
+        }
+        @else {
+            margin-left: $arrow-size/2;
+            transform: rotate(-135deg);
+        }
+        box-shadow: inset -#{$arrow-border} $arrow-border 0 0 $arrow-color;
+        border-radius: 0 $arrow-size*0.15 0 0;
+    }
+    &:hover {
+        &:before {
+            @if $direction==top {
+                transform: translate(0, -($arrow-size / 3)) rotate(-45deg);
+            }
+            @else if $direction==right {
+                transform: translate(($arrow-size / 3), 0) rotate(45deg);
+            }
+            @else if $direction==bottom {
+                transform: translate(0, ($arrow-size / 3)) rotate(135deg);
+            }
+            @else {
+                transform: translate(-($arrow-size / 3), 0) rotate(-135deg);
+            }
+        }
+    }
+}

@@ -1,0 +1,85 @@
+@import '_font';
+@import '_value';
+@import '_mixin';
+@import '_animation';
+
+.login {
+
+    .container {
+        text-align: center !important;
+        padding: 0 !important;
+    }
+
+    .login-container {
+        padding-top: 45px;
+    }
+
+    .login-icon-wrapper {
+        label {
+            @include fontSize(1.8rem);
+            margin: 10px 0;
+            color: $MainColor;
+        }
+    }
+
+    .login-input-wrapper {
+        margin: 15px 0;
+        text-align: left;
+
+        label {
+            @include fontSize(1.4rem);
+            margin: 10px 0 5px;
+            color: #5f5f5f;
+        }
+    }
+
+    .input-text {
+        @include fontSize($h16);
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #login_submit {
+        margin: 5px 0;
+    }
+
+    .register-container {
+        .mid-line {
+            position: relative;
+            padding: 10px 0;
+    
+            &::before {
+                content: "";
+                display: block;
+                width: 100%;
+                height: 1px;
+                background-color: #ccc;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                margin-top: -1;
+                z-index: 1;
+            }
+    
+            span {
+                @include fontSize($h14);
+                color: #ccc;
+                background-color: $BG;
+                padding: 5px 15px;
+                z-index: 2;
+                position: relative;
+            }
+        }
+    }
+    
+    .register-wrapper {
+        margin-top: 10px;
+
+        label {
+            display: block;
+            @include fontSize($h18);
+            color: $MainColor;
+            margin-bottom: 15px;
+        }
+    }
+}

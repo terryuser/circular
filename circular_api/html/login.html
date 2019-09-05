@@ -15,6 +15,7 @@
     
         <!--CSS style-->
         <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/animate.css">
         <link rel="stylesheet" href="../css/circular.css">
     
         <!--Js tools script-->
@@ -26,20 +27,31 @@
         <script src="../js/page/common.js"></script>
         <script src="../js/page/login.js"></script>
     </head>
-    <body>
-        <div class="container login-container">
-            <label>Login</label>
-            <input type="text" id="login_Name" class="form-control">
-            <input type="text" id="login_PW" class="form-control">
+    <body class="login">
+        <div class="container login-container animated fadeInDown">
+            <div class="login-icon-wrapper">
+                <div class="icon"><img src="../img/svg/login_member.svg" alt="login"></div>
+                <label>Login</label>
+            </div>
+            <div class="login-input-wrapper">
+                <label>Login name</label>
+                <input type="text" id="login_Name" class="form-control input-text">
+            </div>
+            <div class="login-input-wrapper">
+                <label>Password</label>
+                <input type="text" id="login_PW" class="form-control input-text">
+            </div>
             <div class="alert-message" id="alert_message"></div>
             <button type="button" class="btn btn-info login-btn" id="login_submit">Submit</button>
         </div>
         
 
-        <div class="container register-container">
-            <div>Or</div>
-            <div>Register for your school</div>
-            <button type="button" class="btn btn-info register-btn" href="/register">Register</button>
+        <div class="container register-container animated fadeInUp">
+            <div class="mid-line"><span>OR</span></div>
+            <div class="register-wrapper">
+                <label>Register for your school</label>
+                <button type="button" class="btn btn-info register-btn" href="/register">Register</button>
+            </div>
         </div>
     </body>
 </html>

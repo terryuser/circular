@@ -1,0 +1,93 @@
+@import '_font';
+@import '_value';
+@import '_mixin';
+@import '_animation';
+
+#sidebar {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    background-color: #3f3f3f;
+
+    a {
+        color: #fff;
+
+        &:hover {
+            border: 0;
+            text-decoration: none;
+        }
+    }
+
+    .sidebar {
+        @include displayflex();
+        flex-direction: column;
+        height: 100%;
+
+        .page {
+            flex-grow: 1;
+        }
+
+        .sidebar-item {
+            padding: 7px;
+            text-align: center;
+
+            .icon {
+                padding: 3px;
+            }
+
+            .item-title {
+                @include fontSize(1.4rem);
+                margin: 5px 0;
+            }
+
+            &:hover {
+                .icon > img {
+                    -webkit-filter: $Filter_main;
+                    filter: $Filter_main;
+                }
+
+                .item-title {
+                    color : #76e4bb;
+                }
+            }
+        }
+    }
+
+    .logout {
+        flex-grow: 0;
+        cursor: pointer;
+        background-color: $Red;
+        @include displayflex();
+        vertical-align: middle;
+        align-items: center;
+
+        #logout_btn {
+            width: 18px;
+            margin-right: 5px;
+
+            >img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .item-title {
+            color : #fff;
+            @include fontSize(1rem);
+            margin: 0 !important;
+        }
+
+        &:hover {
+            background-color: #f56b6f;
+
+            #logout_btn > img {
+                -webkit-filter: brightness(90%);
+                filter: brightness(90%);
+            }
+            
+            .item-title {
+                color: rgb(230, 230, 230) !important;
+            }
+        }
+    }
+}

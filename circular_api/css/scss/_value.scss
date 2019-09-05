@@ -1,0 +1,34 @@
+@import '_font';
+
+
+//Color
+$MainColor : #1CB57D;
+$Blue : #18B8AF;
+$Green : #31C640;
+$Orange : #FA7E58;
+$Red : #F43F44;
+$BG : #F3F3F3;
+
+$Filter_main : grayscale(100%) brightness(80%) sepia(38%) hue-rotate(-275deg) saturate(500%) contrast(0.8);
+
+//Font
+$family : 'Roboto','Noto Sans TC', sans-serif;
+
+
+//Size
+$h10 : 1.0rem;
+$h11 : 1.1rem;
+$h12 : 1.2rem;
+$h13 : 1.3rem;
+$h14 : 1.4rem;
+$h15 : 1.5rem;
+$h16 : 1.6rem;
+$h17 : 1.7rem;
+$h18 : 1.8rem;
+$h19 : 1.9rem;
+$h20 : 2.0rem;
+
+
+//Px
+$Sidebar-desktop : 85px;
+$padding-desktop : 15px;

@@ -1,0 +1,36 @@
+@import '_font';
+@import '_value';
+@import '_mixin';
+@import '_animation';
+
+.cicular {
+    padding-top: 100px;
+
+    .container {
+        
+    }
+
+    #circular_list {
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+    .list-item {
+        cursor: pointer;
+        background-color: #fff;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+
+        &:hover {
+            background-color: #fdfdfd;
+            box-shadow: none;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        .replyMethod {
+            position: relative;
+        }
+    }
+}
