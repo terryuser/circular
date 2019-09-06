@@ -334,7 +334,7 @@ a {
 
 .login .container {
   text-align: center !important;
-  padding: 0; }
+  padding: 0 15px; }
 .login .login-container {
   padding-top: 45px; }
 .login .login-icon-wrapper label {
