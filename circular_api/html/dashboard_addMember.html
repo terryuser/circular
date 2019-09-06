@@ -31,19 +31,23 @@
         <script src="../js/page/addMember.js"></script>
     </head>
 <body class="addMember">
+    <div id="sidebar"></div>
     <div class="container first">
         <div class="page-title"><a href="../member" class="back-btn"><img src="../img/svg/arrow-left.svg" alt="Member"></a>Member</div>
     </div>
-    <div class="group-section">
-        <div class="input-title">Group</div>
-        <div id="group_selection"></div>
+    <div class="container group-section">
+
+        <div class="input-group">
+            <div class="input-title">Group</div>
+            <div id="group_selection"></div>
+        </div>
 
         <div class="input-block">
             <div class="input-title">New group name</div>
             <input type="text" id="newName" class="form-control">
         </div>
 
-        <div class="input-block">
+        <div class="input-group input-block">
             <div class="input-title">Authority is under</div>
             <div id="authority_selection"></div>
         </div>
@@ -56,8 +60,9 @@
         <button type="button" class="btn btn-info" id="create_member">Submit</button>
     </div>
     
-    <div class="result-section">
-        <div class="result-table">
+    <div class="container result-section">
+        <div class="input-title">Group</div>
+        <div class="custom-list result-table">
             <table id="result">
                 <thead>
                     <tr>

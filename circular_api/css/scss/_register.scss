@@ -1,0 +1,14 @@
+@import '_font';
+@import '_value';
+@import '_mixin';
+@import '_animation';
+
+.register-page {
+    .register-container {
+
+        label {
+            @include fontSize($h20);
+            padding: 15px 0 5px;
+        }
+    }
+}

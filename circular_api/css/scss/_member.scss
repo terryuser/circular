@@ -1,0 +1,73 @@
+@import '_font';
+@import '_value';
+@import '_mixin';
+@import '_animation';
+
+.member {
+    .container {
+        position: relative;
+    }
+
+    .btn-right {
+        position: absolute;
+        top: 50px;
+        right: 0;
+    }
+}
+
+.addMember {
+    .input-title {
+        @include flexBasis(100%);
+        @include fontSize($h20);
+        padding: 5px 0;
+    }
+
+    .input-group, .input-block {
+        margin: 10px 0 15px;
+        align-items: center;
+
+        .btn {
+            margin: 0 5px;
+            border: 0;
+        }
+    }
+
+
+    .selection {
+        padding: 0 10px 0 0;
+        margin: 0;
+        @include displayflex();
+        flex-wrap: wrap;
+
+        select {
+            display: inline-block;
+            width: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            @include fontSize($h16);
+            margin-right: 10px;
+        }
+    }
+
+    input {
+        @include fontSize(1.6rem);
+        border: 1px solid #ccc !important;
+        border-radius: 5px !important;
+    }
+
+    input[type=number] {
+        padding: 5px 3px 5px 10px;
+    }
+
+    .member-section {
+        margin: 10px 0 15px;
+
+        #memberCounter {
+            font-size: 1.6rem;
+            font-family: "Roboto", "Noto Sans TC", sans-serif;
+            line-height: 1.8rem;
+            border: 1px solid #ccc !important;
+            border-radius: 5px !important;
+        }
+    }
+}

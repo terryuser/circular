@@ -22,6 +22,15 @@
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Roboto:400,700&display=swap");
 html {
   font-size: 10px;
   font-family: "Roboto", "Noto Sans TC", sans-serif; }
@@ -44,9 +53,7 @@ body {
       padding: 0 15px; } }
 
 .container.first {
-  padding-top: 50px;
-  padding-left: 0;
-  padding-right: 0; }
+  padding-top: 50px; }
 
 input {
   font-size: 1.6rem;
@@ -170,6 +177,46 @@ a {
   color: #1CB57D; }
 .modal .close {
   font-size: 2.5rem; }
+
+.custom-list .group-title {
+  margin: 15px 0 5px;
+  font-size: 2rem;
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  line-height: 2.2rem;
+  font-weight: bold; }
+.custom-list table {
+  width: 100%;
+  font-size: 1.6rem;
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  line-height: 1.8rem;
+  border: 1px solid #666;
+  background-color: #fff;
+  margin-bottom: 35px; }
+  .custom-list table th, .custom-list table td {
+    padding: 5px 10px; }
+  .custom-list table thead {
+    background-color: #666;
+    color: #fff; }
+    .custom-list table thead th {
+      font-weight: normal; }
+  .custom-list table tbody tr {
+    border-bottom: 1px solid #666; }
+  .custom-list table tbody td {
+    padding: 10px;
+    font-size: 1.5rem;
+    font-family: "Roboto", "Noto Sans TC", sans-serif;
+    line-height: 1.7rem; }
+
+.card .card-title {
+  color: #1CB57D;
+  font-size: 4.2rem;
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  line-height: 4.4rem;
+  font-weight: bold;
+  display: block;
+  text-align: left; }
+.card .red-text {
+  color: #F43F44; }
 
 #sidebar {
   position: fixed;
@@ -339,9 +386,9 @@ a {
       right: 25px;
       margin-top: -10px; }
   .circular .list-item .title {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-family: "Roboto", "Noto Sans TC", sans-serif;
-    line-height: 2.2rem;
+    line-height: 2rem;
     color: #000;
     margin: 5px 0; }
   .circular .list-item .date {
@@ -563,5 +610,115 @@ a {
     max-width: 100%; }
 .add-page .input-subtitle, .edit-page .input-subtitle {
   padding-right: 10px; }
+
+.editList #edit_list {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  width: 100%; }
+.editList .list-item {
+  background-color: #fff;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  position: relative;
+  transition: .3s; }
+  .editList .list-item td {
+    padding: 10px;
+    position: relative; }
+  .editList .list-item .title {
+    font-size: 1.6rem;
+    font-family: "Roboto", "Noto Sans TC", sans-serif;
+    line-height: 1.8rem;
+    color: #000;
+    margin: 5px 0; }
+  .editList .list-item .date, .editList .list-item .replyMethod, .editList .list-item .status {
+    font-size: 1.4rem;
+    font-family: "Roboto", "Noto Sans TC", sans-serif;
+    line-height: 1.6rem;
+    color: #a5a5a5;
+    text-transform: capitalize; }
+  .editList .list-item .status.draft {
+    color: #FA7E58; }
+  .editList .list-item .status.published {
+    color: #31C640; }
+  .editList .list-item .action {
+    text-align: center; }
+    .editList .list-item .action a {
+      width: 100%; }
+    .editList .list-item .action .btn.btn-info {
+      width: 100%; }
+    .editList .list-item .action .edit {
+      background-color: #FA7E58; }
+      .editList .list-item .action .edit:hover {
+        background-color: #c86546; }
+    .editList .list-item .action .view-reply {
+      background-color: #31C640; }
+      .editList .list-item .action .view-reply:hover {
+        background-color: #279e33; }
+  .editList .list-item:hover {
+    background-color: #ddf0e9;
+    box-shadow: none; }
+    .editList .list-item:hover td:after {
+      box-shadow: -3px 3px 0 rgba(0, 0, 0, 0.2); }
+
+.member .container {
+  position: relative; }
+.member .btn-right {
+  position: absolute;
+  top: 50px;
+  right: 0; }
+
+.addMember .input-title {
+  flex-basis: 100%;
+  -moz-flex-basis: 100%;
+  -webkit-flex-basis: 100%;
+  max-width: 100%;
+  font-size: 2rem;
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  line-height: 2.2rem;
+  padding: 5px 0; }
+.addMember .input-group, .addMember .input-block {
+  margin: 10px 0 15px;
+  align-items: center; }
+  .addMember .input-group .btn, .addMember .input-block .btn {
+    margin: 0 5px;
+    border: 0; }
+.addMember .selection {
+  padding: 0 10px 0 0;
+  margin: 0;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap; }
+  .addMember .selection select {
+    display: inline-block;
+    width: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.6rem;
+    font-family: "Roboto", "Noto Sans TC", sans-serif;
+    line-height: 1.8rem;
+    margin-right: 10px; }
+.addMember input {
+  font-size: 1.6rem;
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  line-height: 1.8rem;
+  border: 1px solid #ccc !important;
+  border-radius: 5px !important; }
+.addMember input[type=number] {
+  padding: 5px 3px 5px 10px; }
+.addMember .member-section {
+  margin: 10px 0 15px; }
+  .addMember .member-section #memberCounter {
+    font-size: 1.6rem;
+    font-family: "Roboto", "Noto Sans TC", sans-serif;
+    line-height: 1.8rem;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important; }
+
+.register-page .register-container label {
+  font-size: 2rem;
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  line-height: 2.2rem;
+  padding: 15px 0 5px; }
 
 /*# sourceMappingURL=circular.css.map */

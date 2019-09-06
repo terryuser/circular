@@ -29,8 +29,6 @@ body {
 
 .container.first {
   padding-top: 50px;
-  padding-left: 0;
-  padding-right: 0;
 }
 
 input {
@@ -171,5 +169,60 @@ a {
 
   .close {
     font-size: 2.5rem;
+  }
+}
+
+
+.custom-list {
+  .group-title {
+      margin: 15px 0 5px;
+      @include fontSize(2rem);
+      font-weight: bold;
+  }
+
+  table {
+      width: 100%;
+      @include fontSize($h16);
+      border: 1px solid #666;
+      background-color: #fff;
+      margin-bottom: 35px;
+
+      th,td {
+          padding: 5px 10px;
+      }
+
+      thead {
+          background-color: #666;
+          color: #fff;
+
+          th {
+              font-weight: normal;
+          }
+      }
+
+      tbody {
+          tr {
+              border-bottom: 1px solid #666;
+          }
+
+          td {
+              padding: 10px;
+              @include fontSize($h15);
+          }
+      }
+  }
+}
+
+.card {
+  .card-title {
+    color: $MainColor;
+    @include fontSize(4.2rem);
+    font-weight: bold;
+    display: block;
+    text-align: left;
+  }
+
+  .red-text {
+    color: $Red;
   }
 }

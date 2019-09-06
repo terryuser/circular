@@ -1,0 +1,81 @@
+@import '_font';
+@import '_value';
+@import '_mixin';
+@import '_animation';
+
+.editList {
+    #edit_list {
+        border-collapse: separate;
+        border-spacing: 0 10px;
+        width: 100%;
+    }
+
+    .list-item {
+        background-color: #fff;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+        border-radius: 2px;
+        position: relative;
+        transition: .3s;
+
+        td {
+            padding: 10px;
+            position: relative;
+        }
+
+        .title {
+            @include fontSize(1.6rem);
+            color: #000;
+            margin: 5px 0;
+        }
+
+        .date,.replyMethod,.status {
+            @include fontSize(1.4rem);
+            color: #a5a5a5;
+            text-transform: capitalize;
+        }
+
+        .status.draft {
+            color: $Orange;
+        }
+
+        .status.published {
+            color: $Green;
+        }
+
+        .action {
+            text-align: center;
+            a {
+                width: 100%;
+            }
+
+            .btn.btn-info {
+                width: 100%;
+            }
+
+            .edit {
+                background-color: $Orange;
+
+                &:hover {
+                    background-color: $Orange *0.8;
+                }
+            }
+
+            .view-reply {
+                background-color: $Green;
+
+                &:hover {
+                    background-color: $Green *0.8;
+                }
+            }
+        }
+
+        &:hover {
+            background-color: #ddf0e9;
+            box-shadow: none;
+
+            td:after {
+                box-shadow: -3px 3px 0 rgba(0,0,0,0.2);
+            }
+        }
+    }
+}
