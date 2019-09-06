@@ -277,10 +277,10 @@ a {
     display: flex;
     vertical-align: middle;
     align-items: center; }
-    #sidebar .logout #logout_btn {
+    #sidebar .logout .logout_icon {
       width: 18px;
       margin-right: 5px; }
-      #sidebar .logout #logout_btn > img {
+      #sidebar .logout .logout_icon > img {
         width: 100%;
         height: auto; }
     #sidebar .logout .item-title {
@@ -299,7 +299,7 @@ a {
 
 .login .container {
   text-align: center !important;
-  padding: 0 !important; }
+  padding: 0; }
 .login .login-container {
   padding-top: 45px; }
 .login .login-icon-wrapper label {
