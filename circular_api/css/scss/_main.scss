@@ -25,10 +25,24 @@ body {
         max-width: 1350px;
         padding: 0 $padding-desktop;
     }
+
+    @media (max-width: 1199px) {
+      max-width: 900px;
+      padding: 0 $padding-desktop;
+    }
+
+    @include mediaWidth(768px) {
+      max-width: 100%;
+      padding: 0 $padding-mobile;
+    }
 }
 
 .container.first {
   padding-top: 50px;
+
+  @include mediaWidth(767px) {
+    padding-top: 15px;
+  }
 }
 
 input {
@@ -40,6 +54,14 @@ input {
 .btn {
     @include fontSize(1.6rem);
     padding: 8px 14px;
+}
+
+.mobile {
+  display: none;
+
+  @include mediaWidth(767px) {
+    display: block;
+  }
 }
 
 a {

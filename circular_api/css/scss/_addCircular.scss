@@ -87,6 +87,10 @@
         border: 1px solid #ccc;
         border-radius: 5px;
         margin-right: 25px;
+
+        @include mediaWidth(767px) {
+            margin: 15px 0;
+        }
     }
 
     .action-block {

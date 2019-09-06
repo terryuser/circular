@@ -50,7 +50,7 @@ function listGroupMember() {
                     $("#member_list").append("<div class='member-block'><div class='group-title'>" + group.name + "</div>");
                     
                     if(respon.memberList.length != 0) {
-                        $("#member_list").append("<table id='" + group._id + "'><thead><tr><th>User Name</th><th>Login Name</th><th>Login Password</th><th>E-mail</th><th>Last online</th>");
+                        $("#member_list").append("<div style='overflow-x:auto;'><table id='" + group._id + "'><thead><tr><th>User Name</th><th>Login Name</th><th>Login Password</th><th>E-mail</th><th>Last online</th>");
                     
                         respon.memberList.forEach(function(memberData){
                             $("#" + group._id).append("<tr>");
@@ -72,7 +72,7 @@ function listGroupMember() {
                             $("#" + group._id).append("</tr>");
                         });
                         
-                        $("#member_list").append("</table>");
+                        $("#member_list").append("</table></div>");
                     } else {
                         $("#member_list").append("<div class='no-member'>No member</div>");
                     }

@@ -23,6 +23,10 @@
             padding: 10px;
             position: relative;
 
+            @include mediaWidth(767px) {
+                padding: 10px 25px 10px $padding-mobile;
+            }
+
             &:after {
                 content: "";
                 display: block;
@@ -36,6 +40,10 @@
                 top: 50%;
                 right: 25px;
                 margin-top: -10px;
+
+                @include mediaWidth(767px) {
+                    right: 13px;
+                }
             }
         }
 
@@ -43,6 +51,10 @@
             @include fontSize(1.8rem);
             color: #000;
             margin: 5px 0;
+
+            @include mediaWidth(767px) {
+                @include fontSize(1.6rem);
+            }
         }
 
         .date {

@@ -51,9 +51,20 @@ body {
     .container {
       max-width: 1350px;
       padding: 0 15px; } }
+  @media (max-width: 1199px) {
+    .container {
+      max-width: 900px;
+      padding: 0 15px; } }
+  @media (max-width: 768px) {
+    .container {
+      max-width: 100%;
+      padding: 0 15px; } }
 
 .container.first {
   padding-top: 50px; }
+  @media (max-width: 767px) {
+    .container.first {
+      padding-top: 15px; } }
 
 input {
   font-size: 1.6rem;
@@ -67,6 +78,12 @@ input {
   font-family: "Roboto", "Noto Sans TC", sans-serif;
   line-height: 1.8rem;
   padding: 8px 14px; }
+
+.mobile {
+  display: none; }
+  @media (max-width: 767px) {
+    .mobile {
+      display: block; } }
 
 a {
   vertical-align: middle; }
@@ -223,6 +240,10 @@ a {
   left: 0;
   height: 100%;
   background-color: #3f3f3f; }
+  @media (max-width: 767px) {
+    #sidebar {
+      position: relative;
+      width: 100%; } }
   #sidebar a {
     color: #fff; }
     #sidebar a:hover {
@@ -234,6 +255,9 @@ a {
     display: flex;
     flex-direction: column;
     height: 100%; }
+    @media (max-width: 767px) {
+      #sidebar .sidebar {
+        display: none; } }
     #sidebar .sidebar .page {
       flex-grow: 1; }
     #sidebar .sidebar .sidebar-item {
@@ -296,6 +320,17 @@ a {
         filter: brightness(90%); }
       #sidebar .logout:hover .item-title {
         color: #e6e6e6 !important; }
+  #sidebar .navbar {
+    text-align: right;
+    background-color: #3f3f3f !important;
+    color: #fff; }
+    #sidebar .navbar .navbar-toggler {
+      color: #fff !important;
+      border: 0 !important; }
+    #sidebar .navbar .nav-link {
+      text-align: left; }
+    #sidebar .navbar .navbar-toggler-icon {
+      filter: invert(1) brightness(100%); }
 
 .login .container {
   text-align: center !important;
@@ -372,6 +407,9 @@ a {
   .circular .list-item td {
     padding: 10px;
     position: relative; }
+    @media (max-width: 767px) {
+      .circular .list-item td {
+        padding: 10px 25px 10px 15px; } }
     .circular .list-item td:after {
       content: "";
       display: block;
@@ -385,12 +423,20 @@ a {
       top: 50%;
       right: 25px;
       margin-top: -10px; }
+      @media (max-width: 767px) {
+        .circular .list-item td:after {
+          right: 13px; } }
   .circular .list-item .title {
     font-size: 1.8rem;
     font-family: "Roboto", "Noto Sans TC", sans-serif;
     line-height: 2rem;
     color: #000;
     margin: 5px 0; }
+    @media (max-width: 767px) {
+      .circular .list-item .title {
+        font-size: 1.6rem;
+        font-family: "Roboto", "Noto Sans TC", sans-serif;
+        line-height: 1.8rem; } }
   .circular .list-item .date {
     font-size: 1.2rem;
     font-family: "Roboto", "Noto Sans TC", sans-serif;
@@ -404,6 +450,9 @@ a {
 
 .detail .content-container, .detail .reply-container, .detail .replyList-container {
   padding: 25px 0; }
+  @media (max-width: 767px) {
+    .detail .content-container, .detail .reply-container, .detail .replyList-container {
+      padding: 25px 15px; } }
 .detail .content-wrapper, .detail .reply-wrapper {
   background-color: #fff;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
@@ -575,6 +624,9 @@ a {
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-right: 25px; }
+  @media (max-width: 767px) {
+    .add-page .replyType-selector, .edit-page .replyType-selector {
+      margin: 15px 0; } }
 .add-page .action-block, .edit-page .action-block {
   margin: 25px 0;
   text-align: right; }
@@ -621,6 +673,14 @@ a {
   border-radius: 2px;
   position: relative;
   transition: .3s; }
+  @media (max-width: 767px) {
+    .editList .list-item {
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 15px; } }
   .editList .list-item td {
     padding: 10px;
     position: relative; }
@@ -630,12 +690,24 @@ a {
     line-height: 1.8rem;
     color: #000;
     margin: 5px 0; }
+    @media (max-width: 767px) {
+      .editList .list-item .title {
+        flex-basis: 100%;
+        -moz-flex-basis: 100%;
+        -webkit-flex-basis: 100%;
+        max-width: 100%; } }
   .editList .list-item .date, .editList .list-item .replyMethod, .editList .list-item .status {
     font-size: 1.4rem;
     font-family: "Roboto", "Noto Sans TC", sans-serif;
     line-height: 1.6rem;
     color: #a5a5a5;
     text-transform: capitalize; }
+    @media (max-width: 767px) {
+      .editList .list-item .date, .editList .list-item .replyMethod, .editList .list-item .status {
+        flex-basis: 33.3333%;
+        -moz-flex-basis: 33.3333%;
+        -webkit-flex-basis: 33.3333%;
+        max-width: 33.3333%; } }
   .editList .list-item .status.draft {
     color: #FA7E58; }
   .editList .list-item .status.published {
@@ -666,6 +738,13 @@ a {
   position: absolute;
   top: 50px;
   right: 0; }
+  @media (max-width: 767px) {
+    .member .btn-right {
+      position: relative;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      top: auto;
+      right: auto; } }
 
 .addMember .input-title {
   flex-basis: 100%;

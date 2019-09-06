@@ -171,7 +171,7 @@ function showReply() {
 }
 
 function genarateMember(groupId) {
-    $(".replyList-container").append("<table id='table_" + groupId + "'>");
+    $(".replyList-container").append("<div style='overflow-x:auto;'><table id='table_" + groupId + "'>");
 
     //Table header
     var tableHead = "<thead><tr id='table_header" +  groupId + "'><th>Name</th><th>Login Name</th><th>Checked</th>";
@@ -180,9 +180,12 @@ function genarateMember(groupId) {
     //Check if any custom field
     if (circularData.replyMethod != "signature") {
         $("#table_header" +  groupId).append("<th>Choice</th>");
-        circularData.replyInput.forEach(function(inputField){
-            $("#table_header" +  groupId).append("<th>" + inputField + "</th>");
-        });
+
+        if (circularData.replyInput[0] != "") {
+            circularData.replyInput.forEach(function(inputField){
+                $("#table_header" +  groupId).append("<th>" + inputField + "</th>");
+            });
+        }
     }
     $("#table_" + groupId).append("</tr></thead><tbody id='reply_list" + groupId + "'>");
 
@@ -229,8 +232,10 @@ function genarateMember(groupId) {
                         td_p2 = "<td><img src='../img/svg/cross.svg' alt=''></td>";
                         $("#" + member._id).append(td_p2);
                         
-                        var col = circularData.replyInput.length + 1;
-                        $("#" + member._id).append("<td colspan='" + col + "'>test</td>");
+                        if (circularData.replyInput.length != 0) {
+                            var col = circularData.replyInput.length + 1;
+                            $("#" + member._id).append("<td colspan='" + col + "'></td>");
+                        }
                     }
                 });
             }
@@ -238,7 +243,7 @@ function genarateMember(groupId) {
     });
 
     $(".replyList-container").append("</tbody>");
-    $(".replyList-container").append("</table>");
+    $(".replyList-container").append("</table></div>");
 }
 
 function getReply(data, findValue) {

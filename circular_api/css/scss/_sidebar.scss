@@ -9,6 +9,11 @@
     height: 100%;
     background-color: #3f3f3f;
 
+    @include mediaWidth(767px) {
+        position: relative;
+        width: 100%;
+    }
+
     a {
         color: #fff;
 
@@ -22,6 +27,10 @@
         @include displayflex();
         flex-direction: column;
         height: 100%;
+
+        @include mediaWidth(767px) {
+            display: none;
+        }
 
         .page {
             flex-grow: 1;
@@ -110,6 +119,25 @@
             .item-title {
                 color: rgb(230, 230, 230) !important;
             }
+        }
+    }
+
+    .navbar {
+        text-align: right;
+        background-color: #3f3f3f !important;
+        color: #fff;
+
+        .navbar-toggler {
+            color: #fff !important;
+            border: 0 !important;
+        }
+
+        .nav-link {
+            text-align: left;
+        }
+
+        .navbar-toggler-icon {
+            filter: invert(1) brightness(100%);
         }
     }
 }

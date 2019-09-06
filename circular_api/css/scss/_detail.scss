@@ -7,6 +7,10 @@
 
     .content-container,.reply-container,.replyList-container {
         padding: 25px 0;
+
+        @include mediaWidth(767px) {
+            padding: 25px $padding-mobile;
+        }
     }
 
     .content-wrapper, .reply-wrapper {
