@@ -101,9 +101,29 @@ function createMember() {
                                 async: true,
                                 success: function(respon) {
                                     console.log(respon);
+
+                                    $(".input-block").hide();
+                                    $(".input-group").hide();
+
+                                    $("#resultBody").append("<tr>");
+
+                                    $("#resultBody").append("<td>" + memberData.userID + "</td>");
+                                    $("#resultBody").append("<td>" + group.name + "</td>");
+                                    $("#resultBody").append("<td>" + memberData.loginName + "</td>");
+                                    $("#resultBody").append("<td>" + memberData.loginPW + "</td>");
+
+                                    if (memberData.email == "") {
+                                        $("#resultBody").append("<td>" + "N/A" + "</td>");
+                                    } else {
+                                        $("#resultBody").append("<td>" + memberData.email + "</td>");
+                                    }
+                                    
+                                    $("#resultBody").append("</tr>");
                                 }
                             });
                         }
+
+                        $(".result-section").show(350);
                         
                     } else {
                         $("#newName").append("<div class='alert'>" + respon.message + "</div>");
@@ -153,6 +173,9 @@ function createMember() {
                                 async: false,
                                 success: function(respon) {
                                     console.log(respon);
+
+                                    $(".input-block").hide();
+                                    $(".input-group").hide();
                                     
                                     $("#resultBody").append("<tr>");
 
