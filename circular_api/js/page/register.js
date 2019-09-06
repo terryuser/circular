@@ -1,4 +1,5 @@
 var version = 1;
+var days = 30;
 
 $(document).ready(function() {
     register();

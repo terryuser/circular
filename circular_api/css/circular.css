@@ -800,4 +800,7 @@ a {
   line-height: 2.2rem;
   padding: 15px 0 5px; }
 
+#getLoginName, #defaultPW {
+  font-weight: bold; }
+
 /*# sourceMappingURL=circular.css.map */
