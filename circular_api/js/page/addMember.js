@@ -70,7 +70,7 @@ function createMember() {
         if ($("#group_list").val() == "newGroup") {
             var groupName = $("#newName").val();
             var groupAthority = +$("#authoity_list").val() + 1;
-            var school = GroupInfo[1].schoolID;
+            var school = GroupInfo[0].schoolID;
 
             var groupData = {"name": groupName, "schoolID": school, "authorityLevel": groupAthority};
             console.log(groupData);

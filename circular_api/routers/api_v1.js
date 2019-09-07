@@ -71,7 +71,6 @@ router.post('/create/group', function(req, res, next) {
 });
 
 
-
 //Get group list
 router.post('/findGrouplist/:memberID', function(req, res, next) {
 
