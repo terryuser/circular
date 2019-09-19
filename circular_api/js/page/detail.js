@@ -391,6 +391,8 @@ function updateReplyDB(reply) {
         async: false,
         success: function(respon) {
             console.log(respon);
+            $("#circular_reply").hide(150);
+        $(".reply-wrapper").append("<div class='animated fadeInUp' style='font-size:16px; color: #31C640; width:100%; text-align:center;'>Submit success</div>");
         }
     });
 }

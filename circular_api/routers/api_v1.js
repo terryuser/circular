@@ -362,6 +362,18 @@ router.put('/edit/:id', function(req, res, next) {
     })    
 });
 
+//Delete circular
+router.post('/delete/:id', function(req, res, next) {
+    Circular.findOne({ _id: req.params.id}, function(err, result) {
+        if (result) {
+            Circular.deleteOne({_id: req.params.id}, function(err, result) {
+                sendJson = { message: "", data: result };
+                res.send(sendJson);
+            });
+        }
+    }).catch(next);
+});
+
 //Member reply update to circular DB
 router.put('/circular/reply/:circularID', function(req, res, next) {
     
