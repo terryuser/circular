@@ -21,7 +21,7 @@ body {
 .container {
     text-align: left !important;
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1439px) {
         max-width: 1350px;
         padding: 0 $padding-desktop;
     }
